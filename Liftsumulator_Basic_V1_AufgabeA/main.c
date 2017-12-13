@@ -79,7 +79,15 @@ int main(void)
       case Uninitialized:
       {
         // Lift position calibration to ground floor (Floor0)
-
+		if (ReadElevatorState() != Floor0)
+		{
+			CalibrateElevatorPosition();
+		}
+		else
+		{
+			state = Waiting;
+			currentElevatorState = ReadElevatorState();
+		}
         break;
       }
 
