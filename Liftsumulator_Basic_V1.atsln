@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Atmel Studio Solution File, Format Version 11.00
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Liftsumulator_Basic_V1_Template", "Liftsumulator_Basic_V1_Template\Liftsumulator_Basic_V1_Template.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Liftsumulator_Basic_V1_Working", "Liftsumulator_Basic_V1_Working\Liftsumulator_Basic_V1_Working.cproj", "{A2A7317A-7C06-4075-BA56-4366C230BF00}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Liftsumulator_Basic_V1_AufgabeA", "Liftsumulator_Basic_V1_AufgabeA\Liftsumulator_Basic_V1_AufgabeA.cproj", "{067A82D6-F716-4932-A975-2C27253F33AA}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Liftsumulator_Basic_V1_AufgabeB", "Liftsumulator_Basic_V1_AufgabeB\Liftsumulator_Basic_V1_AufgabeB.cproj", "{B21DDFEF-623E-4920-8FB5-32D44CF20B64}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Liftsumulator_Basic_V1_AufgabeC", "Liftsumulator_Basic_V1_AufgabeC\Liftsumulator_Basic_V1_AufgabeC.cproj", "{4776F7C3-F9F7-40A7-B68E-B7752B63DBC8}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Liftsumulator_Basic_V1_AufgabeD", "Liftsumulator_Basic_V1_AufgabeD\Liftsumulator_Basic_V1_AufgabeD.cproj", "{3CEECA54-D150-4763-90B9-10B41D6E0F2C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.ActiveCfg = Debug|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Build.0 = Debug|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.ActiveCfg = Release|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.Build.0 = Release|AVR
+		{A2A7317A-7C06-4075-BA56-4366C230BF00}.Debug|AVR.ActiveCfg = Debug|AVR
+		{A2A7317A-7C06-4075-BA56-4366C230BF00}.Debug|AVR.Build.0 = Debug|AVR
+		{A2A7317A-7C06-4075-BA56-4366C230BF00}.Release|AVR.ActiveCfg = Release|AVR
+		{A2A7317A-7C06-4075-BA56-4366C230BF00}.Release|AVR.Build.0 = Release|AVR
+		{067A82D6-F716-4932-A975-2C27253F33AA}.Debug|AVR.ActiveCfg = Debug|AVR
+		{067A82D6-F716-4932-A975-2C27253F33AA}.Debug|AVR.Build.0 = Debug|AVR
+		{067A82D6-F716-4932-A975-2C27253F33AA}.Release|AVR.ActiveCfg = Release|AVR
+		{067A82D6-F716-4932-A975-2C27253F33AA}.Release|AVR.Build.0 = Release|AVR
+		{B21DDFEF-623E-4920-8FB5-32D44CF20B64}.Debug|AVR.ActiveCfg = Debug|AVR
+		{B21DDFEF-623E-4920-8FB5-32D44CF20B64}.Debug|AVR.Build.0 = Debug|AVR
+		{B21DDFEF-623E-4920-8FB5-32D44CF20B64}.Release|AVR.ActiveCfg = Release|AVR
+		{B21DDFEF-623E-4920-8FB5-32D44CF20B64}.Release|AVR.Build.0 = Release|AVR
+		{4776F7C3-F9F7-40A7-B68E-B7752B63DBC8}.Debug|AVR.ActiveCfg = Debug|AVR
+		{4776F7C3-F9F7-40A7-B68E-B7752B63DBC8}.Debug|AVR.Build.0 = Debug|AVR
+		{4776F7C3-F9F7-40A7-B68E-B7752B63DBC8}.Release|AVR.ActiveCfg = Release|AVR
+		{4776F7C3-F9F7-40A7-B68E-B7752B63DBC8}.Release|AVR.Build.0 = Release|AVR
+		{3CEECA54-D150-4763-90B9-10B41D6E0F2C}.Debug|AVR.ActiveCfg = Debug|AVR
+		{3CEECA54-D150-4763-90B9-10B41D6E0F2C}.Debug|AVR.Build.0 = Debug|AVR
+		{3CEECA54-D150-4763-90B9-10B41D6E0F2C}.Release|AVR.ActiveCfg = Release|AVR
+		{3CEECA54-D150-4763-90B9-10B41D6E0F2C}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

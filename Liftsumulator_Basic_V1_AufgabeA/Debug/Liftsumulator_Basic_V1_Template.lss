@@ -1,0 +1,455 @@
+
+Liftsumulator_Basic_V1_Template.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000376  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000006  00800060  00000376  0000040a  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000018  00800066  00800066  00000410  2**0
+                  ALLOC
+  3 .comment      00000060  00000000  00000000  00000410  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000470  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 000000d0  00000000  00000000  000004ac  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000a1c  00000000  00000000  0000057c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000002ff  00000000  00000000  00000f98  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   0000074d  00000000  00000000  00001297  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  0000017c  00000000  00000000  000019e4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000007dd  00000000  00000000  00001b60  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000003b9  00000000  00000000  0000233d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 000000b0  00000000  00000000  000026f6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e6 e7       	ldi	r30, 0x76	; 118
+  68:	f3 e0       	ldi	r31, 0x03	; 3
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a6 36       	cpi	r26, 0x66	; 102
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+
+00000076 <__do_clear_bss>:
+  76:	20 e0       	ldi	r18, 0x00	; 0
+  78:	a6 e6       	ldi	r26, 0x66	; 102
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+  80:	ae 37       	cpi	r26, 0x7E	; 126
+  82:	b2 07       	cpc	r27, r18
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+  86:	0e 94 50 00 	call	0xa0	; 0xa0 <main>
+  8a:	0c 94 b9 01 	jmp	0x372	; 0x372 <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <UpdateDisplay>:
+}
+
+// Update the 7-Seg. display
+void UpdateDisplay (LiftPosType elevatorState)
+{
+  switch (elevatorState)
+  92:	85 30       	cpi	r24, 0x05	; 5
+  94:	10 f0       	brcs	.+4      	; 0x9a <UpdateDisplay+0x8>
+  96:	86 30       	cpi	r24, 0x06	; 6
+  98:	11 f4       	brne	.+4      	; 0x9e <UpdateDisplay+0xc>
+    case Floor2:
+    case Floor3:
+    case Error:
+    case Test:
+    {
+      SetDisplay(elevatorState);
+  9a:	0e 94 a7 01 	call	0x34e	; 0x34e <SetDisplay>
+  9e:	08 95       	ret
+
+000000a0 <main>:
+/*******************************************************************************
+*** MAIN PROGRAM
+*******************************************************************************/
+int main(void)
+{
+  InitializePorts();  // Initialization of ports
+  a0:	0e 94 7a 00 	call	0xf4	; 0xf4 <InitializePorts>
+  InitializeStart();  // Set start state of the system
+  a4:	0e 94 80 00 	call	0x100	; 0x100 <InitializeStart>
+        // Fault condition is not treated
+        break;
+      }
+    }
+
+    UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
+  a8:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+  ac:	0e 94 49 00 	call	0x92	; 0x92 <UpdateDisplay>
+    SetOutput();               // Send the calculated output values to the ports
+  b0:	0e 94 98 00 	call	0x130	; 0x130 <SetOutput>
+  b4:	f9 cf       	rjmp	.-14     	; 0xa8 <main+0x8>
+
+000000b6 <MakeDoorStates>:
+  b6:	cf 93       	push	r28
+  b8:	df 93       	push	r29
+  ba:	e0 e7       	ldi	r30, 0x70	; 112
+  bc:	f0 e0       	ldi	r31, 0x00	; 0
+  be:	28 e7       	ldi	r18, 0x78	; 120
+  c0:	30 e0       	ldi	r19, 0x00	; 0
+  c2:	df 01       	movw	r26, r30
+  c4:	11 97       	sbiw	r26, 0x01	; 1
+  c6:	8c 91       	ld	r24, X
+  c8:	81 11       	cpse	r24, r1
+  ca:	06 c0       	rjmp	.+12     	; 0xd8 <MakeDoorStates+0x22>
+  cc:	80 81       	ld	r24, Z
+  ce:	18 16       	cp	r1, r24
+  d0:	54 f4       	brge	.+20     	; 0xe6 <MakeDoorStates+0x30>
+  d2:	81 50       	subi	r24, 0x01	; 1
+  d4:	80 83       	st	Z, r24
+  d6:	07 c0       	rjmp	.+14     	; 0xe6 <MakeDoorStates+0x30>
+  d8:	82 30       	cpi	r24, 0x02	; 2
+  da:	29 f4       	brne	.+10     	; 0xe6 <MakeDoorStates+0x30>
+  dc:	80 81       	ld	r24, Z
+  de:	84 30       	cpi	r24, 0x04	; 4
+  e0:	14 f4       	brge	.+4      	; 0xe6 <MakeDoorStates+0x30>
+  e2:	8f 5f       	subi	r24, 0xFF	; 255
+  e4:	80 83       	st	Z, r24
+  e6:	32 96       	adiw	r30, 0x02	; 2
+  e8:	e2 17       	cp	r30, r18
+  ea:	f3 07       	cpc	r31, r19
+  ec:	51 f7       	brne	.-44     	; 0xc2 <MakeDoorStates+0xc>
+  ee:	df 91       	pop	r29
+  f0:	cf 91       	pop	r28
+  f2:	08 95       	ret
+
+000000f4 <InitializePorts>:
+  f4:	8f ef       	ldi	r24, 0xFF	; 255
+  f6:	87 bb       	out	0x17, r24	; 23
+  f8:	84 bb       	out	0x14, r24	; 20
+  fa:	8a bb       	out	0x1a, r24	; 26
+  fc:	11 ba       	out	0x11, r1	; 17
+  fe:	08 95       	ret
+
+00000100 <InitializeStart>:
+ 100:	10 92 6e 00 	sts	0x006E, r1	; 0x80006e <liftPosDisplay_On>
+ 104:	10 92 78 00 	sts	0x0078, r1	; 0x800078 <buttonLiftLed_on>
+ 108:	10 92 7d 00 	sts	0x007D, r1	; 0x80007d <liftDisplay7Seg_On>
+ 10c:	10 92 7c 00 	sts	0x007C, r1	; 0x80007c <buttonFloorLed_On>
+ 110:	10 92 6c 00 	sts	0x006C, r1	; 0x80006c <doorframe>
+ 114:	ef e6       	ldi	r30, 0x6F	; 111
+ 116:	f0 e0       	ldi	r31, 0x00	; 0
+ 118:	11 82       	std	Z+1, r1	; 0x01
+ 11a:	10 82       	st	Z, r1
+ 11c:	13 82       	std	Z+3, r1	; 0x03
+ 11e:	12 82       	std	Z+2, r1	; 0x02
+ 120:	15 82       	std	Z+5, r1	; 0x05
+ 122:	14 82       	std	Z+4, r1	; 0x04
+ 124:	17 82       	std	Z+7, r1	; 0x07
+ 126:	16 82       	std	Z+6, r1	; 0x06
+ 128:	8f e1       	ldi	r24, 0x1F	; 31
+ 12a:	80 93 6b 00 	sts	0x006B, r24	; 0x80006b <liftPosition>
+ 12e:	08 95       	ret
+
+00000130 <SetOutput>:
+ 130:	40 91 66 00 	lds	r20, 0x0066	; 0x800066 <__data_end>
+ 134:	50 91 67 00 	lds	r21, 0x0067	; 0x800067 <__data_end+0x1>
+ 138:	9a 01       	movw	r18, r20
+ 13a:	36 95       	lsr	r19
+ 13c:	27 95       	ror	r18
+ 13e:	36 95       	lsr	r19
+ 140:	27 95       	ror	r18
+ 142:	36 95       	lsr	r19
+ 144:	27 95       	ror	r18
+ 146:	a7 e3       	ldi	r26, 0x37	; 55
+ 148:	ba e1       	ldi	r27, 0x1A	; 26
+ 14a:	0e 94 aa 01 	call	0x354	; 0x354 <__umulhisi3>
+ 14e:	00 24       	eor	r0, r0
+ 150:	88 0f       	add	r24, r24
+ 152:	99 1f       	adc	r25, r25
+ 154:	00 1c       	adc	r0, r0
+ 156:	88 0f       	add	r24, r24
+ 158:	99 1f       	adc	r25, r25
+ 15a:	00 1c       	adc	r0, r0
+ 15c:	89 2f       	mov	r24, r25
+ 15e:	90 2d       	mov	r25, r0
+ 160:	68 e8       	ldi	r22, 0x88	; 136
+ 162:	73 e1       	ldi	r23, 0x13	; 19
+ 164:	86 9f       	mul	r24, r22
+ 166:	90 01       	movw	r18, r0
+ 168:	87 9f       	mul	r24, r23
+ 16a:	30 0d       	add	r19, r0
+ 16c:	96 9f       	mul	r25, r22
+ 16e:	30 0d       	add	r19, r0
+ 170:	11 24       	eor	r1, r1
+ 172:	42 17       	cp	r20, r18
+ 174:	53 07       	cpc	r21, r19
+ 176:	31 f4       	brne	.+12     	; 0x184 <SetOutput+0x54>
+ 178:	0e 94 5b 00 	call	0xb6	; 0xb6 <MakeDoorStates>
+ 17c:	10 92 67 00 	sts	0x0067, r1	; 0x800067 <__data_end+0x1>
+ 180:	10 92 66 00 	sts	0x0066, r1	; 0x800066 <__data_end>
+ 184:	80 91 68 00 	lds	r24, 0x0068	; 0x800068 <repetitionRate>
+ 188:	89 30       	cpi	r24, 0x09	; 9
+ 18a:	09 f1       	breq	.+66     	; 0x1ce <SetOutput+0x9e>
+ 18c:	28 f4       	brcc	.+10     	; 0x198 <SetOutput+0x68>
+ 18e:	83 30       	cpi	r24, 0x03	; 3
+ 190:	41 f0       	breq	.+16     	; 0x1a2 <SetOutput+0x72>
+ 192:	86 30       	cpi	r24, 0x06	; 6
+ 194:	89 f0       	breq	.+34     	; 0x1b8 <SetOutput+0x88>
+ 196:	43 c0       	rjmp	.+134    	; 0x21e <SetOutput+0xee>
+ 198:	8c 30       	cpi	r24, 0x0C	; 12
+ 19a:	21 f1       	breq	.+72     	; 0x1e4 <SetOutput+0xb4>
+ 19c:	8d 30       	cpi	r24, 0x0D	; 13
+ 19e:	69 f1       	breq	.+90     	; 0x1fa <SetOutput+0xca>
+ 1a0:	3e c0       	rjmp	.+124    	; 0x21e <SetOutput+0xee>
+ 1a2:	e0 91 70 00 	lds	r30, 0x0070	; 0x800070 <liftDoorState+0x1>
+ 1a6:	0e 2e       	mov	r0, r30
+ 1a8:	00 0c       	add	r0, r0
+ 1aa:	ff 0b       	sbc	r31, r31
+ 1ac:	ef 59       	subi	r30, 0x9F	; 159
+ 1ae:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1b0:	80 81       	ld	r24, Z
+ 1b2:	81 60       	ori	r24, 0x01	; 1
+ 1b4:	85 bb       	out	0x15, r24	; 21
+ 1b6:	33 c0       	rjmp	.+102    	; 0x21e <SetOutput+0xee>
+ 1b8:	e0 91 72 00 	lds	r30, 0x0072	; 0x800072 <liftDoorState+0x3>
+ 1bc:	0e 2e       	mov	r0, r30
+ 1be:	00 0c       	add	r0, r0
+ 1c0:	ff 0b       	sbc	r31, r31
+ 1c2:	ef 59       	subi	r30, 0x9F	; 159
+ 1c4:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1c6:	80 81       	ld	r24, Z
+ 1c8:	82 60       	ori	r24, 0x02	; 2
+ 1ca:	85 bb       	out	0x15, r24	; 21
+ 1cc:	28 c0       	rjmp	.+80     	; 0x21e <SetOutput+0xee>
+ 1ce:	e0 91 74 00 	lds	r30, 0x0074	; 0x800074 <liftDoorState+0x5>
+ 1d2:	0e 2e       	mov	r0, r30
+ 1d4:	00 0c       	add	r0, r0
+ 1d6:	ff 0b       	sbc	r31, r31
+ 1d8:	ef 59       	subi	r30, 0x9F	; 159
+ 1da:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1dc:	80 81       	ld	r24, Z
+ 1de:	84 60       	ori	r24, 0x04	; 4
+ 1e0:	85 bb       	out	0x15, r24	; 21
+ 1e2:	1d c0       	rjmp	.+58     	; 0x21e <SetOutput+0xee>
+ 1e4:	e0 91 76 00 	lds	r30, 0x0076	; 0x800076 <liftDoorState+0x7>
+ 1e8:	0e 2e       	mov	r0, r30
+ 1ea:	00 0c       	add	r0, r0
+ 1ec:	ff 0b       	sbc	r31, r31
+ 1ee:	ef 59       	subi	r30, 0x9F	; 159
+ 1f0:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1f2:	80 81       	ld	r24, Z
+ 1f4:	88 60       	ori	r24, 0x08	; 8
+ 1f6:	85 bb       	out	0x15, r24	; 21
+ 1f8:	12 c0       	rjmp	.+36     	; 0x21e <SetOutput+0xee>
+ 1fa:	81 e0       	ldi	r24, 0x01	; 1
+ 1fc:	80 93 68 00 	sts	0x0068, r24	; 0x800068 <repetitionRate>
+ 200:	80 91 66 00 	lds	r24, 0x0066	; 0x800066 <__data_end>
+ 204:	90 91 67 00 	lds	r25, 0x0067	; 0x800067 <__data_end+0x1>
+ 208:	01 96       	adiw	r24, 0x01	; 1
+ 20a:	90 93 67 00 	sts	0x0067, r25	; 0x800067 <__data_end+0x1>
+ 20e:	80 93 66 00 	sts	0x0066, r24	; 0x800066 <__data_end>
+ 212:	90 91 69 00 	lds	r25, 0x0069	; 0x800069 <displayCache>
+ 216:	91 11       	cpse	r25, r1
+ 218:	31 c0       	rjmp	.+98     	; 0x27c <SetOutput+0x14c>
+ 21a:	21 e0       	ldi	r18, 0x01	; 1
+ 21c:	56 c0       	rjmp	.+172    	; 0x2ca <SetOutput+0x19a>
+ 21e:	80 91 68 00 	lds	r24, 0x0068	; 0x800068 <repetitionRate>
+ 222:	8f 5f       	subi	r24, 0xFF	; 255
+ 224:	80 93 68 00 	sts	0x0068, r24	; 0x800068 <repetitionRate>
+ 228:	20 91 66 00 	lds	r18, 0x0066	; 0x800066 <__data_end>
+ 22c:	30 91 67 00 	lds	r19, 0x0067	; 0x800067 <__data_end+0x1>
+ 230:	2f 5f       	subi	r18, 0xFF	; 255
+ 232:	3f 4f       	sbci	r19, 0xFF	; 255
+ 234:	30 93 67 00 	sts	0x0067, r19	; 0x800067 <__data_end+0x1>
+ 238:	20 93 66 00 	sts	0x0066, r18	; 0x800066 <__data_end>
+ 23c:	90 91 69 00 	lds	r25, 0x0069	; 0x800069 <displayCache>
+ 240:	99 23       	and	r25, r25
+ 242:	09 f4       	brne	.+2      	; 0x246 <SetOutput+0x116>
+ 244:	47 c0       	rjmp	.+142    	; 0x2d4 <SetOutput+0x1a4>
+ 246:	2d ec       	ldi	r18, 0xCD	; 205
+ 248:	82 9f       	mul	r24, r18
+ 24a:	21 2d       	mov	r18, r1
+ 24c:	11 24       	eor	r1, r1
+ 24e:	26 95       	lsr	r18
+ 250:	26 95       	lsr	r18
+ 252:	32 2f       	mov	r19, r18
+ 254:	33 0f       	add	r19, r19
+ 256:	33 0f       	add	r19, r19
+ 258:	23 0f       	add	r18, r19
+ 25a:	82 1b       	sub	r24, r18
+ 25c:	81 30       	cpi	r24, 0x01	; 1
+ 25e:	71 f0       	breq	.+28     	; 0x27c <SetOutput+0x14c>
+ 260:	28 f0       	brcs	.+10     	; 0x26c <SetOutput+0x13c>
+ 262:	82 30       	cpi	r24, 0x02	; 2
+ 264:	b1 f0       	breq	.+44     	; 0x292 <SetOutput+0x162>
+ 266:	83 30       	cpi	r24, 0x03	; 3
+ 268:	f9 f0       	breq	.+62     	; 0x2a8 <SetOutput+0x178>
+ 26a:	28 c0       	rjmp	.+80     	; 0x2bc <SetOutput+0x18c>
+ 26c:	94 fd       	sbrc	r25, 4
+ 26e:	10 92 6a 00 	sts	0x006A, r1	; 0x80006a <buttonLiftLed>
+ 272:	90 ff       	sbrs	r25, 0
+ 274:	23 c0       	rjmp	.+70     	; 0x2bc <SetOutput+0x18c>
+ 276:	10 92 6d 00 	sts	0x006D, r1	; 0x80006d <buttonFloorLed>
+ 27a:	20 c0       	rjmp	.+64     	; 0x2bc <SetOutput+0x18c>
+ 27c:	95 ff       	sbrs	r25, 5
+ 27e:	03 c0       	rjmp	.+6      	; 0x286 <SetOutput+0x156>
+ 280:	81 e0       	ldi	r24, 0x01	; 1
+ 282:	80 93 6a 00 	sts	0x006A, r24	; 0x80006a <buttonLiftLed>
+ 286:	91 ff       	sbrs	r25, 1
+ 288:	19 c0       	rjmp	.+50     	; 0x2bc <SetOutput+0x18c>
+ 28a:	81 e0       	ldi	r24, 0x01	; 1
+ 28c:	80 93 6d 00 	sts	0x006D, r24	; 0x80006d <buttonFloorLed>
+ 290:	15 c0       	rjmp	.+42     	; 0x2bc <SetOutput+0x18c>
+ 292:	96 ff       	sbrs	r25, 6
+ 294:	03 c0       	rjmp	.+6      	; 0x29c <SetOutput+0x16c>
+ 296:	82 e0       	ldi	r24, 0x02	; 2
+ 298:	80 93 6a 00 	sts	0x006A, r24	; 0x80006a <buttonLiftLed>
+ 29c:	92 ff       	sbrs	r25, 2
+ 29e:	0e c0       	rjmp	.+28     	; 0x2bc <SetOutput+0x18c>
+ 2a0:	82 e0       	ldi	r24, 0x02	; 2
+ 2a2:	80 93 6d 00 	sts	0x006D, r24	; 0x80006d <buttonFloorLed>
+ 2a6:	0a c0       	rjmp	.+20     	; 0x2bc <SetOutput+0x18c>
+ 2a8:	99 23       	and	r25, r25
+ 2aa:	1c f4       	brge	.+6      	; 0x2b2 <SetOutput+0x182>
+ 2ac:	83 e0       	ldi	r24, 0x03	; 3
+ 2ae:	80 93 6a 00 	sts	0x006A, r24	; 0x80006a <buttonLiftLed>
+ 2b2:	93 ff       	sbrs	r25, 3
+ 2b4:	03 c0       	rjmp	.+6      	; 0x2bc <SetOutput+0x18c>
+ 2b6:	83 e0       	ldi	r24, 0x03	; 3
+ 2b8:	80 93 6d 00 	sts	0x006D, r24	; 0x80006d <buttonFloorLed>
+ 2bc:	89 2f       	mov	r24, r25
+ 2be:	80 7f       	andi	r24, 0xF0	; 240
+ 2c0:	19 f0       	breq	.+6      	; 0x2c8 <SetOutput+0x198>
+ 2c2:	20 91 78 00 	lds	r18, 0x0078	; 0x800078 <buttonLiftLed_on>
+ 2c6:	01 c0       	rjmp	.+2      	; 0x2ca <SetOutput+0x19a>
+ 2c8:	21 e0       	ldi	r18, 0x01	; 1
+ 2ca:	9f 70       	andi	r25, 0x0F	; 15
+ 2cc:	31 f0       	breq	.+12     	; 0x2da <SetOutput+0x1aa>
+ 2ce:	90 91 7c 00 	lds	r25, 0x007C	; 0x80007c <buttonFloorLed_On>
+ 2d2:	04 c0       	rjmp	.+8      	; 0x2dc <SetOutput+0x1ac>
+ 2d4:	21 e0       	ldi	r18, 0x01	; 1
+ 2d6:	91 e0       	ldi	r25, 0x01	; 1
+ 2d8:	01 c0       	rjmp	.+2      	; 0x2dc <SetOutput+0x1ac>
+ 2da:	91 e0       	ldi	r25, 0x01	; 1
+ 2dc:	80 91 6e 00 	lds	r24, 0x006E	; 0x80006e <liftPosDisplay_On>
+ 2e0:	81 11       	cpse	r24, r1
+ 2e2:	04 c0       	rjmp	.+8      	; 0x2ec <SetOutput+0x1bc>
+ 2e4:	80 91 6b 00 	lds	r24, 0x006B	; 0x80006b <liftPosition>
+ 2e8:	8f 73       	andi	r24, 0x3F	; 63
+ 2ea:	01 c0       	rjmp	.+2      	; 0x2ee <SetOutput+0x1be>
+ 2ec:	8f e3       	ldi	r24, 0x3F	; 63
+ 2ee:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <liftPositionPort>
+ 2f2:	30 91 7d 00 	lds	r19, 0x007D	; 0x80007d <liftDisplay7Seg_On>
+ 2f6:	31 11       	cpse	r19, r1
+ 2f8:	03 c0       	rjmp	.+6      	; 0x300 <SetOutput+0x1d0>
+ 2fa:	30 91 7b 00 	lds	r19, 0x007B	; 0x80007b <liftDisplay7Seg>
+ 2fe:	01 c0       	rjmp	.+2      	; 0x302 <SetOutput+0x1d2>
+ 300:	37 e0       	ldi	r19, 0x07	; 7
+ 302:	30 93 77 00 	sts	0x0077, r19	; 0x800077 <floorDisplayPort>
+ 306:	30 e8       	ldi	r19, 0x80	; 128
+ 308:	23 9f       	mul	r18, r19
+ 30a:	a0 01       	movw	r20, r0
+ 30c:	11 24       	eor	r1, r1
+ 30e:	30 91 6c 00 	lds	r19, 0x006C	; 0x80006c <doorframe>
+ 312:	60 e4       	ldi	r22, 0x40	; 64
+ 314:	36 9f       	mul	r19, r22
+ 316:	90 01       	movw	r18, r0
+ 318:	11 24       	eor	r1, r1
+ 31a:	24 2b       	or	r18, r20
+ 31c:	82 2b       	or	r24, r18
+ 31e:	88 bb       	out	0x18, r24	; 24
+ 320:	20 91 6a 00 	lds	r18, 0x006A	; 0x80006a <buttonLiftLed>
+ 324:	82 2f       	mov	r24, r18
+ 326:	88 0f       	add	r24, r24
+ 328:	88 0f       	add	r24, r24
+ 32a:	88 0f       	add	r24, r24
+ 32c:	30 91 6d 00 	lds	r19, 0x006D	; 0x80006d <buttonFloorLed>
+ 330:	40 e2       	ldi	r20, 0x20	; 32
+ 332:	34 9f       	mul	r19, r20
+ 334:	90 01       	movw	r18, r0
+ 336:	11 24       	eor	r1, r1
+ 338:	28 2b       	or	r18, r24
+ 33a:	80 91 77 00 	lds	r24, 0x0077	; 0x800077 <floorDisplayPort>
+ 33e:	28 2b       	or	r18, r24
+ 340:	60 e8       	ldi	r22, 0x80	; 128
+ 342:	96 9f       	mul	r25, r22
+ 344:	c0 01       	movw	r24, r0
+ 346:	11 24       	eor	r1, r1
+ 348:	82 2b       	or	r24, r18
+ 34a:	8b bb       	out	0x1b, r24	; 27
+ 34c:	08 95       	ret
+
+0000034e <SetDisplay>:
+ 34e:	80 93 7b 00 	sts	0x007B, r24	; 0x80007b <liftDisplay7Seg>
+ 352:	08 95       	ret
+
+00000354 <__umulhisi3>:
+ 354:	a2 9f       	mul	r26, r18
+ 356:	b0 01       	movw	r22, r0
+ 358:	b3 9f       	mul	r27, r19
+ 35a:	c0 01       	movw	r24, r0
+ 35c:	a3 9f       	mul	r26, r19
+ 35e:	70 0d       	add	r23, r0
+ 360:	81 1d       	adc	r24, r1
+ 362:	11 24       	eor	r1, r1
+ 364:	91 1d       	adc	r25, r1
+ 366:	b2 9f       	mul	r27, r18
+ 368:	70 0d       	add	r23, r0
+ 36a:	81 1d       	adc	r24, r1
+ 36c:	11 24       	eor	r1, r1
+ 36e:	91 1d       	adc	r25, r1
+ 370:	08 95       	ret
+
+00000372 <_exit>:
+ 372:	f8 94       	cli
+
+00000374 <__stop_program>:
+ 374:	ff cf       	rjmp	.-2      	; 0x374 <__stop_program>
