@@ -95,6 +95,13 @@ int main(void)
       case Waiting:
       {
         // Waiting for new floor request
+		ButtonType button = CheckKeyEvent();
+		if (ButtonType.EmergencyButton != button)
+		{
+			// button was pressed
+			state = MoveLift;
+			requestedElevatorPosition = ConvertButtonTypeToLiftPosType(button);
+		}
 
         break;
       }
@@ -103,7 +110,7 @@ int main(void)
       case CloseDoor:
       {
         // Close the door and wait until the door is closed
-
+		state = Waiting;
         break;
       }
 
@@ -111,7 +118,18 @@ int main(void)
       case MoveLift:
       {
         // Move cabin to the requested floor
+		int result = ReadElevatorState() - requestedElevatorPosition;
+		DirectionType direction = result < 0 ? Up : Down;
 
+		if (result < 0)
+		{
+			result *= -1;
+		}		
+		for (int counter = 0; counter < result; counter++)
+		{
+			MoveElevator(direction, SpeedType.Fast);
+		}
+		state = OpenDoor;
         break;
       }
 
@@ -119,7 +137,8 @@ int main(void)
       case OpenDoor:
       {
         // Open the door and wait still the door is open completely
-
+		SetDoorState(Open);
+		state = CloseDoor;
         break;
       }
 
