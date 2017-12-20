@@ -85,7 +85,7 @@ int main(void)
 		}
 		else
 		{
-			state = Waiting;
+			state = OpenDoor;
 			currentElevatorState = ReadElevatorState();
 		}
         break;
@@ -94,13 +94,20 @@ int main(void)
 
       case Waiting:
       {
+		ButtonType key;
+		key = CheckKeyEvent();
         // Waiting for new floor request
-		ButtonType button = CheckKeyEvent();
-		if (ButtonType.EmergencyButton != button)
+		if (EmergencyButton != CheckKeyEvent())
 		{
 			// button was pressed
-			state = MoveLift;
-			requestedElevatorPosition = ConvertButtonTypeToLiftPosType(button);
+			requestedElevatorPosition = ConvertButtonTypeToLiftPosType(key);
+			int result = ReadElevatorState() - requestedElevatorPosition;
+			if (result != 0)
+			{
+				elevatorDirection = result < 0 ? Up : Down;
+				state = CloseDoor;
+			}
+			
 		}
 
         break;
@@ -110,7 +117,15 @@ int main(void)
       case CloseDoor:
       {
         // Close the door and wait until the door is closed
-		state = Waiting;
+		if (ReadDoorState(currentElevatorState) != Closed)
+		{
+			SetDoorState(Closed, currentElevatorState);
+		}
+		else
+		{
+			state = MoveLift;
+		}
+
         break;
       }
 
@@ -118,18 +133,17 @@ int main(void)
       case MoveLift:
       {
         // Move cabin to the requested floor
-		int result = ReadElevatorState() - requestedElevatorPosition;
-		DirectionType direction = result < 0 ? Up : Down;
+		currentElevatorState = ReadElevatorState();
 
-		if (result < 0)
+		if (currentElevatorState != requestedElevatorPosition)
 		{
-			result *= -1;
-		}		
-		for (int counter = 0; counter < result; counter++)
-		{
-			MoveElevator(direction, SpeedType.Fast);
+			MoveElevator(elevatorDirection, Fast);
 		}
-		state = OpenDoor;
+		else
+		{
+			state = OpenDoor;
+		}
+				
         break;
       }
 
@@ -137,8 +151,8 @@ int main(void)
       case OpenDoor:
       {
         // Open the door and wait still the door is open completely
-		SetDoorState(Open);
-		state = CloseDoor;
+		SetDoorState(Open, currentElevatorState);
+		state = Waiting;
         break;
       }
 
