@@ -632,5 +632,5 @@ END GROUP
 
 .debug_macro
  *(.debug_macro)
-OUTPUT(Liftsumulator_Basic_V1_AufgabeA.elf elf32-avr)
+OUTPUT(Liftsumulator_Basic_V1_AufgabeB.elf elf32-avr)
 LOAD linker stubs

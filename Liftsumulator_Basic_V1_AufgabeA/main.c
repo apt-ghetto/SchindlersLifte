@@ -73,6 +73,11 @@ int main(void)
   // Endless loop
   while(1)
   {
+	// do always
+	UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
+	currentElevatorState = ReadElevatorState();
+	SetOutput();               // Send the calculated output values to the ports
+
     // Handling state machine
     switch (state)
     {
@@ -97,14 +102,22 @@ int main(void)
 		ButtonType key;
 		key = CheckKeyEvent();
         // Waiting for new floor request
-		if (EmergencyButton != CheckKeyEvent())
+		if (EmergencyButton != key)
 		{
 			// button was pressed
 			requestedElevatorPosition = ConvertButtonTypeToLiftPosType(key);
-			int result = ReadElevatorState() - requestedElevatorPosition;
+			int result = currentElevatorState - requestedElevatorPosition;
 			if (result != 0)
 			{
 				elevatorDirection = result < 0 ? Up : Down;
+				if (key < 16)
+				{
+					SetIndicatorElevatorState(requestedElevatorPosition);
+				}
+				else
+				{
+					SetIndicatorFloorState(requestedElevatorPosition);
+				}				
 				state = CloseDoor;
 			}
 			
@@ -133,8 +146,6 @@ int main(void)
       case MoveLift:
       {
         // Move cabin to the requested floor
-		currentElevatorState = ReadElevatorState();
-
 		if (currentElevatorState != requestedElevatorPosition)
 		{
 			MoveElevator(elevatorDirection, Fast);
@@ -152,7 +163,12 @@ int main(void)
       {
         // Open the door and wait still the door is open completely
 		SetDoorState(Open, currentElevatorState);
-		state = Waiting;
+		if (ReadDoorState(currentElevatorState) == Open)
+		{
+			state = Waiting;
+			ClrIndicatorFloorState(currentElevatorState);
+			ClrIndicatorElevatorState(currentElevatorState);
+		}
         break;
       }
 
@@ -164,8 +180,6 @@ int main(void)
       }
     }
 
-    UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
-    SetOutput();               // Send the calculated output values to the ports
   }
 
   return (0);

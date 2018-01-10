@@ -1,5 +1,5 @@
 
-Liftsumulator_Basic_V1_AufgabeA.elf:     file format elf32-avr
+Liftsumulator_Basic_V1_AufgabeB.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
@@ -99,9 +99,9 @@ Disassembly of section .text:
 // Convert ButtonType to LiftPosType
 LiftPosType ConvertButtonTypeToLiftPosType (ButtonType button)
 {
-  LiftPosType retVal = None;
+	LiftPosType retVal = None;
 
-  switch (button)
+	switch (button)
   92:	88 30       	cpi	r24, 0x08	; 8
   94:	c9 f0       	breq	.+50     	; 0xc8 <ConvertButtonTypeToLiftPosType+0x36>
   96:	38 f4       	brcc	.+14     	; 0xa6 <ConvertButtonTypeToLiftPosType+0x14>
@@ -123,50 +123,50 @@ LiftPosType ConvertButtonTypeToLiftPosType (ButtonType button)
   b6:	80 38       	cpi	r24, 0x80	; 128
   b8:	39 f0       	breq	.+14     	; 0xc8 <ConvertButtonTypeToLiftPosType+0x36>
   ba:	08 c0       	rjmp	.+16     	; 0xcc <ConvertButtonTypeToLiftPosType+0x3a>
-  {
-    case LiftButton_F0:
-    case FloorButton_F0:
-    {
-      retVal = Floor0;
+	{
+		case LiftButton_F0:
+		case FloorButton_F0:
+		{
+			retVal = Floor0;
   bc:	80 e0       	ldi	r24, 0x00	; 0
   be:	08 95       	ret
-      break;
-    }
-    case LiftButton_F1:
-    case FloorButton_F1:
-    {
-      retVal = Floor1;
+			break;
+		}
+		case LiftButton_F1:
+		case FloorButton_F1:
+		{
+			retVal = Floor1;
   c0:	81 e0       	ldi	r24, 0x01	; 1
-      break;
+			break;
   c2:	08 95       	ret
-    }
-    case LiftButton_F2:
-    case FloorButton_F2:
-    {
-      retVal = Floor2;
+		}
+		case LiftButton_F2:
+		case FloorButton_F2:
+		{
+			retVal = Floor2;
   c4:	82 e0       	ldi	r24, 0x02	; 2
-      break;
+			break;
   c6:	08 95       	ret
-    }
-    case LiftButton_F3:
-    case FloorButton_F3:
-    {
-      retVal = Floor3;
+		}
+		case LiftButton_F3:
+		case FloorButton_F3:
+		{
+			retVal = Floor3;
   c8:	83 e0       	ldi	r24, 0x03	; 3
-      break;
+			break;
   ca:	08 95       	ret
 ***  PRIVATE FUNCTIONs *********************************************************
 *******************************************************************************/
 // Convert ButtonType to LiftPosType
 LiftPosType ConvertButtonTypeToLiftPosType (ButtonType button)
 {
-  LiftPosType retVal = None;
+	LiftPosType retVal = None;
   cc:	87 e0       	ldi	r24, 0x07	; 7
-      break;
-    }
-  }
+			break;
+		}
+	}
 
-  return retVal;
+	return retVal;
 }
   ce:	08 95       	ret
 
@@ -176,14 +176,14 @@ LiftPosType ConvertButtonTypeToLiftPosType (ButtonType button)
 ButtonType CheckKeyEvent ()
 {
   d0:	cf 93       	push	r28
-  ButtonType retVal = EmergencyButton;
+	ButtonType retVal = EmergencyButton;
 
-  for (ButtonType key = FloorButton_F3; ((key >= LiftButton_F0) && (retVal == EmergencyButton)); key>>=1)
+	for (ButtonType key = FloorButton_F3; ((key >= LiftButton_F0) && (retVal == EmergencyButton)); key>>=1)
   d2:	c0 e8       	ldi	r28, 0x80	; 128
   d4:	01 c0       	rjmp	.+2      	; 0xd8 <CheckKeyEvent+0x8>
   d6:	c8 2f       	mov	r28, r24
-  {
-    if (ReadKeyEvent(key) == Pressed)
+	{
+		if (ReadKeyEvent(key) == Pressed)
   d8:	8c 2f       	mov	r24, r28
   da:	0e 94 55 02 	call	0x4aa	; 0x4aa <ReadKeyEvent>
   de:	81 30       	cpi	r24, 0x01	; 1
@@ -191,9 +191,9 @@ ButtonType CheckKeyEvent ()
 // Check if buttons are pressed
 ButtonType CheckKeyEvent ()
 {
-  ButtonType retVal = EmergencyButton;
+	ButtonType retVal = EmergencyButton;
 
-  for (ButtonType key = FloorButton_F3; ((key >= LiftButton_F0) && (retVal == EmergencyButton)); key>>=1)
+	for (ButtonType key = FloorButton_F3; ((key >= LiftButton_F0) && (retVal == EmergencyButton)); key>>=1)
   e2:	8c 2f       	mov	r24, r28
   e4:	86 95       	lsr	r24
   e6:	29 f0       	breq	.+10     	; 0xf2 <CheckKeyEvent+0x22>
@@ -202,11 +202,11 @@ ButtonType CheckKeyEvent ()
   ec:	02 c0       	rjmp	.+4      	; 0xf2 <CheckKeyEvent+0x22>
   ee:	c6 95       	lsr	r28
   f0:	99 f7       	brne	.-26     	; 0xd8 <CheckKeyEvent+0x8>
-    {
-      retVal = key;
-    }
-  }
-  return retVal;
+		{
+			retVal = key;
+		}
+	}
+	return retVal;
 }
   f2:	8c 2f       	mov	r24, r28
   f4:	cf 91       	pop	r28
@@ -217,17 +217,17 @@ ButtonType CheckKeyEvent ()
 // Update the 7-Seg. display
 void UpdateDisplay (LiftPosType elevatorState)
 {
-  switch (elevatorState)
+	switch (elevatorState)
   f8:	85 30       	cpi	r24, 0x05	; 5
   fa:	10 f0       	brcs	.+4      	; 0x100 <UpdateDisplay+0x8>
   fc:	86 30       	cpi	r24, 0x06	; 6
   fe:	11 f4       	brne	.+4      	; 0x104 <UpdateDisplay+0xc>
-    case Floor2:
-    case Floor3:
-    case Error:
-    case Test:
-    {
-      SetDisplay(elevatorState);
+		case Floor2:
+		case Floor3:
+		case Error:
+		case Test:
+		{
+			SetDisplay(elevatorState);
  100:	0e 94 cd 02 	call	0x59a	; 0x59a <SetDisplay>
  104:	08 95       	ret
 
@@ -237,47 +237,47 @@ void UpdateDisplay (LiftPosType elevatorState)
 *******************************************************************************/
 int main(void)
 {
-  InitializePorts();  // Initialization of ports
+	InitializePorts();  // Initialization of ports
  106:	0e 94 28 01 	call	0x250	; 0x250 <InitializePorts>
-  InitializeStart();  // Set start state of the system
+	InitializeStart();  // Set start state of the system
  10a:	0e 94 2e 01 	call	0x25c	; 0x25c <InitializeStart>
-		{
-			MoveElevator(elevatorDirection, Fast);
-		}
-		else
-		{
-			state = OpenDoor;
+				{
+					MoveElevator(elevatorDirection, Fast);
+				}
+				else
+				{
+					state = OpenDoor;
  10e:	d4 e0       	ldi	r29, 0x04	; 4
-      {
-        // Open the door and wait still the door is open completely
-		SetDoorState(Open, currentElevatorState);
-		if (ReadDoorState(currentElevatorState) == Open)
-		{
-			state = Waiting;
+			{
+				// Open the door and wait still the door is open completely
+				SetDoorState(Open, currentElevatorState);
+				if (ReadDoorState(currentElevatorState) == Open)
+				{
+					state = Waiting;
  110:	01 e0       	ldi	r16, 0x01	; 1
-		{
-			SetDoorState(Closed, currentElevatorState);
-		}
-		else
-		{
-			state = MoveLift;
+				{
+					SetDoorState(Closed, currentElevatorState);
+				}
+				else
+				{
+					state = MoveLift;
  112:	13 e0       	ldi	r17, 0x03	; 3
 
-  // Endless loop
-  while(1)
-  {
-	// do always
-	UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
+	// Endless loop
+	while(1)
+	{
+		// do always
+		UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
  114:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
  118:	0e 94 7c 00 	call	0xf8	; 0xf8 <UpdateDisplay>
-	currentElevatorState = ReadElevatorState();
+		currentElevatorState = ReadElevatorState();
  11c:	0e 94 a0 02 	call	0x540	; 0x540 <ReadElevatorState>
  120:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
-	SetOutput();               // Send the calculated output values to the ports
+		SetOutput();               // Send the calculated output values to the ports
  124:	0e 94 46 01 	call	0x28c	; 0x28c <SetOutput>
 
-    // Handling state machine
-    switch (state)
+		// Handling state machine
+		switch (state)
  128:	80 91 69 00 	lds	r24, 0x0069	; 0x800069 <state>
  12c:	82 30       	cpi	r24, 0x02	; 2
  12e:	d9 f1       	breq	.+118    	; 0x1a6 <main+0xa0>
@@ -294,142 +294,142 @@ int main(void)
  144:	09 f4       	brne	.+2      	; 0x148 <main+0x42>
  146:	4e c0       	rjmp	.+156    	; 0x1e4 <main+0xde>
  148:	e5 cf       	rjmp	.-54     	; 0x114 <main+0xe>
-    {
-      case Uninitialized:
-      {
-        // Lift position calibration to ground floor (Floor0)
-		if (ReadElevatorState() != Floor0)
+		{
+			case Uninitialized:
+			{
+				// Lift position calibration to ground floor (Floor0)
+				if (ReadElevatorState() != Floor0)
  14a:	0e 94 a0 02 	call	0x540	; 0x540 <ReadElevatorState>
  14e:	88 23       	and	r24, r24
  150:	19 f0       	breq	.+6      	; 0x158 <main+0x52>
-		{
-			CalibrateElevatorPosition();
+				{
+					CalibrateElevatorPosition();
  152:	0e 94 c3 02 	call	0x586	; 0x586 <CalibrateElevatorPosition>
  156:	de cf       	rjmp	.-68     	; 0x114 <main+0xe>
-		}
-		else
-		{
-			state = OpenDoor;
+				}
+				else
+				{
+					state = OpenDoor;
  158:	d0 93 69 00 	sts	0x0069, r29	; 0x800069 <state>
-			currentElevatorState = ReadElevatorState();
+					currentElevatorState = ReadElevatorState();
  15c:	0e 94 a0 02 	call	0x540	; 0x540 <ReadElevatorState>
  160:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
  164:	d7 cf       	rjmp	.-82     	; 0x114 <main+0xe>
 
 
-      case Waiting:
-      {
-		ButtonType key;
-		key = CheckKeyEvent();
+			case Waiting:
+			{
+				ButtonType key;
+				key = CheckKeyEvent();
  166:	0e 94 68 00 	call	0xd0	; 0xd0 <CheckKeyEvent>
  16a:	c8 2f       	mov	r28, r24
-        // Waiting for new floor request
-		if (EmergencyButton != key)
+				// Waiting for new floor request
+				if (EmergencyButton != key)
  16c:	88 23       	and	r24, r24
  16e:	91 f2       	breq	.-92     	; 0x114 <main+0xe>
-		{
-			// button was pressed
-			requestedElevatorPosition = ConvertButtonTypeToLiftPosType(key);
+				{
+					// button was pressed
+					requestedElevatorPosition = ConvertButtonTypeToLiftPosType(key);
  170:	0e 94 49 00 	call	0x92	; 0x92 <ConvertButtonTypeToLiftPosType>
  174:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <requestedElevatorPosition>
-			int result = currentElevatorState - requestedElevatorPosition;
+					int result = currentElevatorState - requestedElevatorPosition;
  178:	20 91 60 00 	lds	r18, 0x0060	; 0x800060 <__data_start>
  17c:	30 e0       	ldi	r19, 0x00	; 0
  17e:	28 1b       	sub	r18, r24
  180:	31 09       	sbc	r19, r1
-			if (result != 0)
+					if (result != 0)
  182:	41 f2       	breq	.-112    	; 0x114 <main+0xe>
-			{
-				elevatorDirection = result < 0 ? Up : Down;
+					{
+						elevatorDirection = result < 0 ? Up : Down;
  184:	93 2f       	mov	r25, r19
  186:	99 1f       	adc	r25, r25
  188:	99 27       	eor	r25, r25
  18a:	99 1f       	adc	r25, r25
  18c:	90 93 68 00 	sts	0x0068, r25	; 0x800068 <__data_end>
-				if (key < 16)
+						if (key < 16)
  190:	c0 31       	cpi	r28, 0x10	; 16
  192:	18 f4       	brcc	.+6      	; 0x19a <main+0x94>
-				{
-					SetIndicatorElevatorState(requestedElevatorPosition);
+						{
+							SetIndicatorElevatorState(requestedElevatorPosition);
  194:	0e 94 e1 02 	call	0x5c2	; 0x5c2 <SetIndicatorElevatorState>
  198:	02 c0       	rjmp	.+4      	; 0x19e <main+0x98>
-				}
-				else
-				{
-					SetIndicatorFloorState(requestedElevatorPosition);
+						}
+						else
+						{
+							SetIndicatorFloorState(requestedElevatorPosition);
  19a:	0e 94 d0 02 	call	0x5a0	; 0x5a0 <SetIndicatorFloorState>
-				}				
-				state = CloseDoor;
+						}
+						state = CloseDoor;
  19e:	82 e0       	ldi	r24, 0x02	; 2
  1a0:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <state>
  1a4:	b7 cf       	rjmp	.-146    	; 0x114 <main+0xe>
 
 
-      case CloseDoor:
-      {
-        // Close the door and wait until the door is closed
-		if (ReadDoorState(currentElevatorState) != Closed)
+			case CloseDoor:
+			{
+				// Close the door and wait until the door is closed
+				if (ReadDoorState(currentElevatorState) != Closed)
  1a6:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
  1aa:	0e 94 5b 02 	call	0x4b6	; 0x4b6 <ReadDoorState>
  1ae:	88 23       	and	r24, r24
  1b0:	31 f0       	breq	.+12     	; 0x1be <main+0xb8>
-		{
-			SetDoorState(Closed, currentElevatorState);
+				{
+					SetDoorState(Closed, currentElevatorState);
  1b2:	60 91 60 00 	lds	r22, 0x0060	; 0x800060 <__data_start>
  1b6:	80 e0       	ldi	r24, 0x00	; 0
  1b8:	0e 94 71 02 	call	0x4e2	; 0x4e2 <SetDoorState>
  1bc:	ab cf       	rjmp	.-170    	; 0x114 <main+0xe>
-		}
-		else
-		{
-			state = MoveLift;
+				}
+				else
+				{
+					state = MoveLift;
  1be:	10 93 69 00 	sts	0x0069, r17	; 0x800069 <state>
  1c2:	a8 cf       	rjmp	.-176    	; 0x114 <main+0xe>
 
 
-      case MoveLift:
-      {
-        // Move cabin to the requested floor
-		if (currentElevatorState != requestedElevatorPosition)
+			case MoveLift:
+			{
+				// Move cabin to the requested floor
+				if (currentElevatorState != requestedElevatorPosition)
  1c4:	90 91 60 00 	lds	r25, 0x0060	; 0x800060 <__data_start>
  1c8:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <requestedElevatorPosition>
  1cc:	98 17       	cp	r25, r24
  1ce:	39 f0       	breq	.+14     	; 0x1de <main+0xd8>
-		{
-			MoveElevator(elevatorDirection, Fast);
+				{
+					MoveElevator(elevatorDirection, Fast);
  1d0:	68 ee       	ldi	r22, 0xE8	; 232
  1d2:	73 e0       	ldi	r23, 0x03	; 3
  1d4:	80 91 68 00 	lds	r24, 0x0068	; 0x800068 <__data_end>
  1d8:	0e 94 79 02 	call	0x4f2	; 0x4f2 <MoveElevator>
  1dc:	9b cf       	rjmp	.-202    	; 0x114 <main+0xe>
-		}
-		else
-		{
-			state = OpenDoor;
+				}
+				else
+				{
+					state = OpenDoor;
  1de:	d0 93 69 00 	sts	0x0069, r29	; 0x800069 <state>
  1e2:	98 cf       	rjmp	.-208    	; 0x114 <main+0xe>
 
 
-      case OpenDoor:
-      {
-        // Open the door and wait still the door is open completely
-		SetDoorState(Open, currentElevatorState);
+			case OpenDoor:
+			{
+				// Open the door and wait still the door is open completely
+				SetDoorState(Open, currentElevatorState);
  1e4:	60 91 60 00 	lds	r22, 0x0060	; 0x800060 <__data_start>
  1e8:	82 e0       	ldi	r24, 0x02	; 2
  1ea:	0e 94 71 02 	call	0x4e2	; 0x4e2 <SetDoorState>
-		if (ReadDoorState(currentElevatorState) == Open)
+				if (ReadDoorState(currentElevatorState) == Open)
  1ee:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
  1f2:	0e 94 5b 02 	call	0x4b6	; 0x4b6 <ReadDoorState>
  1f6:	82 30       	cpi	r24, 0x02	; 2
  1f8:	09 f0       	breq	.+2      	; 0x1fc <main+0xf6>
  1fa:	8c cf       	rjmp	.-232    	; 0x114 <main+0xe>
-		{
-			state = Waiting;
+				{
+					state = Waiting;
  1fc:	00 93 69 00 	sts	0x0069, r16	; 0x800069 <state>
-			ClrIndicatorFloorState(currentElevatorState);
+					ClrIndicatorFloorState(currentElevatorState);
  200:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
  204:	0e 94 f3 02 	call	0x5e6	; 0x5e6 <ClrIndicatorFloorState>
-			ClrIndicatorElevatorState(currentElevatorState);
+					ClrIndicatorElevatorState(currentElevatorState);
  208:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
  20c:	0e 94 05 03 	call	0x60a	; 0x60a <ClrIndicatorElevatorState>
  210:	81 cf       	rjmp	.-254    	; 0x114 <main+0xe>
