@@ -110,6 +110,14 @@ int main(void)
 			if (result != 0)
 			{
 				elevatorDirection = result < 0 ? Up : Down;
+				if (key < 16)
+				{
+					SetIndicatorElevatorState(requestedElevatorPosition);
+				}
+				else
+				{
+					SetIndicatorFloorState(requestedElevatorPosition);
+				}				
 				state = CloseDoor;
 			}
 			
@@ -138,8 +146,6 @@ int main(void)
       case MoveLift:
       {
         // Move cabin to the requested floor
-		//currentElevatorState = ReadElevatorState();
-
 		if (currentElevatorState != requestedElevatorPosition)
 		{
 			MoveElevator(elevatorDirection, Fast);
@@ -157,7 +163,12 @@ int main(void)
       {
         // Open the door and wait still the door is open completely
 		SetDoorState(Open, currentElevatorState);
-		state = Waiting;
+		if (ReadDoorState(currentElevatorState) == Open)
+		{
+			state = Waiting;
+			ClrIndicatorFloorState(currentElevatorState);
+			ClrIndicatorElevatorState(currentElevatorState);
+		}
         break;
       }
 
