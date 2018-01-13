@@ -9,25 +9,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   2 .bss          0000001c  00800068  00800068  000006ec  2**0
                   ALLOC
-  3 .comment      00000060  00000000  00000000  000006ec  2**0
+  3 .comment      00000030  00000000  00000000  000006ec  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000074c  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000071c  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000d0  00000000  00000000  00000788  2**0
+  5 .debug_aranges 000000d0  00000000  00000000  00000758  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000bc9  00000000  00000000  00000858  2**0
+  6 .debug_info   00000c2e  00000000  00000000  00000828  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000320  00000000  00000000  00001421  2**0
+  7 .debug_abbrev 0000034d  00000000  00000000  00001456  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000805  00000000  00000000  00001741  2**0
+  8 .debug_line   00000805  00000000  00000000  000017a3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000017c  00000000  00000000  00001f48  2**2
+  9 .debug_frame  0000017c  00000000  00000000  00001fa8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000794  00000000  00000000  000020c4  2**0
+ 10 .debug_str    000006e9  00000000  00000000  00002124  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000003ff  00000000  00000000  00002858  2**0
+ 11 .debug_loc    000003ff  00000000  00000000  0000280d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000b0  00000000  00000000  00002c57  2**0
+ 12 .debug_ranges 000000b0  00000000  00000000  00002c0c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -268,17 +268,17 @@ int main(void)
   {
 	// do always
 	UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
- 114:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+ 114:	80 91 60 00 	lds	r24, 0x0060
  118:	0e 94 7c 00 	call	0xf8	; 0xf8 <UpdateDisplay>
 	currentElevatorState = ReadElevatorState();
  11c:	0e 94 a0 02 	call	0x540	; 0x540 <ReadElevatorState>
- 120:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+ 120:	80 93 60 00 	sts	0x0060, r24
 	SetOutput();               // Send the calculated output values to the ports
  124:	0e 94 46 01 	call	0x28c	; 0x28c <SetOutput>
 
     // Handling state machine
     switch (state)
- 128:	80 91 69 00 	lds	r24, 0x0069	; 0x800069 <state>
+ 128:	80 91 69 00 	lds	r24, 0x0069
  12c:	82 30       	cpi	r24, 0x02	; 2
  12e:	d9 f1       	breq	.+118    	; 0x1a6 <main+0xa0>
  130:	28 f4       	brcc	.+10     	; 0x13c <main+0x36>
@@ -310,10 +310,10 @@ int main(void)
 		else
 		{
 			state = OpenDoor;
- 158:	d0 93 69 00 	sts	0x0069, r29	; 0x800069 <state>
+ 158:	d0 93 69 00 	sts	0x0069, r29
 			currentElevatorState = ReadElevatorState();
  15c:	0e 94 a0 02 	call	0x540	; 0x540 <ReadElevatorState>
- 160:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+ 160:	80 93 60 00 	sts	0x0060, r24
  164:	d7 cf       	rjmp	.-82     	; 0x114 <main+0xe>
 
 
@@ -331,9 +331,9 @@ int main(void)
 			// button was pressed
 			requestedElevatorPosition = ConvertButtonTypeToLiftPosType(key);
  170:	0e 94 49 00 	call	0x92	; 0x92 <ConvertButtonTypeToLiftPosType>
- 174:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <requestedElevatorPosition>
+ 174:	80 93 61 00 	sts	0x0061, r24
 			int result = currentElevatorState - requestedElevatorPosition;
- 178:	20 91 60 00 	lds	r18, 0x0060	; 0x800060 <__data_start>
+ 178:	20 91 60 00 	lds	r18, 0x0060
  17c:	30 e0       	ldi	r19, 0x00	; 0
  17e:	28 1b       	sub	r18, r24
  180:	31 09       	sbc	r19, r1
@@ -345,7 +345,7 @@ int main(void)
  186:	99 1f       	adc	r25, r25
  188:	99 27       	eor	r25, r25
  18a:	99 1f       	adc	r25, r25
- 18c:	90 93 68 00 	sts	0x0068, r25	; 0x800068 <__data_end>
+ 18c:	90 93 68 00 	sts	0x0068, r25
 				if (key < 16)
  190:	c0 31       	cpi	r28, 0x10	; 16
  192:	18 f4       	brcc	.+6      	; 0x19a <main+0x94>
@@ -361,7 +361,7 @@ int main(void)
 				}				
 				state = CloseDoor;
  19e:	82 e0       	ldi	r24, 0x02	; 2
- 1a0:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <state>
+ 1a0:	80 93 69 00 	sts	0x0069, r24
  1a4:	b7 cf       	rjmp	.-146    	; 0x114 <main+0xe>
 
 
@@ -369,13 +369,13 @@ int main(void)
       {
         // Close the door and wait until the door is closed
 		if (ReadDoorState(currentElevatorState) != Closed)
- 1a6:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+ 1a6:	80 91 60 00 	lds	r24, 0x0060
  1aa:	0e 94 5b 02 	call	0x4b6	; 0x4b6 <ReadDoorState>
  1ae:	88 23       	and	r24, r24
  1b0:	31 f0       	breq	.+12     	; 0x1be <main+0xb8>
 		{
 			SetDoorState(Closed, currentElevatorState);
- 1b2:	60 91 60 00 	lds	r22, 0x0060	; 0x800060 <__data_start>
+ 1b2:	60 91 60 00 	lds	r22, 0x0060
  1b6:	80 e0       	ldi	r24, 0x00	; 0
  1b8:	0e 94 71 02 	call	0x4e2	; 0x4e2 <SetDoorState>
  1bc:	ab cf       	rjmp	.-170    	; 0x114 <main+0xe>
@@ -383,7 +383,7 @@ int main(void)
 		else
 		{
 			state = MoveLift;
- 1be:	10 93 69 00 	sts	0x0069, r17	; 0x800069 <state>
+ 1be:	10 93 69 00 	sts	0x0069, r17
  1c2:	a8 cf       	rjmp	.-176    	; 0x114 <main+0xe>
 
 
@@ -391,22 +391,22 @@ int main(void)
       {
         // Move cabin to the requested floor
 		if (currentElevatorState != requestedElevatorPosition)
- 1c4:	90 91 60 00 	lds	r25, 0x0060	; 0x800060 <__data_start>
- 1c8:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <requestedElevatorPosition>
+ 1c4:	90 91 60 00 	lds	r25, 0x0060
+ 1c8:	80 91 61 00 	lds	r24, 0x0061
  1cc:	98 17       	cp	r25, r24
  1ce:	39 f0       	breq	.+14     	; 0x1de <main+0xd8>
 		{
 			MoveElevator(elevatorDirection, Fast);
  1d0:	68 ee       	ldi	r22, 0xE8	; 232
  1d2:	73 e0       	ldi	r23, 0x03	; 3
- 1d4:	80 91 68 00 	lds	r24, 0x0068	; 0x800068 <__data_end>
+ 1d4:	80 91 68 00 	lds	r24, 0x0068
  1d8:	0e 94 79 02 	call	0x4f2	; 0x4f2 <MoveElevator>
  1dc:	9b cf       	rjmp	.-202    	; 0x114 <main+0xe>
 		}
 		else
 		{
 			state = OpenDoor;
- 1de:	d0 93 69 00 	sts	0x0069, r29	; 0x800069 <state>
+ 1de:	d0 93 69 00 	sts	0x0069, r29
  1e2:	98 cf       	rjmp	.-208    	; 0x114 <main+0xe>
 
 
@@ -414,23 +414,23 @@ int main(void)
       {
         // Open the door and wait still the door is open completely
 		SetDoorState(Open, currentElevatorState);
- 1e4:	60 91 60 00 	lds	r22, 0x0060	; 0x800060 <__data_start>
+ 1e4:	60 91 60 00 	lds	r22, 0x0060
  1e8:	82 e0       	ldi	r24, 0x02	; 2
  1ea:	0e 94 71 02 	call	0x4e2	; 0x4e2 <SetDoorState>
 		if (ReadDoorState(currentElevatorState) == Open)
- 1ee:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+ 1ee:	80 91 60 00 	lds	r24, 0x0060
  1f2:	0e 94 5b 02 	call	0x4b6	; 0x4b6 <ReadDoorState>
  1f6:	82 30       	cpi	r24, 0x02	; 2
  1f8:	09 f0       	breq	.+2      	; 0x1fc <main+0xf6>
  1fa:	8c cf       	rjmp	.-232    	; 0x114 <main+0xe>
 		{
 			state = Waiting;
- 1fc:	00 93 69 00 	sts	0x0069, r16	; 0x800069 <state>
+ 1fc:	00 93 69 00 	sts	0x0069, r16
 			ClrIndicatorFloorState(currentElevatorState);
- 200:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+ 200:	80 91 60 00 	lds	r24, 0x0060
  204:	0e 94 f3 02 	call	0x5e6	; 0x5e6 <ClrIndicatorFloorState>
 			ClrIndicatorElevatorState(currentElevatorState);
- 208:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+ 208:	80 91 60 00 	lds	r24, 0x0060
  20c:	0e 94 05 03 	call	0x60a	; 0x60a <ClrIndicatorElevatorState>
  210:	81 cf       	rjmp	.-254    	; 0x114 <main+0xe>
 
@@ -476,11 +476,11 @@ int main(void)
  25a:	08 95       	ret
 
 0000025c <InitializeStart>:
- 25c:	10 92 74 00 	sts	0x0074, r1	; 0x800074 <liftPosDisplay_On>
- 260:	10 92 7e 00 	sts	0x007E, r1	; 0x80007e <buttonLiftLed_on>
- 264:	10 92 83 00 	sts	0x0083, r1	; 0x800083 <liftDisplay7Seg_On>
- 268:	10 92 82 00 	sts	0x0082, r1	; 0x800082 <buttonFloorLed_On>
- 26c:	10 92 72 00 	sts	0x0072, r1	; 0x800072 <doorframe>
+ 25c:	10 92 74 00 	sts	0x0074, r1
+ 260:	10 92 7e 00 	sts	0x007E, r1
+ 264:	10 92 83 00 	sts	0x0083, r1
+ 268:	10 92 82 00 	sts	0x0082, r1
+ 26c:	10 92 72 00 	sts	0x0072, r1
  270:	e5 e7       	ldi	r30, 0x75	; 117
  272:	f0 e0       	ldi	r31, 0x00	; 0
  274:	11 82       	std	Z+1, r1	; 0x01
@@ -492,12 +492,12 @@ int main(void)
  280:	17 82       	std	Z+7, r1	; 0x07
  282:	16 82       	std	Z+6, r1	; 0x06
  284:	8f e1       	ldi	r24, 0x1F	; 31
- 286:	80 93 71 00 	sts	0x0071, r24	; 0x800071 <liftPosition>
+ 286:	80 93 71 00 	sts	0x0071, r24
  28a:	08 95       	ret
 
 0000028c <SetOutput>:
- 28c:	40 91 6c 00 	lds	r20, 0x006C	; 0x80006c <doorOpeningRate>
- 290:	50 91 6d 00 	lds	r21, 0x006D	; 0x80006d <doorOpeningRate+0x1>
+ 28c:	40 91 6c 00 	lds	r20, 0x006C
+ 290:	50 91 6d 00 	lds	r21, 0x006D
  294:	9a 01       	movw	r18, r20
  296:	36 95       	lsr	r19
  298:	27 95       	ror	r18
@@ -530,9 +530,9 @@ int main(void)
  2d0:	53 07       	cpc	r21, r19
  2d2:	31 f4       	brne	.+12     	; 0x2e0 <SetOutput+0x54>
  2d4:	0e 94 09 01 	call	0x212	; 0x212 <MakeDoorStates>
- 2d8:	10 92 6d 00 	sts	0x006D, r1	; 0x80006d <doorOpeningRate+0x1>
- 2dc:	10 92 6c 00 	sts	0x006C, r1	; 0x80006c <doorOpeningRate>
- 2e0:	80 91 6e 00 	lds	r24, 0x006E	; 0x80006e <repetitionRate>
+ 2d8:	10 92 6d 00 	sts	0x006D, r1
+ 2dc:	10 92 6c 00 	sts	0x006C, r1
+ 2e0:	80 91 6e 00 	lds	r24, 0x006E
  2e4:	89 30       	cpi	r24, 0x09	; 9
  2e6:	09 f1       	breq	.+66     	; 0x32a <SetOutput+0x9e>
  2e8:	28 f4       	brcc	.+10     	; 0x2f4 <SetOutput+0x68>
@@ -546,7 +546,7 @@ int main(void)
  2f8:	8d 30       	cpi	r24, 0x0D	; 13
  2fa:	69 f1       	breq	.+90     	; 0x356 <SetOutput+0xca>
  2fc:	3e c0       	rjmp	.+124    	; 0x37a <SetOutput+0xee>
- 2fe:	e0 91 76 00 	lds	r30, 0x0076	; 0x800076 <liftDoorState+0x1>
+ 2fe:	e0 91 76 00 	lds	r30, 0x0076
  302:	0e 2e       	mov	r0, r30
  304:	00 0c       	add	r0, r0
  306:	ff 0b       	sbc	r31, r31
@@ -556,7 +556,7 @@ int main(void)
  30e:	81 60       	ori	r24, 0x01	; 1
  310:	85 bb       	out	0x15, r24	; 21
  312:	33 c0       	rjmp	.+102    	; 0x37a <SetOutput+0xee>
- 314:	e0 91 78 00 	lds	r30, 0x0078	; 0x800078 <liftDoorState+0x3>
+ 314:	e0 91 78 00 	lds	r30, 0x0078
  318:	0e 2e       	mov	r0, r30
  31a:	00 0c       	add	r0, r0
  31c:	ff 0b       	sbc	r31, r31
@@ -566,7 +566,7 @@ int main(void)
  324:	82 60       	ori	r24, 0x02	; 2
  326:	85 bb       	out	0x15, r24	; 21
  328:	28 c0       	rjmp	.+80     	; 0x37a <SetOutput+0xee>
- 32a:	e0 91 7a 00 	lds	r30, 0x007A	; 0x80007a <liftDoorState+0x5>
+ 32a:	e0 91 7a 00 	lds	r30, 0x007A
  32e:	0e 2e       	mov	r0, r30
  330:	00 0c       	add	r0, r0
  332:	ff 0b       	sbc	r31, r31
@@ -576,7 +576,7 @@ int main(void)
  33a:	84 60       	ori	r24, 0x04	; 4
  33c:	85 bb       	out	0x15, r24	; 21
  33e:	1d c0       	rjmp	.+58     	; 0x37a <SetOutput+0xee>
- 340:	e0 91 7c 00 	lds	r30, 0x007C	; 0x80007c <liftDoorState+0x7>
+ 340:	e0 91 7c 00 	lds	r30, 0x007C
  344:	0e 2e       	mov	r0, r30
  346:	00 0c       	add	r0, r0
  348:	ff 0b       	sbc	r31, r31
@@ -587,27 +587,27 @@ int main(void)
  352:	85 bb       	out	0x15, r24	; 21
  354:	12 c0       	rjmp	.+36     	; 0x37a <SetOutput+0xee>
  356:	81 e0       	ldi	r24, 0x01	; 1
- 358:	80 93 6e 00 	sts	0x006E, r24	; 0x80006e <repetitionRate>
- 35c:	80 91 6c 00 	lds	r24, 0x006C	; 0x80006c <doorOpeningRate>
- 360:	90 91 6d 00 	lds	r25, 0x006D	; 0x80006d <doorOpeningRate+0x1>
+ 358:	80 93 6e 00 	sts	0x006E, r24
+ 35c:	80 91 6c 00 	lds	r24, 0x006C
+ 360:	90 91 6d 00 	lds	r25, 0x006D
  364:	01 96       	adiw	r24, 0x01	; 1
- 366:	90 93 6d 00 	sts	0x006D, r25	; 0x80006d <doorOpeningRate+0x1>
- 36a:	80 93 6c 00 	sts	0x006C, r24	; 0x80006c <doorOpeningRate>
- 36e:	90 91 6f 00 	lds	r25, 0x006F	; 0x80006f <displayCache>
+ 366:	90 93 6d 00 	sts	0x006D, r25
+ 36a:	80 93 6c 00 	sts	0x006C, r24
+ 36e:	90 91 6f 00 	lds	r25, 0x006F
  372:	91 11       	cpse	r25, r1
  374:	31 c0       	rjmp	.+98     	; 0x3d8 <SetOutput+0x14c>
  376:	21 e0       	ldi	r18, 0x01	; 1
  378:	56 c0       	rjmp	.+172    	; 0x426 <__FUSE_REGION_LENGTH__+0x26>
- 37a:	80 91 6e 00 	lds	r24, 0x006E	; 0x80006e <repetitionRate>
+ 37a:	80 91 6e 00 	lds	r24, 0x006E
  37e:	8f 5f       	subi	r24, 0xFF	; 255
- 380:	80 93 6e 00 	sts	0x006E, r24	; 0x80006e <repetitionRate>
- 384:	20 91 6c 00 	lds	r18, 0x006C	; 0x80006c <doorOpeningRate>
- 388:	30 91 6d 00 	lds	r19, 0x006D	; 0x80006d <doorOpeningRate+0x1>
+ 380:	80 93 6e 00 	sts	0x006E, r24
+ 384:	20 91 6c 00 	lds	r18, 0x006C
+ 388:	30 91 6d 00 	lds	r19, 0x006D
  38c:	2f 5f       	subi	r18, 0xFF	; 255
  38e:	3f 4f       	sbci	r19, 0xFF	; 255
- 390:	30 93 6d 00 	sts	0x006D, r19	; 0x80006d <doorOpeningRate+0x1>
- 394:	20 93 6c 00 	sts	0x006C, r18	; 0x80006c <doorOpeningRate>
- 398:	90 91 6f 00 	lds	r25, 0x006F	; 0x80006f <displayCache>
+ 390:	30 93 6d 00 	sts	0x006D, r19
+ 394:	20 93 6c 00 	sts	0x006C, r18
+ 398:	90 91 6f 00 	lds	r25, 0x006F
  39c:	99 23       	and	r25, r25
  39e:	09 f4       	brne	.+2      	; 0x3a2 <SetOutput+0x116>
  3a0:	47 c0       	rjmp	.+142    	; 0x430 <__FUSE_REGION_LENGTH__+0x30>
@@ -631,71 +631,71 @@ int main(void)
  3c4:	f9 f0       	breq	.+62     	; 0x404 <__FUSE_REGION_LENGTH__+0x4>
  3c6:	28 c0       	rjmp	.+80     	; 0x418 <__FUSE_REGION_LENGTH__+0x18>
  3c8:	94 fd       	sbrc	r25, 4
- 3ca:	10 92 70 00 	sts	0x0070, r1	; 0x800070 <buttonLiftLed>
+ 3ca:	10 92 70 00 	sts	0x0070, r1
  3ce:	90 ff       	sbrs	r25, 0
  3d0:	23 c0       	rjmp	.+70     	; 0x418 <__FUSE_REGION_LENGTH__+0x18>
- 3d2:	10 92 73 00 	sts	0x0073, r1	; 0x800073 <buttonFloorLed>
+ 3d2:	10 92 73 00 	sts	0x0073, r1
  3d6:	20 c0       	rjmp	.+64     	; 0x418 <__FUSE_REGION_LENGTH__+0x18>
  3d8:	95 ff       	sbrs	r25, 5
  3da:	03 c0       	rjmp	.+6      	; 0x3e2 <SetOutput+0x156>
  3dc:	81 e0       	ldi	r24, 0x01	; 1
- 3de:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <buttonLiftLed>
+ 3de:	80 93 70 00 	sts	0x0070, r24
  3e2:	91 ff       	sbrs	r25, 1
  3e4:	19 c0       	rjmp	.+50     	; 0x418 <__FUSE_REGION_LENGTH__+0x18>
  3e6:	81 e0       	ldi	r24, 0x01	; 1
- 3e8:	80 93 73 00 	sts	0x0073, r24	; 0x800073 <buttonFloorLed>
+ 3e8:	80 93 73 00 	sts	0x0073, r24
  3ec:	15 c0       	rjmp	.+42     	; 0x418 <__FUSE_REGION_LENGTH__+0x18>
  3ee:	96 ff       	sbrs	r25, 6
  3f0:	03 c0       	rjmp	.+6      	; 0x3f8 <SetOutput+0x16c>
  3f2:	82 e0       	ldi	r24, 0x02	; 2
- 3f4:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <buttonLiftLed>
+ 3f4:	80 93 70 00 	sts	0x0070, r24
  3f8:	92 ff       	sbrs	r25, 2
  3fa:	0e c0       	rjmp	.+28     	; 0x418 <__FUSE_REGION_LENGTH__+0x18>
  3fc:	82 e0       	ldi	r24, 0x02	; 2
- 3fe:	80 93 73 00 	sts	0x0073, r24	; 0x800073 <buttonFloorLed>
+ 3fe:	80 93 73 00 	sts	0x0073, r24
  402:	0a c0       	rjmp	.+20     	; 0x418 <__FUSE_REGION_LENGTH__+0x18>
  404:	99 23       	and	r25, r25
  406:	1c f4       	brge	.+6      	; 0x40e <__FUSE_REGION_LENGTH__+0xe>
  408:	83 e0       	ldi	r24, 0x03	; 3
- 40a:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <buttonLiftLed>
+ 40a:	80 93 70 00 	sts	0x0070, r24
  40e:	93 ff       	sbrs	r25, 3
  410:	03 c0       	rjmp	.+6      	; 0x418 <__FUSE_REGION_LENGTH__+0x18>
  412:	83 e0       	ldi	r24, 0x03	; 3
- 414:	80 93 73 00 	sts	0x0073, r24	; 0x800073 <buttonFloorLed>
+ 414:	80 93 73 00 	sts	0x0073, r24
  418:	89 2f       	mov	r24, r25
  41a:	80 7f       	andi	r24, 0xF0	; 240
  41c:	19 f0       	breq	.+6      	; 0x424 <__FUSE_REGION_LENGTH__+0x24>
- 41e:	20 91 7e 00 	lds	r18, 0x007E	; 0x80007e <buttonLiftLed_on>
+ 41e:	20 91 7e 00 	lds	r18, 0x007E
  422:	01 c0       	rjmp	.+2      	; 0x426 <__FUSE_REGION_LENGTH__+0x26>
  424:	21 e0       	ldi	r18, 0x01	; 1
  426:	9f 70       	andi	r25, 0x0F	; 15
  428:	31 f0       	breq	.+12     	; 0x436 <__FUSE_REGION_LENGTH__+0x36>
- 42a:	90 91 82 00 	lds	r25, 0x0082	; 0x800082 <buttonFloorLed_On>
+ 42a:	90 91 82 00 	lds	r25, 0x0082
  42e:	04 c0       	rjmp	.+8      	; 0x438 <__FUSE_REGION_LENGTH__+0x38>
  430:	21 e0       	ldi	r18, 0x01	; 1
  432:	91 e0       	ldi	r25, 0x01	; 1
  434:	01 c0       	rjmp	.+2      	; 0x438 <__FUSE_REGION_LENGTH__+0x38>
  436:	91 e0       	ldi	r25, 0x01	; 1
- 438:	80 91 74 00 	lds	r24, 0x0074	; 0x800074 <liftPosDisplay_On>
+ 438:	80 91 74 00 	lds	r24, 0x0074
  43c:	81 11       	cpse	r24, r1
  43e:	04 c0       	rjmp	.+8      	; 0x448 <__FUSE_REGION_LENGTH__+0x48>
- 440:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <liftPosition>
+ 440:	80 91 71 00 	lds	r24, 0x0071
  444:	8f 73       	andi	r24, 0x3F	; 63
  446:	01 c0       	rjmp	.+2      	; 0x44a <__FUSE_REGION_LENGTH__+0x4a>
  448:	8f e3       	ldi	r24, 0x3F	; 63
- 44a:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <liftPositionPort>
- 44e:	30 91 83 00 	lds	r19, 0x0083	; 0x800083 <liftDisplay7Seg_On>
+ 44a:	80 93 80 00 	sts	0x0080, r24
+ 44e:	30 91 83 00 	lds	r19, 0x0083
  452:	31 11       	cpse	r19, r1
  454:	03 c0       	rjmp	.+6      	; 0x45c <__FUSE_REGION_LENGTH__+0x5c>
- 456:	30 91 81 00 	lds	r19, 0x0081	; 0x800081 <liftDisplay7Seg>
+ 456:	30 91 81 00 	lds	r19, 0x0081
  45a:	01 c0       	rjmp	.+2      	; 0x45e <__FUSE_REGION_LENGTH__+0x5e>
  45c:	37 e0       	ldi	r19, 0x07	; 7
- 45e:	30 93 7d 00 	sts	0x007D, r19	; 0x80007d <floorDisplayPort>
+ 45e:	30 93 7d 00 	sts	0x007D, r19
  462:	30 e8       	ldi	r19, 0x80	; 128
  464:	23 9f       	mul	r18, r19
  466:	a0 01       	movw	r20, r0
  468:	11 24       	eor	r1, r1
- 46a:	30 91 72 00 	lds	r19, 0x0072	; 0x800072 <doorframe>
+ 46a:	30 91 72 00 	lds	r19, 0x0072
  46e:	60 e4       	ldi	r22, 0x40	; 64
  470:	36 9f       	mul	r19, r22
  472:	90 01       	movw	r18, r0
@@ -703,18 +703,18 @@ int main(void)
  476:	24 2b       	or	r18, r20
  478:	82 2b       	or	r24, r18
  47a:	88 bb       	out	0x18, r24	; 24
- 47c:	20 91 70 00 	lds	r18, 0x0070	; 0x800070 <buttonLiftLed>
+ 47c:	20 91 70 00 	lds	r18, 0x0070
  480:	82 2f       	mov	r24, r18
  482:	88 0f       	add	r24, r24
  484:	88 0f       	add	r24, r24
  486:	88 0f       	add	r24, r24
- 488:	30 91 73 00 	lds	r19, 0x0073	; 0x800073 <buttonFloorLed>
+ 488:	30 91 73 00 	lds	r19, 0x0073
  48c:	40 e2       	ldi	r20, 0x20	; 32
  48e:	34 9f       	mul	r19, r20
  490:	90 01       	movw	r18, r0
  492:	11 24       	eor	r1, r1
  494:	28 2b       	or	r18, r24
- 496:	80 91 7d 00 	lds	r24, 0x007D	; 0x80007d <floorDisplayPort>
+ 496:	80 91 7d 00 	lds	r24, 0x007D
  49a:	28 2b       	or	r18, r24
  49c:	60 e8       	ldi	r22, 0x80	; 128
  49e:	96 9f       	mul	r25, r22
@@ -770,35 +770,35 @@ int main(void)
  4f2:	61 15       	cp	r22, r1
  4f4:	71 05       	cpc	r23, r1
  4f6:	19 f1       	breq	.+70     	; 0x53e <MoveElevator+0x4c>
- 4f8:	20 91 6a 00 	lds	r18, 0x006A	; 0x80006a <liftSpeed>
- 4fc:	30 91 6b 00 	lds	r19, 0x006B	; 0x80006b <liftSpeed+0x1>
+ 4f8:	20 91 6a 00 	lds	r18, 0x006A
+ 4fc:	30 91 6b 00 	lds	r19, 0x006B
  500:	62 17       	cp	r22, r18
  502:	73 07       	cpc	r23, r19
  504:	38 f0       	brcs	.+14     	; 0x514 <MoveElevator+0x22>
  506:	2f 5f       	subi	r18, 0xFF	; 255
  508:	3f 4f       	sbci	r19, 0xFF	; 255
- 50a:	30 93 6b 00 	sts	0x006B, r19	; 0x80006b <liftSpeed+0x1>
- 50e:	20 93 6a 00 	sts	0x006A, r18	; 0x80006a <liftSpeed>
+ 50a:	30 93 6b 00 	sts	0x006B, r19
+ 50e:	20 93 6a 00 	sts	0x006A, r18
  512:	08 95       	ret
- 514:	10 92 6b 00 	sts	0x006B, r1	; 0x80006b <liftSpeed+0x1>
- 518:	10 92 6a 00 	sts	0x006A, r1	; 0x80006a <liftSpeed>
+ 514:	10 92 6b 00 	sts	0x006B, r1
+ 518:	10 92 6a 00 	sts	0x006A, r1
  51c:	81 30       	cpi	r24, 0x01	; 1
  51e:	41 f4       	brne	.+16     	; 0x530 <MoveElevator+0x3e>
- 520:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <liftPosition>
+ 520:	80 91 71 00 	lds	r24, 0x0071
  524:	81 33       	cpi	r24, 0x31	; 49
  526:	58 f4       	brcc	.+22     	; 0x53e <MoveElevator+0x4c>
  528:	8f 5f       	subi	r24, 0xFF	; 255
- 52a:	80 93 71 00 	sts	0x0071, r24	; 0x800071 <liftPosition>
+ 52a:	80 93 71 00 	sts	0x0071, r24
  52e:	08 95       	ret
- 530:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <liftPosition>
+ 530:	80 91 71 00 	lds	r24, 0x0071
  534:	88 23       	and	r24, r24
  536:	19 f0       	breq	.+6      	; 0x53e <MoveElevator+0x4c>
  538:	81 50       	subi	r24, 0x01	; 1
- 53a:	80 93 71 00 	sts	0x0071, r24	; 0x800071 <liftPosition>
+ 53a:	80 93 71 00 	sts	0x0071, r24
  53e:	08 95       	ret
 
 00000540 <ReadElevatorState>:
- 540:	90 91 71 00 	lds	r25, 0x0071	; 0x800071 <liftPosition>
+ 540:	90 91 71 00 	lds	r25, 0x0071
  544:	90 31       	cpi	r25, 0x10	; 16
  546:	49 f0       	breq	.+18     	; 0x55a <ReadElevatorState+0x1a>
  548:	18 f4       	brcc	.+6      	; 0x550 <ReadElevatorState+0x10>
@@ -818,7 +818,7 @@ int main(void)
  564:	0d c0       	rjmp	.+26     	; 0x580 <ReadElevatorState+0x40>
  566:	91 33       	cpi	r25, 0x31	; 49
  568:	40 f4       	brcc	.+16     	; 0x57a <ReadElevatorState+0x3a>
- 56a:	80 91 7f 00 	lds	r24, 0x007F	; 0x80007f <liftPositionCache>
+ 56a:	80 91 7f 00 	lds	r24, 0x007F
  56e:	98 13       	cpse	r25, r24
  570:	06 c0       	rjmp	.+12     	; 0x57e <ReadElevatorState+0x3e>
  572:	85 e6       	ldi	r24, 0x65	; 101
@@ -828,7 +828,7 @@ int main(void)
  57a:	88 ec       	ldi	r24, 0xC8	; 200
  57c:	01 c0       	rjmp	.+2      	; 0x580 <ReadElevatorState+0x40>
  57e:	84 e6       	ldi	r24, 0x64	; 100
- 580:	90 93 7f 00 	sts	0x007F, r25	; 0x80007f <liftPositionCache>
+ 580:	90 93 7f 00 	sts	0x007F, r25
  584:	08 95       	ret
 
 00000586 <CalibrateElevatorPosition>:
@@ -842,7 +842,7 @@ int main(void)
  598:	08 95       	ret
 
 0000059a <SetDisplay>:
- 59a:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <liftDisplay7Seg>
+ 59a:	80 93 81 00 	sts	0x0081, r24
  59e:	08 95       	ret
 
 000005a0 <SetIndicatorFloorState>:
@@ -857,9 +857,9 @@ int main(void)
  5b0:	8a 95       	dec	r24
  5b2:	e2 f7       	brpl	.-8      	; 0x5ac <SetIndicatorFloorState+0xc>
  5b4:	ca 01       	movw	r24, r20
- 5b6:	90 91 6f 00 	lds	r25, 0x006F	; 0x80006f <displayCache>
+ 5b6:	90 91 6f 00 	lds	r25, 0x006F
  5ba:	89 2b       	or	r24, r25
- 5bc:	80 93 6f 00 	sts	0x006F, r24	; 0x80006f <displayCache>
+ 5bc:	80 93 6f 00 	sts	0x006F, r24
  5c0:	08 95       	ret
 
 000005c2 <SetIndicatorElevatorState>:
@@ -875,9 +875,9 @@ int main(void)
  5d4:	8a 95       	dec	r24
  5d6:	e2 f7       	brpl	.-8      	; 0x5d0 <SetIndicatorElevatorState+0xe>
  5d8:	ca 01       	movw	r24, r20
- 5da:	90 91 6f 00 	lds	r25, 0x006F	; 0x80006f <displayCache>
+ 5da:	90 91 6f 00 	lds	r25, 0x006F
  5de:	89 2b       	or	r24, r25
- 5e0:	80 93 6f 00 	sts	0x006F, r24	; 0x80006f <displayCache>
+ 5e0:	80 93 6f 00 	sts	0x006F, r24
  5e4:	08 95       	ret
 
 000005e6 <ClrIndicatorFloorState>:
@@ -893,9 +893,9 @@ int main(void)
  5f8:	e2 f7       	brpl	.-8      	; 0x5f2 <ClrIndicatorFloorState+0xc>
  5fa:	ca 01       	movw	r24, r20
  5fc:	80 95       	com	r24
- 5fe:	90 91 6f 00 	lds	r25, 0x006F	; 0x80006f <displayCache>
+ 5fe:	90 91 6f 00 	lds	r25, 0x006F
  602:	89 23       	and	r24, r25
- 604:	80 93 6f 00 	sts	0x006F, r24	; 0x80006f <displayCache>
+ 604:	80 93 6f 00 	sts	0x006F, r24
  608:	08 95       	ret
 
 0000060a <ClrIndicatorElevatorState>:
@@ -911,9 +911,9 @@ int main(void)
  61c:	2a 95       	dec	r18
  61e:	e2 f7       	brpl	.-8      	; 0x618 <ClrIndicatorElevatorState+0xe>
  620:	80 95       	com	r24
- 622:	90 91 6f 00 	lds	r25, 0x006F	; 0x80006f <displayCache>
+ 622:	90 91 6f 00 	lds	r25, 0x006F
  626:	89 23       	and	r24, r25
- 628:	80 93 6f 00 	sts	0x006F, r24	; 0x80006f <displayCache>
+ 628:	80 93 6f 00 	sts	0x006F, r24
  62c:	08 95       	ret
 
 0000062e <__umulhisi3>:

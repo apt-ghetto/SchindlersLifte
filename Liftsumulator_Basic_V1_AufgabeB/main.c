@@ -30,6 +30,11 @@
 * Copyright (c) 2016 by W.Odermatt, CH-6340 Baar
 *******************************************************************************/
 
+/*** OWN DEFINES **************************************************************/
+#define BUFFER_SIZE     3
+#define BUFFER_SUCCESS  0
+#define BUFFER_FAIL     1
+
 /*** OWN DATA TYPES ***********************************************************/
 typedef enum {Uninitialized = 0, Waiting, CloseDoor, MoveLift, OpenDoor, Trouble}
 StateMachineType;
@@ -48,6 +53,12 @@ LiftPosType       requestedElevatorPosition = None;
 LiftPosType       currentElevatorState = None;
 DirectionType     elevatorDirection = Down;
 
+struct ringBuffer {
+    ButtonType data[BUFFER_SIZE];
+    uint8_t read;
+    uint8_t write;
+    } callBuffer = { {}, 0, 0 };
+
 
 /*******************************************************************************
 ***  PRIVATE FUNCTIONS  ********************************************************
@@ -60,6 +71,9 @@ ButtonType CheckKeyEvent ();
 
 // Update the 7-Seg. display
 void UpdateDisplay (LiftPosType elevatorState);
+
+uint8_t AddButtonToBuffer(ButtonType button);
+uint8_t GetButtonFromBuffer(ButtonType *button);
 
 
 /*******************************************************************************
@@ -77,6 +91,12 @@ int main(void)
 		UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
 		currentElevatorState = ReadElevatorState();
 		SetOutput();               // Send the calculated output values to the ports
+        
+        ButtonType newKey = CheckKeyEvent();
+        
+        if (EmergencyButton != newKey) {
+            AddButtonToBuffer(newKey);
+        }
 
 		// Handling state machine
 		switch (state)
@@ -99,10 +119,9 @@ int main(void)
 
 			case Waiting:
 			{
-				ButtonType key;
-				key = CheckKeyEvent();
+                ButtonType key;
 				// Waiting for new floor request
-				if (EmergencyButton != key)
+				if (!GetButtonFromBuffer(&key))
 				{
 					// button was pressed
 					requestedElevatorPosition = ConvertButtonTypeToLiftPosType(key);
@@ -189,6 +208,43 @@ int main(void)
 /*******************************************************************************
 ***  PRIVATE FUNCTIONs *********************************************************
 *******************************************************************************/
+
+// Add a Button to the circular buffer
+uint8_t AddButtonToBuffer(ButtonType button) {
+    // Avoid and set write to 0
+    if (callBuffer.write >= BUFFER_SIZE) {
+        ringBuffer.write = 0;
+    }
+    
+    if ( ( callBuffer.write + 1 == callBuffer.read) || ( callBuffer.read == 0 && ringBuffer.write + 1 == BUFFER_SIZE ) ) {
+        // callBuffer ist voll
+        return BUFFER_FAIL;
+    }
+    
+    callBuffer.data[callBuffer.write] = button;
+    callBuffer.write++;
+    if (callBuffer.write >= BUFFER_SIZE){
+        // safety first
+        callBuffer.write = 0;
+    }
+     
+     return BUFFER_SUCCESS;    
+}
+// Get a Button from the circular buffer 
+uint8_t GetButtonFromBuffer(ButtonType *button) {
+    if (callBuffer.read == callBuffer.write) {
+        return BUFFER_FAIL;
+    }
+    
+    *button = callBuffer.data[callBuffer.read];
+    callBuffer.read++;
+    if (callBuffer.read >= BUFFER_SIZE) {
+        callBuffer.read = 0;
+    }
+    
+    return BUFFER_SUCCESS;
+}
+
 // Convert ButtonType to LiftPosType
 LiftPosType ConvertButtonTypeToLiftPosType (ButtonType button)
 {
