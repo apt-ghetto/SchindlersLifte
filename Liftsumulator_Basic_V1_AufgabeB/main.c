@@ -224,39 +224,55 @@ uint8_t AddButtonToBuffer(ButtonType button)
         // callBuffer ist voll
         return BUFFER_FAIL;
     }*/
-	// Patrick variante
-	if (savedCalls > 2)
-	{
-		return BUFFER_FAIL;
-	}
 	
+	// Patrick variante	
 	// check if the requested floor is already in the buffer
 	for (int i = 0; i < BUFFER_SIZE; i++)
 	{
-		if (callBuffer.data[i] == button)
+		// check if the floor is already selected
+		if (callBuffer.data[i].button == button) // TODO: Achtung! Ein Stock hat zwei buttons für call from car und call from floor. Muss hier noch beachtet werden!
 		{
+			// turn on lights in car / floor depending on button pressed
+			if (button < 16)
+			{
+				SetIndicatorElevatorState(requestedElevatorPosition);
+			}
+			else
+			{
+				SetIndicatorFloorState(requestedElevatorPosition);
+			}
+
+			// don't add call because it's already in the list
 			return BUFFER_FAIL;
 		}
-	}
-    
-    callBuffer.data[callBuffer.write] = button;
-    callBuffer.write++;
-    if (callBuffer.write >= BUFFER_SIZE){
-        // safety first
-        callBuffer.write = 0;
-    }
-	
-	if (key < 16)
-	{
-		SetIndicatorElevatorState(requestedElevatorPosition);
-	}
-	else
-	{
-		SetIndicatorFloorState(requestedElevatorPosition);
-	}
+		else
+		{
+			// check if callBuffer is already full
+			if (callBuffer.savedCalls > 2)
+			{
+				return BUFFER_FAIL;
+			}
+			else
+			{
+				// add floor
+				callBuffer.data[callBuffer.write].button = button;
+				// add callType
+				button < 16 ? callBuffer.data[callBuffer.write].callType = CarCall
+					: callBuffer.data[callBuffer.write].callType = FloorCall; 
+				// increment write position
+				callBuffer.write++;
+				// reset write position if needed
+				if (callBuffer.write >= BUFFER_SIZE)
+				{
+					// safety first
+					callBuffer.write = 0;
+				}
+			}
+		}
 
+	}
      
-     return BUFFER_SUCCESS;    
+    return BUFFER_SUCCESS;    
 }
 
 // Get a Button from the circular buffer 
