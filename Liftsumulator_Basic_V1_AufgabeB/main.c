@@ -39,6 +39,7 @@
 typedef enum {Uninitialized = 0, Waiting, CloseDoor, MoveLift, OpenDoor, Trouble}
 StateMachineType;
 
+/*
 typedef enum {FloorCall = 0, CarCall, Both}
 CallType;
 
@@ -46,12 +47,13 @@ struct Request {
 	ButtonType button;
 	CallType callType;
 	};
+*/
 
 struct RingBuffer {
-	Request data[BUFFER_SIZE];
+	uint8_t data[BUFFER_SIZE];
 	uint8_t read;
 	uint8_t write;
-	uint8_t savedCalls;
+	uint8_t savedCalls; // der Einfachheit halber eingefügt
 	};
 
 /*** CONSTANTS ****************************************************************/
@@ -230,17 +232,11 @@ uint8_t AddButtonToBuffer(ButtonType button)
 	for (int i = 0; i < BUFFER_SIZE; i++)
 	{
 		// check if the floor is already selected
-		if (callBuffer.data[i].button == button) // TODO: Achtung! Ein Stock hat zwei buttons für call from car und call from floor. Muss hier noch beachtet werden!
+		if (ConvertButtonTypeToLiftPosType(callBuffer.data[i].button) == ConvertButtonTypeToLiftPosType(button))
 		{
 			// turn on lights in car / floor depending on button pressed
-			if (button < 16)
-			{
-				SetIndicatorElevatorState(requestedElevatorPosition);
-			}
-			else
-			{
-				SetIndicatorFloorState(requestedElevatorPosition);
-			}
+			button < 16 ? SetIndicatorElevatorState(ConvertButtonTypeToLiftPosType(button))
+			: SetIndicatorFloorState(ConvertButtonTypeToLiftPosType(button));
 
 			// don't add call because it's already in the list
 			return BUFFER_FAIL;
@@ -256,11 +252,14 @@ uint8_t AddButtonToBuffer(ButtonType button)
 			{
 				// add floor
 				callBuffer.data[callBuffer.write].button = button;
-				// add callType
-				button < 16 ? callBuffer.data[callBuffer.write].callType = CarCall
-					: callBuffer.data[callBuffer.write].callType = FloorCall; 
+
+				// turn on corresponding light
+				button < 16 ? SetIndicatorElevatorState(ConvertButtonTypeToLiftPosType(button))
+					: SetIndicatorFloorState(ConvertButtonTypeToLiftPosType(button));
+
 				// increment write position
 				callBuffer.write++;
+
 				// reset write position if needed
 				if (callBuffer.write >= BUFFER_SIZE)
 				{
