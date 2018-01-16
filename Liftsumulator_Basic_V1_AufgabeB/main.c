@@ -245,7 +245,7 @@ uint8_t AddButtonToBuffer(ButtonType button)
 	}
 
 	// check if callBuffer is already full
-	if (callBuffer.savedCalls > 2)
+	if (callBuffer.savedCalls >= 3)
 	{
 		return BUFFER_FAIL;
 	}
@@ -289,6 +289,9 @@ uint8_t GetButtonFromBuffer(ButtonType *button)
 	
 	// increment read position
     callBuffer.read++;
+
+	// free up a spot in the callBuffer for further calls
+	callBuffer.savedCalls--;
 	
 	// reset read position to 0 if end of buffer is reached
     if (callBuffer.read >= BUFFER_SIZE) {
