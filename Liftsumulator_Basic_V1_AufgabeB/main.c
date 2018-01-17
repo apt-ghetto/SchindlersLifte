@@ -202,24 +202,28 @@ int main(void)
 // Add a Button to the circular buffer
 uint8_t AddButtonToBuffer(ButtonType button)
 {	
+	LiftPosType pressedFloor = ConvertButtonTypeToLiftPosType(button);
+
     // reset write to 0 if buffer is full
     if (callBuffer.write >= BUFFER_SIZE) {
         callBuffer.write = 0;
     }
+
+	if (pressedFloor == currentElevatorState)
+	{
+		return BUFFER_FAIL;
+	}
     
 	// check if the requested floor is already in the buffer
 	// if yes -> set indicator and leave function
 	for (int i = 0; i < BUFFER_SIZE; i++)
 	{
 		// check if the floor is already selected
-		if (ConvertButtonTypeToLiftPosType(callBuffer.data[i]) == ConvertButtonTypeToLiftPosType(button))
+		if (ConvertButtonTypeToLiftPosType(callBuffer.data[i]) == pressedFloor)
 		{
 			// turn on lights in car / floor depending on button pressed
-			button < 16 ? SetIndicatorElevatorState(ConvertButtonTypeToLiftPosType(button))
-			: SetIndicatorFloorState(ConvertButtonTypeToLiftPosType(button));
-
-			// don't add call because it's already in the list
-			return BUFFER_FAIL;
+			button < 16 ? SetIndicatorElevatorState(pressedFloor)
+			: SetIndicatorFloorState(pressedFloor);
 		}
 	}
 
@@ -228,12 +232,13 @@ uint8_t AddButtonToBuffer(ButtonType button)
 		return BUFFER_FAIL;
 	}
 
+
 	// add floor
 	callBuffer.data[callBuffer.write] = button;
 
 	// turn on corresponding light
-	button < 16 ? SetIndicatorElevatorState(ConvertButtonTypeToLiftPosType(button))
-		: SetIndicatorFloorState(ConvertButtonTypeToLiftPosType(button));
+	button < 16 ? SetIndicatorElevatorState(pressedFloor)
+		: SetIndicatorFloorState(pressedFloor);
 
 	// increment write position
 	callBuffer.write++;
