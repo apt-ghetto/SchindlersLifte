@@ -39,13 +39,11 @@
 typedef enum {Uninitialized = 0, Waiting, CloseDoor, MoveLift, OpenDoor, Trouble}
 StateMachineType;
 
-/*** CONSTANTS ****************************************************************/
-const uint8_t STEPS = 16;
-
 /*** INCLUDE FILES ************************************************************/
 #include "LiftLibrary.h" // lift model library
 
-
+/*** CONSTANTS ****************************************************************/
+const uint8_t STEPS = 16;
 
 /*** GLOBAL Variablen *********************************************************/
 StateMachineType    state = Uninitialized;
@@ -84,6 +82,7 @@ SpeedType GetSpeedType();
 *******************************************************************************/
 int main(void)
 {
+
     InitializePorts();  // Initialization of ports
     InitializeStart();  // Set start state of the system
 
@@ -124,7 +123,7 @@ int main(void)
             {
                 ButtonType key;
                 // Waiting for new floor request
-                if (!GetButtonFromBuffer(key))
+                if (!GetButtonFromBuffer(&key))
                 {
                     // button was pressed
                     requestedElevatorPosition = ConvertButtonTypeToLiftPosType(key);
@@ -224,10 +223,10 @@ int main(void)
 uint8_t AddButtonToBuffer(ButtonType button) {
     // Avoid and set write to 0
     if (callBuffer.write >= BUFFER_SIZE) {
-        ringBuffer.write = 0;
+        callBuffer.write = 0;
     }
         
-    if ( ( callBuffer.write + 1 == callBuffer.read) || ( callBuffer.read == 0 && ringBuffer.write + 1 == BUFFER_SIZE ) ) {
+    if ( ( callBuffer.write + 1 == callBuffer.read) || ( callBuffer.read == 0 && callBuffer.write + 1 == BUFFER_SIZE ) ) {
         // callBuffer is filled
         return BUFFER_FAIL;
     }
@@ -348,6 +347,4 @@ void UpdateDisplay (LiftPosType elevatorState)
         }
     }
 }
-
-
 
