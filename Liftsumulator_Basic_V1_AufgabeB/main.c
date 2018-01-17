@@ -39,21 +39,10 @@
 typedef enum {Uninitialized = 0, Waiting, CloseDoor, MoveLift, OpenDoor, Trouble}
 StateMachineType;
 
-/*
-typedef enum {FloorCall = 0, CarCall, Both}
-CallType;
-
-struct Request {
-	ButtonType button;
-	CallType callType;
-	};
-*/
-
 struct RingBuffer {
-	uint8_t data[BUFFER_SIZE];
+	ButtonType data[BUFFER_SIZE];
 	uint8_t read;
 	uint8_t write;
-	uint8_t savedCalls; // der Einfachheit halber eingefügt
 	};
 
 /*** CONSTANTS ****************************************************************/
@@ -67,7 +56,7 @@ StateMachineType  state = Uninitialized;
 LiftPosType       requestedElevatorPosition = None;
 LiftPosType       currentElevatorState = None;
 DirectionType     elevatorDirection = Down;
-RingBuffer		  callBuffer = { {}, 0, 0, 0 };
+RingBuffer		  callBuffer = { {}, 0, 0 };
 
 /*******************************************************************************
 ***  PRIVATE FUNCTIONS  ********************************************************

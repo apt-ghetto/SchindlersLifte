@@ -40,6 +40,7 @@ Discarded input sections
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
+ .data.test     0x00000000        0x1 main.o
  .text          0x00000000        0x0 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
  .data          0x00000000        0x0 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
  .bss           0x00000000        0x0 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
@@ -575,31 +576,31 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xbc9
+.debug_info     0x00000000      0xbe6
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x4c2 main.o
- .debug_info    0x000004c2      0x707 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+ .debug_info    0x00000000      0x4df main.o
+ .debug_info    0x000004df      0x707 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 
 .debug_abbrev   0x00000000      0x320
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x165 main.o
  .debug_abbrev  0x00000165      0x1bb ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 
-.debug_line     0x00000000      0x805
+.debug_line     0x00000000      0x867
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x1e8 main.o
- .debug_line    0x000001e8      0x61d ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+ .debug_line    0x00000000      0x24a main.o
+ .debug_line    0x0000024a      0x61d ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 
 .debug_frame    0x00000000      0x17c
  *(.debug_frame)
  .debug_frame   0x00000000       0x5c main.o
  .debug_frame   0x0000005c      0x120 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 
-.debug_str      0x00000000      0x794
+.debug_str      0x00000000      0x799
  *(.debug_str)
- .debug_str     0x00000000      0x45e main.o
-                                0x4a9 (size before relaxing)
- .debug_str     0x0000045e      0x336 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+ .debug_str     0x00000000      0x46b main.o
+                                0x4b6 (size before relaxing)
+ .debug_str     0x0000046b      0x32e ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
                                 0x5ed (size before relaxing)
 
 .debug_loc      0x00000000      0x3ff
