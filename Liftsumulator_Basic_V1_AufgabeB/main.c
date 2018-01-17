@@ -35,6 +35,10 @@
 #define BUFFER_SUCCESS  0
 #define BUFFER_FAIL     1
 
+/*** INCLUDE FILES ************************************************************/
+#include "LiftLibrary.h"		// lift model library
+
+
 /*** OWN DATA TYPES ***********************************************************/
 typedef enum {Uninitialized = 0, Waiting, CloseDoor, MoveLift, OpenDoor, Trouble}
 StateMachineType;
@@ -43,20 +47,14 @@ struct RingBuffer {
 	ButtonType data[BUFFER_SIZE];
 	uint8_t read;
 	uint8_t write;
-	};
+	} callBuffer = { {}, 0, 0 };
 
-/*** CONSTANTS ****************************************************************/
-
-
-/*** INCLUDE FILES ************************************************************/
-#include "LiftLibrary.h" // lift model library
 
 /*** GLOBAL Variablen *********************************************************/
 StateMachineType  state = Uninitialized;
 LiftPosType       requestedElevatorPosition = None;
 LiftPosType       currentElevatorState = None;
 DirectionType     elevatorDirection = Down;
-RingBuffer		  callBuffer = { {}, 0, 0 };
 
 /*******************************************************************************
 ***  PRIVATE FUNCTIONS  ********************************************************
@@ -209,13 +207,12 @@ uint8_t AddButtonToBuffer(ButtonType button)
         callBuffer.write = 0;
     }
     
-	// Patrick variante	
 	// check if the requested floor is already in the buffer
 	// if yes -> set indicator and leave function
 	for (int i = 0; i < BUFFER_SIZE; i++)
 	{
 		// check if the floor is already selected
-		if (ConvertButtonTypeToLiftPosType(callBuffer.data[i].button) == ConvertButtonTypeToLiftPosType(button))
+		if (ConvertButtonTypeToLiftPosType(callBuffer.data[i]) == ConvertButtonTypeToLiftPosType(button))
 		{
 			// turn on lights in car / floor depending on button pressed
 			button < 16 ? SetIndicatorElevatorState(ConvertButtonTypeToLiftPosType(button))
@@ -226,20 +223,13 @@ uint8_t AddButtonToBuffer(ButtonType button)
 		}
 	}
 
-	// Marco variante
 	if ( ( callBuffer.write + 1 == callBuffer.read) || ( callBuffer.read == 0 && callBuffer.write + 1 == BUFFER_SIZE ) ) {
 		// callBuffer ist voll
 		return BUFFER_FAIL;
 	}
 
-	// check if callBuffer is already full
-	/*if (callBuffer.savedCalls >= 3)
-	{
-		return BUFFER_FAIL;
-	}*/
-
 	// add floor
-	callBuffer.data[callBuffer.write].button = button;
+	callBuffer.data[callBuffer.write] = button;
 
 	// turn on corresponding light
 	button < 16 ? SetIndicatorElevatorState(ConvertButtonTypeToLiftPosType(button))
@@ -248,16 +238,12 @@ uint8_t AddButtonToBuffer(ButtonType button)
 	// increment write position
 	callBuffer.write++;
 
-	// increment saved calls
-	//callBuffer.savedCalls++;
-
 	// reset write position if needed
 	if (callBuffer.write >= BUFFER_SIZE)
 	{
 		// safety first
 		callBuffer.write = 0;
 	}
-
      
     return BUFFER_SUCCESS;    
 }
@@ -276,9 +262,6 @@ uint8_t GetButtonFromBuffer(ButtonType *button)
 	// increment read position
     callBuffer.read++;
 
-	// free up a spot in the callBuffer for further calls
-	//callBuffer.savedCalls--;
-	
 	// reset read position to 0 if end of buffer is reached
     if (callBuffer.read >= BUFFER_SIZE) {
         callBuffer.read = 0;

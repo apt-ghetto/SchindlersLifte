@@ -40,8 +40,6 @@ StateMachineType;
 /*** INCLUDE FILES ************************************************************/
 #include "LiftLibrary.h" // lift model library
 
-
-
 /*** GLOBAL Variablen *********************************************************/
 StateMachineType  state = Uninitialized;
 LiftPosType       requestedElevatorPosition = None;
