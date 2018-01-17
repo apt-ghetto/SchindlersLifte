@@ -32,8 +32,8 @@
 
 /*** OWN DEFINES **************************************************************/
 #define BUFFER_SIZE     3
-#define BUFFER_SUCCESS  1
-#define BUFFER_FAIL     0
+#define BUFFER_SUCCESS  0
+#define BUFFER_FAIL     1
 
 /*** OWN DATA TYPES ***********************************************************/
 typedef enum {Uninitialized = 0, Waiting, CloseDoor, MoveLift, OpenDoor, Trouble}
@@ -132,7 +132,7 @@ int main(void)
 			{
                 ButtonType key;
 				// check for saved calls in buffer
-				if (GetButtonFromBuffer(&key))
+				if (!GetButtonFromBuffer(&key))
 				{
 					// button was pressed
 					requestedElevatorPosition = ConvertButtonTypeToLiftPosType(key);
@@ -220,13 +220,6 @@ uint8_t AddButtonToBuffer(ButtonType button)
         callBuffer.write = 0;
     }
     
-	// check if callBuffer is full
-	// Marco variante
-    /*if ( ( callBuffer.write + 1 == callBuffer.read) || ( callBuffer.read == 0 && ringBuffer.write + 1 == BUFFER_SIZE ) ) {
-        // callBuffer ist voll
-        return BUFFER_FAIL;
-    }*/
-	
 	// Patrick variante	
 	// check if the requested floor is already in the buffer
 	// if yes -> set indicator and leave function
@@ -244,34 +237,38 @@ uint8_t AddButtonToBuffer(ButtonType button)
 		}
 	}
 
-	// check if callBuffer is already full
-	if (callBuffer.savedCalls >= 3)
-	{
+	// Marco variante
+	if ( ( callBuffer.write + 1 == callBuffer.read) || ( callBuffer.read == 0 && callBuffer.write + 1 == BUFFER_SIZE ) ) {
+		// callBuffer ist voll
 		return BUFFER_FAIL;
 	}
-	else
+
+	// check if callBuffer is already full
+	/*if (callBuffer.savedCalls >= 3)
 	{
-		// add floor
-		callBuffer.data[callBuffer.write].button = button;
+		return BUFFER_FAIL;
+	}*/
 
-		// turn on corresponding light
-		button < 16 ? SetIndicatorElevatorState(ConvertButtonTypeToLiftPosType(button))
-			: SetIndicatorFloorState(ConvertButtonTypeToLiftPosType(button));
+	// add floor
+	callBuffer.data[callBuffer.write].button = button;
 
-		// increment write position
-		callBuffer.write++;
+	// turn on corresponding light
+	button < 16 ? SetIndicatorElevatorState(ConvertButtonTypeToLiftPosType(button))
+		: SetIndicatorFloorState(ConvertButtonTypeToLiftPosType(button));
 
-		// increment saved calls
-		callBuffer.savedCalls++;
+	// increment write position
+	callBuffer.write++;
 
-		// reset write position if needed
-		if (callBuffer.write >= BUFFER_SIZE)
-		{
-			// safety first
-			callBuffer.write = 0;
-		}
+	// increment saved calls
+	//callBuffer.savedCalls++;
 
+	// reset write position if needed
+	if (callBuffer.write >= BUFFER_SIZE)
+	{
+		// safety first
+		callBuffer.write = 0;
 	}
+
      
     return BUFFER_SUCCESS;    
 }
@@ -291,7 +288,7 @@ uint8_t GetButtonFromBuffer(ButtonType *button)
     callBuffer.read++;
 
 	// free up a spot in the callBuffer for further calls
-	callBuffer.savedCalls--;
+	//callBuffer.savedCalls--;
 	
 	// reset read position to 0 if end of buffer is reached
     if (callBuffer.read >= BUFFER_SIZE) {
