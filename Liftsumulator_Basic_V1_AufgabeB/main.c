@@ -35,293 +35,323 @@
 #define BUFFER_SUCCESS  0
 #define BUFFER_FAIL     1
 
+/*** INCLUDE FILES ************************************************************/
+#include "LiftLibrary.h"		// lift model library
+
+
 /*** OWN DATA TYPES ***********************************************************/
 typedef enum {Uninitialized = 0, Waiting, CloseDoor, MoveLift, OpenDoor, Trouble}
 StateMachineType;
 
-/*** CONSTANTS ****************************************************************/
+struct RingBuffer {
+	ButtonType data[BUFFER_SIZE];
+	uint8_t read;
+	uint8_t write;
+	} callBuffer = { {}, 0, 0 };
 
 
-/*** INCLUDE FILES ************************************************************/
-#include "LiftLibrary.h" // lift model library
+	/*** GLOBAL Variablen *********************************************************/
+	StateMachineType  state = Uninitialized;
+	LiftPosType       requestedElevatorPosition = None;
+	LiftPosType       currentElevatorState = None;
+	DirectionType     elevatorDirection = Down;
+
+	/*******************************************************************************
+	***  PRIVATE FUNCTIONS  ********************************************************
+	*******************************************************************************/
+	// Convert ButtonType to LiftPosType
+	LiftPosType ConvertButtonTypeToLiftPosType (ButtonType button);
+
+	// Check if buttons are pressed
+	ButtonType CheckKeyEvent ();
+
+	// Update the 7-Seg. display
+	void UpdateDisplay (LiftPosType elevatorState);
+
+	uint8_t AddButtonToBuffer(ButtonType button);
+	uint8_t GetButtonFromBuffer(ButtonType *button);
 
 
-
-/*** GLOBAL Variablen *********************************************************/
-StateMachineType  state = Uninitialized;
-LiftPosType       requestedElevatorPosition = None;
-LiftPosType       currentElevatorState = None;
-DirectionType     elevatorDirection = Down;
-
-struct ringBuffer {
-    ButtonType data[BUFFER_SIZE];
-    uint8_t read;
-    uint8_t write;
-    } callBuffer = { {}, 0, 0 };
-
-
-/*******************************************************************************
-***  PRIVATE FUNCTIONS  ********************************************************
-*******************************************************************************/
-// Convert ButtonType to LiftPosType
-LiftPosType ConvertButtonTypeToLiftPosType (ButtonType button);
-
-// Check if buttons are pressed
-ButtonType CheckKeyEvent ();
-
-// Update the 7-Seg. display
-void UpdateDisplay (LiftPosType elevatorState);
-
-uint8_t AddButtonToBuffer(ButtonType button);
-uint8_t GetButtonFromBuffer(ButtonType *button);
-
-
-/*******************************************************************************
-*** MAIN PROGRAM
-*******************************************************************************/
-int main(void)
-{
-	InitializePorts();  // Initialization of ports
-	InitializeStart();  // Set start state of the system
-
-	// Endless loop
-	while(1)
+	/*******************************************************************************
+	*** MAIN PROGRAM
+	*******************************************************************************/
+	int main(void)
 	{
-		// do always
-		UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
-		currentElevatorState = ReadElevatorState();
-		SetOutput();               // Send the calculated output values to the ports
-        
-        ButtonType newKey = CheckKeyEvent();
-        
-        if (EmergencyButton != newKey) {
-            AddButtonToBuffer(newKey);
-        }
+		InitializePorts();  // Initialization of ports
+		InitializeStart();  // Set start state of the system
 
-		// Handling state machine
-		switch (state)
+		// Endless loop
+		while(1)
 		{
-			case Uninitialized:
-			{
-				// Lift position calibration to ground floor (Floor0)
-				if (ReadElevatorState() != Floor0)
-				{
-					CalibrateElevatorPosition();
-				}
-				else
-				{
-					state = OpenDoor;
-					currentElevatorState = ReadElevatorState();
-				}
-				break;
+			// do always
+			UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
+			currentElevatorState = ReadElevatorState();
+			SetOutput();               // Send the calculated output values to the ports
+			
+			// check if button is pressed
+			ButtonType newKey = CheckKeyEvent();
+			
+			// if a button is pressed, save call to buffer
+			if (EmergencyButton != newKey) {
+				AddButtonToBuffer(newKey);
 			}
 
-
-			case Waiting:
+			// Handling state machine
+			switch (state)
 			{
-                ButtonType key;
-				// Waiting for new floor request
-				if (!GetButtonFromBuffer(key))
+				case Uninitialized:
 				{
-					// button was pressed
-					requestedElevatorPosition = ConvertButtonTypeToLiftPosType(key);
-					int result = currentElevatorState - requestedElevatorPosition;
-					if (result != 0)
+					// Lift position calibration to ground floor (Floor0)
+					if (ReadElevatorState() != Floor0)
 					{
-						elevatorDirection = result < 0 ? Up : Down;
-						if (key < 16)
+						CalibrateElevatorPosition();
+					}
+					else
+					{
+						state = OpenDoor;
+						currentElevatorState = ReadElevatorState();
+					}
+					break;
+				}
+
+
+				case Waiting:
+				{
+					ButtonType key;
+					// check for saved calls in buffer
+					if (!GetButtonFromBuffer(&key))
+					{
+						// button was pressed
+						requestedElevatorPosition = ConvertButtonTypeToLiftPosType(key);
+						int result = currentElevatorState - requestedElevatorPosition;
+						if (result != 0)
 						{
-							SetIndicatorElevatorState(requestedElevatorPosition);
+							elevatorDirection = result < 0 ? Up : Down;
+							state = CloseDoor;
 						}
-						else
-						{
-							SetIndicatorFloorState(requestedElevatorPosition);
-						}
-						state = CloseDoor;
+						
+					}
+
+					break;
+				}
+
+
+				case CloseDoor:
+				{
+					// Close the door and wait until the door is closed
+					if (ReadDoorState(currentElevatorState) != Closed)
+					{
+						SetDoorState(Closed, currentElevatorState);
+					}
+					else
+					{
+						state = MoveLift;
+					}
+
+					break;
+				}
+
+
+				case MoveLift:
+				{
+					// Move cabin to the requested floor
+					if (currentElevatorState != requestedElevatorPosition)
+					{
+						MoveElevator(elevatorDirection, Fast);
+					}
+					else
+					{
+						state = OpenDoor;
 					}
 					
+					break;
 				}
 
-				break;
+
+				case OpenDoor:
+				{
+					// Open the door and wait still the door is open completely
+					SetDoorState(Open, currentElevatorState);
+					if (ReadDoorState(currentElevatorState) == Open)
+					{
+						state = Waiting;
+						ClrIndicatorFloorState(currentElevatorState);
+						ClrIndicatorElevatorState(currentElevatorState);
+					}
+					break;
+				}
+
+
+				case Trouble:
+				{
+					// Fault condition is not treated
+					break;
+				}
 			}
 
-
-			case CloseDoor:
-			{
-				// Close the door and wait until the door is closed
-				if (ReadDoorState(currentElevatorState) != Closed)
-				{
-					SetDoorState(Closed, currentElevatorState);
-				}
-				else
-				{
-					state = MoveLift;
-				}
-
-				break;
-			}
-
-
-			case MoveLift:
-			{
-				// Move cabin to the requested floor
-				if (currentElevatorState != requestedElevatorPosition)
-				{
-					MoveElevator(elevatorDirection, Fast);
-				}
-				else
-				{
-					state = OpenDoor;
-				}
-				
-				break;
-			}
-
-
-			case OpenDoor:
-			{
-				// Open the door and wait still the door is open completely
-				SetDoorState(Open, currentElevatorState);
-				if (ReadDoorState(currentElevatorState) == Open)
-				{
-					state = Waiting;
-					ClrIndicatorFloorState(currentElevatorState);
-					ClrIndicatorElevatorState(currentElevatorState);
-				}
-				break;
-			}
-
-
-			case Trouble:
-			{
-				// Fault condition is not treated
-				break;
-			}
 		}
 
+		return (0);
 	}
 
-	return (0);
-}
 
+	/*******************************************************************************
+	***  PRIVATE FUNCTIONs *********************************************************
+	*******************************************************************************/
 
-/*******************************************************************************
-***  PRIVATE FUNCTIONs *********************************************************
-*******************************************************************************/
-
-// Add a Button to the circular buffer
-uint8_t AddButtonToBuffer(ButtonType button) {
-    // Avoid and set write to 0
-    if (callBuffer.write >= BUFFER_SIZE) {
-        ringBuffer.write = 0;
-    }
-    
-    if ( ( callBuffer.write + 1 == callBuffer.read) || ( callBuffer.read == 0 && ringBuffer.write + 1 == BUFFER_SIZE ) ) {
-        // callBuffer ist voll
-        return BUFFER_FAIL;
-    }
-    
-    callBuffer.data[callBuffer.write] = button;
-    callBuffer.write++;
-    if (callBuffer.write >= BUFFER_SIZE){
-        // safety first
-        callBuffer.write = 0;
-    }
-     
-     return BUFFER_SUCCESS;    
-}
-// Get a Button from the circular buffer 
-uint8_t GetButtonFromBuffer(ButtonType *button) {
-    if (callBuffer.read == callBuffer.write) {
-        return BUFFER_FAIL;
-    }
-    
-    *button = callBuffer.data[callBuffer.read];
-    callBuffer.read++;
-    if (callBuffer.read >= BUFFER_SIZE) {
-        callBuffer.read = 0;
-    }
-    
-    return BUFFER_SUCCESS;
-}
-
-// Convert ButtonType to LiftPosType
-LiftPosType ConvertButtonTypeToLiftPosType (ButtonType button)
-{
-	LiftPosType retVal = None;
-
-	switch (button)
+	// Add a Button to the circular buffer
+	uint8_t AddButtonToBuffer(ButtonType button)
 	{
-		case LiftButton_F0:
-		case FloorButton_F0:
-		{
-			retVal = Floor0;
-			break;
+		LiftPosType pressedFloor = ConvertButtonTypeToLiftPosType(button);
+
+		// reset write to 0 if buffer is full
+		if (callBuffer.write >= BUFFER_SIZE) {
+			callBuffer.write = 0;
 		}
-		case LiftButton_F1:
-		case FloorButton_F1:
+
+		if (pressedFloor == currentElevatorState)
 		{
-			retVal = Floor1;
-			break;
+			return BUFFER_FAIL;
 		}
-		case LiftButton_F2:
-		case FloorButton_F2:
+		
+		// check if the requested floor is already in the buffer
+		// if yes -> set indicator and leave function
+		for (int i = 0; i < BUFFER_SIZE; i++)
 		{
-			retVal = Floor2;
-			break;
+			// check if the floor is already selected
+			if (ConvertButtonTypeToLiftPosType(callBuffer.data[i]) == pressedFloor)
+			{
+				// turn on lights in car / floor depending on button pressed
+				button < 16 ? SetIndicatorElevatorState(pressedFloor)
+				: SetIndicatorFloorState(pressedFloor);
+			}
 		}
-		case LiftButton_F3:
-		case FloorButton_F3:
+
+		if ( ( callBuffer.write + 1 == callBuffer.read) || ( callBuffer.read == 0 && callBuffer.write + 1 == BUFFER_SIZE ) ) {
+			// callBuffer ist voll
+			return BUFFER_FAIL;
+		}
+
+
+		// add floor
+		callBuffer.data[callBuffer.write] = button;
+
+		// turn on corresponding light
+		button < 16 ? SetIndicatorElevatorState(pressedFloor)
+		: SetIndicatorFloorState(pressedFloor);
+
+		// increment write position
+		callBuffer.write++;
+
+		// reset write position if needed
+		if (callBuffer.write >= BUFFER_SIZE)
 		{
-			retVal = Floor3;
-			break;
+			// safety first
+			callBuffer.write = 0;
 		}
-		default:
-		{
-			//retVal = None;
-			break;
-		}
+		
+		return BUFFER_SUCCESS;
 	}
 
-	return retVal;
-}
-
-// Check if buttons are pressed
-ButtonType CheckKeyEvent ()
-{
-	ButtonType retVal = EmergencyButton;
-
-	for (ButtonType key = FloorButton_F3; ((key >= LiftButton_F0) && (retVal == EmergencyButton)); key>>=1)
+	// Get a Button from the circular buffer
+	uint8_t GetButtonFromBuffer(ButtonType *button)
 	{
-		if (ReadKeyEvent(key) == Pressed)
-		{
-			retVal = key;
+		// return fail if no calls are in buffer
+		if (callBuffer.read == callBuffer.write) {
+			return BUFFER_FAIL;
 		}
-	}
-	return retVal;
-}
+		
+		// read floor from buffer
+		*button = callBuffer.data[callBuffer.read];
+		
+		// increment read position
+		callBuffer.read++;
 
-// Update the 7-Seg. display
-void UpdateDisplay (LiftPosType elevatorState)
-{
-	switch (elevatorState)
-	{
-		case Floor0:
-		case Floor1:
-		case Floor2:
-		case Floor3:
-		case Error:
-		case Test:
-		{
-			SetDisplay(elevatorState);
-			break;
+		// reset read position to 0 if end of buffer is reached
+		if (callBuffer.read >= BUFFER_SIZE) {
+			callBuffer.read = 0;
 		}
-		default:
+		
+		return BUFFER_SUCCESS;
+	}
+
+	// Convert ButtonType to LiftPosType
+	LiftPosType ConvertButtonTypeToLiftPosType (ButtonType button)
+	{
+		LiftPosType retVal = None;
+
+		switch (button)
 		{
-			break;
+			case LiftButton_F0:
+			case FloorButton_F0:
+			{
+				retVal = Floor0;
+				break;
+			}
+			case LiftButton_F1:
+			case FloorButton_F1:
+			{
+				retVal = Floor1;
+				break;
+			}
+			case LiftButton_F2:
+			case FloorButton_F2:
+			{
+				retVal = Floor2;
+				break;
+			}
+			case LiftButton_F3:
+			case FloorButton_F3:
+			{
+				retVal = Floor3;
+				break;
+			}
+			default:
+			{
+				//retVal = None;
+				break;
+			}
+		}
+
+		return retVal;
+	}
+
+	// Check if buttons are pressed
+	ButtonType CheckKeyEvent ()
+	{
+		ButtonType retVal = EmergencyButton;
+
+		for (ButtonType key = FloorButton_F3; ((key >= LiftButton_F0) && (retVal == EmergencyButton)); key>>=1)
+		{
+			if (ReadKeyEvent(key) == Pressed)
+			{
+				retVal = key;
+			}
+		}
+		return retVal;
+	}
+
+	// Update the 7-Seg. display
+	void UpdateDisplay (LiftPosType elevatorState)
+	{
+		switch (elevatorState)
+		{
+			case Floor0:
+			case Floor1:
+			case Floor2:
+			case Floor3:
+			case Error:
+			case Test:
+			{
+				SetDisplay(elevatorState);
+				break;
+			}
+			default:
+			{
+				break;
+			}
 		}
 	}
-}
 
 
 
