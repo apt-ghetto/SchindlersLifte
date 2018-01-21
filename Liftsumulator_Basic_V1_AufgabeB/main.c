@@ -31,7 +31,7 @@
 *******************************************************************************/
 
 /*** OWN DEFINES **************************************************************/
-#define BUFFER_SIZE     3
+#define BUFFER_SIZE     4
 #define BUFFER_SUCCESS  0
 #define BUFFER_FAIL     1
 
