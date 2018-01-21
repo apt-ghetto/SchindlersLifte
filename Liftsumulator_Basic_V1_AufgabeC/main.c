@@ -133,7 +133,7 @@ int main(void)
 						if (result < 0) {
 							elevatorDirection = Up;
 							result *= -1;
-							} else {
+						} else {
 							elevatorDirection = Down;
 						}
 						requLiftPos = STEPS * result;
@@ -292,15 +292,22 @@ uint8_t GetButtonFromBuffer(ButtonType *button) {
 SpeedType GetSpeedType() {
 	SpeedType speed = Stop;
 		
-	if (currLiftPos < 2 || requLiftPos - 2 < currLiftPos) {
+	if (currLiftPos < 2 || requLiftPos - 2 < currLiftPos)
+    {
 		speed = Slow;
-		} else if(currLiftPos < 5 || requLiftPos - 5 < currLiftPos) {
+	}
+    else if(currLiftPos < 5 || requLiftPos - 5 < currLiftPos)
+    {
 		speed = Medium;
-		} else {
+	}
+    else
+    {
 		speed = Fast;
 	}
-		
-	return speed;
+
+    currLiftPos++;
+
+    return speed;
 }
 
 // Convert ButtonType to LiftPosType
