@@ -219,7 +219,7 @@ uint8_t AddButtonToBuffer(ButtonType button)
 	for (int i = 0; i < BUFFER_SIZE; i++)
 	{
 		// check if the floor is already selected
-		if (ConvertButtonTypeToLiftPosType(callBuffer.data[i]) == pressedFloor)
+		if (EmergencyButton != callBuffer.data[i] && ConvertButtonTypeToLiftPosType(callBuffer.data[i]) == pressedFloor)
 		{
 			// turn on lights in car / floor depending on button pressed
 			button < 16 ? SetIndicatorElevatorState(pressedFloor)
@@ -263,6 +263,9 @@ uint8_t GetButtonFromBuffer(ButtonType *button)
     
 	// read floor from buffer
     *button = callBuffer.data[callBuffer.read];
+
+    // reset the element
+    callBuffer.data[callBuffer.read] = EmergencyButton;
 	
 	// increment read position
     callBuffer.read++;
