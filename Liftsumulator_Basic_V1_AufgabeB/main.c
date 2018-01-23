@@ -95,26 +95,6 @@ int main(void)
 	// Endless loop
 	while(1)
 	{
-		// do always
-		UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
-		currentElevatorState = ReadElevatorState();
-		SetOutput();               // Send the calculated output values to the ports
-        
-		// check if button is pressed		
-        ButtonType newKey = CheckKeyEvent();
-		LiftPosType pressedFloor = ConvertButtonTypeToLiftPosType(newKey);
-        
-		// if a button is pressed, check if it is a floor-request
-		// and if it's not the current floor
-        if (pressedFloor <= 3 && pressedFloor != currentElevatorState)
-		{
-			// if call is saved to buffer, set indicators
-			if (!AddRequestToBuffer(pressedFloor))
-			{				
-				newKey < 16 ? SetIndicatorElevatorState(pressedFloor)
-				: SetIndicatorFloorState(pressedFloor);
-			}
-        }
 
 		// Handling state machine
 		switch (state)
@@ -201,6 +181,27 @@ int main(void)
 			}
 		}
 
+		// do always
+		UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
+		currentElevatorState = ReadElevatorState();
+		SetOutput();               // Send the calculated output values to the ports
+		
+		// check if button is pressed
+		ButtonType newKey = CheckKeyEvent();
+		LiftPosType pressedFloor = ConvertButtonTypeToLiftPosType(newKey);
+		
+		// if a button is pressed, check if it is a floor-request
+		// and if it's not the current floor
+		if (pressedFloor <= 3 && pressedFloor != currentElevatorState)
+		{
+			// if call is saved to buffer, set indicators
+			if (!AddRequestToBuffer(pressedFloor))
+			{
+				newKey < 16 ? SetIndicatorElevatorState(pressedFloor)
+				: SetIndicatorFloorState(pressedFloor);
+			}
+		}
+
 	}
 
 	return (0);
@@ -264,8 +265,7 @@ uint8_t GetRequestFromBuffer()
     requestedElevatorPosition = *readPointer;
 
 	// check elevator direction
-	requestedElevatorPosition > currentElevatorState ? elevatorDirection = Up
-	: elevatorDirection = Down;
+	elevatorDirection = requestedElevatorPosition > currentElevatorState;
 
     // delete the request from the buffer
     *readPointer = None;
