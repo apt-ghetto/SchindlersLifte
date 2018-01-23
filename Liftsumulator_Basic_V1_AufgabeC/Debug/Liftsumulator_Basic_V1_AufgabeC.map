@@ -19,12 +19,12 @@ Allocating common symbols
 Common symbol       size              file
 
 displayCache        0x1               ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+currentSpeed        0x2               main.o
 buttonLiftLed       0x1               ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 liftPosition        0x1               ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 doorframe           0x1               ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 buttonFloorLed      0x1               ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 liftPosDisplay_On   0x1               ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-callBuffer          0x3               main.o
 liftDoorState       0x8               ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 floorDisplayPort    0x1               ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 buttonLiftLed_on    0x1               ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
@@ -267,7 +267,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x754
+.text           0x00000000      0x848
  *(.vectors)
  .vectors       0x00000000       0x54 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega32/avr5/crtatmega32.o
                 0x00000000                __vector_default
@@ -355,70 +355,73 @@ END GROUP
  .text.GetRequestFromBuffer
                 0x00000122       0x70 main.o
                 0x00000122                GetRequestFromBuffer
+ .text.GetSpeedType
+                0x00000192       0x9e main.o
+                0x00000192                GetSpeedType
  .text.ConvertButtonTypeToLiftPosType
-                0x00000192       0x3e main.o
-                0x00000192                ConvertButtonTypeToLiftPosType
+                0x00000230       0x3e main.o
+                0x00000230                ConvertButtonTypeToLiftPosType
  .text.CheckKeyEvent
-                0x000001d0       0x28 main.o
-                0x000001d0                CheckKeyEvent
+                0x0000026e       0x28 main.o
+                0x0000026e                CheckKeyEvent
  .text.UpdateDisplay
-                0x000001f8        0xe main.o
-                0x000001f8                UpdateDisplay
- .text.main     0x00000206      0x110 main.o
-                0x00000206                main
+                0x00000296        0xe main.o
+                0x00000296                UpdateDisplay
+ .text.main     0x000002a4      0x166 main.o
+                0x000002a4                main
  .text.MakeDoorStates
-                0x00000316       0x3e ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x00000316                MakeDoorStates
+                0x0000040a       0x3e ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x0000040a                MakeDoorStates
  .text.InitializePorts
-                0x00000354        0xc ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x00000354                InitializePorts
+                0x00000448        0xc ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x00000448                InitializePorts
  .text.InitializeStart
-                0x00000360       0x30 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x00000360                InitializeStart
+                0x00000454       0x30 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x00000454                InitializeStart
  .text.SetOutput
-                0x00000390      0x21e ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x00000390                SetOutput
+                0x00000484      0x21e ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x00000484                SetOutput
  .text.ReadKeyEvent
-                0x000005ae        0xc ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x000005ae                ReadKeyEvent
+                0x000006a2        0xc ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x000006a2                ReadKeyEvent
  .text.ReadDoorState
-                0x000005ba       0x2c ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x000005ba                ReadDoorState
+                0x000006ae       0x2c ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x000006ae                ReadDoorState
  .text.SetDoorState
-                0x000005e6       0x10 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x000005e6                SetDoorState
+                0x000006da       0x10 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x000006da                SetDoorState
  .text.MoveElevator
-                0x000005f6       0x4e ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x000005f6                MoveElevator
+                0x000006ea       0x4e ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x000006ea                MoveElevator
  .text.ReadElevatorState
-                0x00000644       0x46 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x00000644                ReadElevatorState
+                0x00000738       0x46 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x00000738                ReadElevatorState
  .text.CalibrateElevatorPosition
-                0x0000068a       0x14 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x0000068a                CalibrateElevatorPosition
+                0x0000077e       0x14 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x0000077e                CalibrateElevatorPosition
  .text.SetDisplay
-                0x0000069e        0x6 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x0000069e                SetDisplay
+                0x00000792        0x6 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x00000792                SetDisplay
  .text.SetIndicatorFloorState
-                0x000006a4       0x22 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x000006a4                SetIndicatorFloorState
+                0x00000798       0x22 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x00000798                SetIndicatorFloorState
  .text.SetIndicatorElevatorState
-                0x000006c6       0x24 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x000006c6                SetIndicatorElevatorState
+                0x000007ba       0x24 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x000007ba                SetIndicatorElevatorState
  .text.ClrIndicatorFloorState
-                0x000006ea       0x24 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x000006ea                ClrIndicatorFloorState
+                0x000007de       0x24 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x000007de                ClrIndicatorFloorState
  .text.ClrIndicatorElevatorState
-                0x0000070e       0x24 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x0000070e                ClrIndicatorElevatorState
+                0x00000802       0x24 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x00000802                ClrIndicatorElevatorState
  .text.libgcc.mul
-                0x00000732       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_umulhisi3.o)
-                0x00000732                __umulhisi3
-                0x00000750                . = ALIGN (0x2)
+                0x00000826       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_umulhisi3.o)
+                0x00000826                __umulhisi3
+                0x00000844                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000750        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x00000750                _exit
-                0x00000750                exit
+ .fini9         0x00000844        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x00000844                _exit
+                0x00000844                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -437,11 +440,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000750        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000844        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000754                _etext = .
+                0x00000848                _etext = .
 
-.data           0x00800060        0xc load address 0x00000754
+.data           0x00800060        0xe load address 0x00000848
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -451,71 +454,82 @@ END GROUP
  .data.readPointer
                 0x00800062        0x2 main.o
                 0x00800062                readPointer
+ .data.callBuffer
+                0x00800064        0x3 main.o
+                0x00800064                callBuffer
  .data.currentElevatorState
-                0x00800064        0x1 main.o
-                0x00800064                currentElevatorState
+                0x00800067        0x1 main.o
+                0x00800067                currentElevatorState
  .data.requestedElevatorPosition
-                0x00800065        0x1 main.o
-                0x00800065                requestedElevatorPosition
+                0x00800068        0x1 main.o
+                0x00800068                requestedElevatorPosition
  .data.doorPositions
-                0x00800066        0x5 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x00800066                doorPositions
+                0x00800069        0x5 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x00800069                doorPositions
  *(.gnu.linkonce.d*)
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.r*)
-                0x0080006c                . = ALIGN (0x2)
- *fill*         0x0080006b        0x1 
-                0x0080006c                _edata = .
-                0x0080006c                PROVIDE (__data_end, .)
+                0x0080006e                . = ALIGN (0x2)
+                0x0080006e                _edata = .
+                0x0080006e                PROVIDE (__data_end, .)
 
-.bss            0x0080006c       0x20
-                0x0080006c                PROVIDE (__bss_start, .)
+.bss            0x0080006e       0x25
+                0x0080006e                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.invert    0x0080006c        0x1 main.o
-                0x0080006c                invert
+ .bss.stepsToGoal
+                0x0080006e        0x2 main.o
+                0x0080006e                stepsToGoal
+ .bss.stepsDone
+                0x00800070        0x2 main.o
+                0x00800070                stepsDone
+ .bss.stepCounter
+                0x00800072        0x2 main.o
+                0x00800072                stepCounter
+ .bss.invert    0x00800074        0x1 main.o
+                0x00800074                invert
  .bss.elevatorDirection
-                0x0080006d        0x1 main.o
-                0x0080006d                elevatorDirection
- .bss.state     0x0080006e        0x1 main.o
-                0x0080006e                state
+                0x00800075        0x1 main.o
+                0x00800075                elevatorDirection
+ .bss.state     0x00800076        0x1 main.o
+                0x00800076                state
  .bss.liftSpeed
-                0x0080006f        0x2 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x0080006f                liftSpeed
+                0x00800077        0x2 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x00800077                liftSpeed
  .bss.doorOpeningRate
-                0x00800071        0x2 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x00800071                doorOpeningRate
+                0x00800079        0x2 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x00800079                doorOpeningRate
  .bss.repetitionRate
-                0x00800073        0x1 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x00800073                repetitionRate
+                0x0080007b        0x1 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x0080007b                repetitionRate
  *(COMMON)
- COMMON         0x00800074        0x3 main.o
-                0x00800074                callBuffer
- COMMON         0x00800077       0x15 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
-                0x00800077                displayCache
-                0x00800078                buttonLiftLed
-                0x00800079                liftPosition
-                0x0080007a                doorframe
-                0x0080007b                buttonFloorLed
-                0x0080007c                liftPosDisplay_On
-                0x0080007d                liftDoorState
-                0x00800085                floorDisplayPort
-                0x00800086                buttonLiftLed_on
-                0x00800087                liftPositionCache
-                0x00800088                liftPositionPort
-                0x00800089                liftDisplay7Seg
-                0x0080008a                buttonFloorLed_On
-                0x0080008b                liftDisplay7Seg_On
-                0x0080008c                PROVIDE (__bss_end, .)
-                0x00000754                __data_load_start = LOADADDR (.data)
-                0x00000760                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x0080007c        0x2 main.o
+                0x0080007c                currentSpeed
+ COMMON         0x0080007e       0x15 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x0080007e                displayCache
+                0x0080007f                buttonLiftLed
+                0x00800080                liftPosition
+                0x00800081                doorframe
+                0x00800082                buttonFloorLed
+                0x00800083                liftPosDisplay_On
+                0x00800084                liftDoorState
+                0x0080008c                floorDisplayPort
+                0x0080008d                buttonLiftLed_on
+                0x0080008e                liftPositionCache
+                0x0080008f                liftPositionPort
+                0x00800090                liftDisplay7Seg
+                0x00800091                buttonFloorLed_On
+                0x00800092                liftDisplay7Seg_On
+                0x00800093                PROVIDE (__bss_end, .)
+                0x00000848                __data_load_start = LOADADDR (.data)
+                0x00000856                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0080008c        0x0
+.noinit         0x00800093        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x0080008c                _end = .
+                0x00800093                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -582,41 +596,41 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xe0
+.debug_aranges  0x00000000       0xe8
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x48 main.o
+                0x00000000       0x50 main.o
  .debug_aranges
-                0x00000048       0x98 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+                0x00000050       0x98 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xcbd
+.debug_info     0x00000000      0xd1a
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x5b6 main.o
- .debug_info    0x000005b6      0x707 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+ .debug_info    0x00000000      0x613 main.o
+ .debug_info    0x00000613      0x707 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 
-.debug_abbrev   0x00000000      0x3a3
+.debug_abbrev   0x00000000      0x3aa
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x1e8 main.o
- .debug_abbrev  0x000001e8      0x1bb ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+ .debug_abbrev  0x00000000      0x1ef main.o
+ .debug_abbrev  0x000001ef      0x1bb ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 
-.debug_line     0x00000000      0x959
+.debug_line     0x00000000      0x9f5
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x33c main.o
- .debug_line    0x0000033c      0x61d ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+ .debug_line    0x00000000      0x3d8 main.o
+ .debug_line    0x000003d8      0x61d ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 
-.debug_frame    0x00000000      0x19c
+.debug_frame    0x00000000      0x1ac
  *(.debug_frame)
- .debug_frame   0x00000000       0x7c main.o
- .debug_frame   0x0000007c      0x120 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+ .debug_frame   0x00000000       0x8c main.o
+ .debug_frame   0x0000008c      0x120 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 
-.debug_str      0x00000000      0x7e2
+.debug_str      0x00000000      0x814
  *(.debug_str)
- .debug_str     0x00000000      0x4bd main.o
-                                0x508 (size before relaxing)
- .debug_str     0x000004bd      0x325 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+ .debug_str     0x00000000      0x4f9 main.o
+                                0x54e (size before relaxing)
+ .debug_str     0x000004f9      0x31b ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
                                 0x5ed (size before relaxing)
 
 .debug_loc      0x00000000      0x4b1
@@ -642,12 +656,12 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0xd8
+.debug_ranges   0x00000000       0xe0
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x50 main.o
- .debug_ranges  0x00000050       0x88 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
+ .debug_ranges  0x00000000       0x58 main.o
+ .debug_ranges  0x00000058       0x88 ../../../../LiftLibrary_V4/LiftLibrary/Debug\libLiftLibrary.a(library.o)
 
 .debug_macro
  *(.debug_macro)
-OUTPUT(Liftsumulator_Basic_V1_AufgabeB.elf elf32-avr)
+OUTPUT(Liftsumulator_Basic_V1_AufgabeC.elf elf32-avr)
 LOAD linker stubs
