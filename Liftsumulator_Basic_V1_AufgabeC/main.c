@@ -36,6 +36,7 @@
 #define BUFFER_FAIL     1
 #define FALSE			0
 #define TRUE			1
+#define STEPS			16
 
 
 /*** INCLUDE FILES ************************************************************/
@@ -48,7 +49,7 @@ StateMachineType;
 
 
 /*** CONSTANTS ****************************************************************/
-const uint8_t STEPS = 16;
+
 
 /*** GLOBAL Variablen *********************************************************/
 StateMachineType  state = Uninitialized;
@@ -57,7 +58,9 @@ LiftPosType       currentElevatorState = None;
 DirectionType     elevatorDirection = Down;
 
 // ringbuffer for stored requests (floors)
-LiftPosType		  callBuffer[BUFFER_SIZE];
+// has to be initialized with "None"
+// otherwise the buffer is full of requests to floor 0
+LiftPosType		  callBuffer[BUFFER_SIZE] = { None, None, None };
 
 // read and write pointers for buffer
 // initialized with beginning of buffer
@@ -68,9 +71,10 @@ LiftPosType		  *writePointer = callBuffer;
 uint8_t			  invert = FALSE;
 
 // variables needed for speed calculation
-uint8_t             currLiftPos = 0;
-uint8_t             requLiftPos = 0;
-
+SpeedType			currentSpeed;
+int				    stepCounter = 0;
+int			        stepsDone = 0;
+int		            stepsToGoal = 0;
 
 
 /*******************************************************************************
@@ -92,7 +96,7 @@ uint8_t AddRequestToBuffer(LiftPosType floorRequest);
 uint8_t GetRequestFromBuffer();
 
 // checks which speed is needed
-SpeedType GetSpeedType();
+void GetSpeedType();
 
 
 /*******************************************************************************
@@ -107,6 +111,11 @@ int main(void)
 	// Endless loop
 	while(1)
 	{
+
+		// do always
+		UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
+		currentElevatorState = ReadElevatorState();
+		SetOutput();               // Send the calculated output values to the ports
 
 		// Handling state machine
 		switch (state)
@@ -132,18 +141,8 @@ int main(void)
 				// Waiting for new floor request
 				if (!GetRequestFromBuffer())
 				{
-					int result = currentElevatorState - requestedElevatorPosition;
-					if (result != 0)
-					{
-						if (result < 0) {
-							result *= -1;
-						}
-						requLiftPos = STEPS * result;
-						currLiftPos = 0;
-							
-						state = CloseDoor;
-					}
-						
+					// request found
+					state = CloseDoor;
 				}
 
 				break;
@@ -171,10 +170,19 @@ int main(void)
 				// Move cabin to the requested floor
 				if (currentElevatorState != requestedElevatorPosition)
 				{
-					MoveElevator(elevatorDirection, GetSpeedType());
+					GetSpeedType();
+					MoveElevator(elevatorDirection, currentSpeed);
+					stepCounter++;
+					if (stepCounter == currentSpeed)
+					{
+						stepsToGoal--;
+						stepsDone++;
+						stepCounter = 0;
+					}
 				}
 				else
 				{
+					stepsToGoal = 0;
 					state = OpenDoor;
 				}
 					
@@ -203,11 +211,6 @@ int main(void)
 			}
 		}
 
-		// do always
-		UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
-		currentElevatorState = ReadElevatorState();
-		SetOutput();               // Send the calculated output values to the ports
-		
 		// check if button is pressed
 		ButtonType newKey = CheckKeyEvent();
 		LiftPosType pressedFloor = ConvertButtonTypeToLiftPosType(newKey);
@@ -305,25 +308,33 @@ uint8_t GetRequestFromBuffer()
 }
 
 // Get the speed of the elevator depending on its position
-SpeedType GetSpeedType() {
-	SpeedType speed = Stop;
-		
-	if (currLiftPos < 2 || (requLiftPos - 2) < currLiftPos)
-    {
-		speed = Slow;
-	}
-    else if(currLiftPos < 5 || (requLiftPos - 5) < currLiftPos)
-    {
-		speed = Medium;
-	}
-    else
-    {
-		speed = Fast;
+void GetSpeedType() {
+
+	if (stepsToGoal == 0)
+	{
+		stepsDone = 0;
+		stepCounter = 0;
+		stepsToGoal = (requestedElevatorPosition - currentElevatorState) * STEPS;
+
+		if (stepsToGoal < 0)
+		{
+			stepsToGoal = -stepsToGoal;
+		}
 	}
 
-    currLiftPos++;
+	if (stepsDone < 4 || stepsToGoal < 4)
+	{
+		currentSpeed = Slow;
+	}
+	else if (stepsDone < 8 || stepsToGoal < 8)
+	{
+		currentSpeed = Medium;
+	}
+	else
+	{
+		currentSpeed = Fast;
+	}
 
-    return speed;
 }
 
 // Convert ButtonType to LiftPosType
