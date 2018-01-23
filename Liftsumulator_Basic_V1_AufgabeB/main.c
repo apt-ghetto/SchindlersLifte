@@ -31,9 +31,12 @@
 *******************************************************************************/
 
 /*** OWN DEFINES **************************************************************/
-#define BUFFER_SIZE     4
+#define BUFFER_SIZE     3
 #define BUFFER_SUCCESS  0
 #define BUFFER_FAIL     1
+#define FALSE			0
+#define TRUE			1
+
 
 /*** INCLUDE FILES ************************************************************/
 #include "LiftLibrary.h"		// lift model library
@@ -43,18 +46,24 @@
 typedef enum {Uninitialized = 0, Waiting, CloseDoor, MoveLift, OpenDoor, Trouble}
 StateMachineType;
 
-struct RingBuffer {
-	ButtonType data[BUFFER_SIZE];
-	uint8_t read;
-	uint8_t write;
-	} callBuffer = { {}, 0, 0 };
-
 
 /*** GLOBAL Variablen *********************************************************/
 StateMachineType  state = Uninitialized;
 LiftPosType       requestedElevatorPosition = None;
 LiftPosType       currentElevatorState = None;
 DirectionType     elevatorDirection = Down;
+
+// ringbuffer for stored requests (floors)
+LiftPosType		  callBuffer[BUFFER_SIZE];
+
+// read and write pointers for buffer
+// initialized with beginning of buffer
+LiftPosType		  *readPointer = callBuffer;
+LiftPosType		  *writePointer = callBuffer;
+
+// flag for inverted state of buffer
+uint8_t			  invert = FALSE;
+
 
 /*******************************************************************************
 ***  PRIVATE FUNCTIONS  ********************************************************
@@ -68,8 +77,11 @@ ButtonType CheckKeyEvent ();
 // Update the 7-Seg. display
 void UpdateDisplay (LiftPosType elevatorState);
 
-uint8_t AddButtonToBuffer(ButtonType button);
-uint8_t GetButtonFromBuffer(ButtonType *button);
+// Add a requested floor to the buffer
+uint8_t AddRequestToBuffer(LiftPosType floorRequest);
+
+// Get a request from the buffer if there is one
+uint8_t GetRequestFromBuffer();
 
 
 /*******************************************************************************
@@ -90,10 +102,18 @@ int main(void)
         
 		// check if button is pressed		
         ButtonType newKey = CheckKeyEvent();
+		LiftPosType pressedFloor = ConvertButtonTypeToLiftPosType(newKey);
         
-		// if a button is pressed, save call to buffer
-        if (EmergencyButton != newKey) {
-            AddButtonToBuffer(newKey);
+		// if a button is pressed, check if it is a floor-request
+		// and if it's not the current floor
+        if (pressedFloor <= 3 && pressedFloor != currentElevatorState)
+		{
+			// if call is saved to buffer, set indicators
+			if (!AddRequestToBuffer(pressedFloor))
+			{				
+				newKey < 16 ? SetIndicatorElevatorState(pressedFloor)
+				: SetIndicatorFloorState(pressedFloor);
+			}
         }
 
 		// Handling state machine
@@ -117,19 +137,11 @@ int main(void)
 
 			case Waiting:
 			{
-                ButtonType key;
 				// check for saved calls in buffer
-				if (!GetButtonFromBuffer(&key))
+				if (!GetRequestFromBuffer())
 				{
-					// button was pressed
-					requestedElevatorPosition = ConvertButtonTypeToLiftPosType(key);
-					int result = currentElevatorState - requestedElevatorPosition;
-					if (result != 0)
-					{
-						elevatorDirection = result < 0 ? Up : Down;
-						state = CloseDoor;
-					}
-					
+					// request was found
+					state = CloseDoor;					
 				}
 
 				break;
@@ -199,80 +211,72 @@ int main(void)
 ***  PRIVATE FUNCTIONs *********************************************************
 *******************************************************************************/
 
-// Add a Button to the circular buffer
-uint8_t AddButtonToBuffer(ButtonType button)
+// Add a Request to the circular buffer
+uint8_t AddRequestToBuffer(LiftPosType pressedFloor)
 {	
-	LiftPosType pressedFloor = ConvertButtonTypeToLiftPosType(button);
-
-    // reset write to 0 if buffer is full
-    if (callBuffer.write >= BUFFER_SIZE) {
-        callBuffer.write = 0;
+    // return fail if buffer is full
+    if (readPointer == writePointer && invert == TRUE) {
+        return BUFFER_FAIL;
     }
 
-	if (pressedFloor == currentElevatorState)
+	// return success if requested floor is the current destination
+	// don't save request again but toggle indicator in main function
+	if (pressedFloor == requestedElevatorPosition)
 	{
-		return BUFFER_FAIL;
+		return BUFFER_SUCCESS;
 	}
-    
+
 	// check if the requested floor is already in the buffer
-	// if yes -> set indicator and leave function
 	for (int i = 0; i < BUFFER_SIZE; i++)
 	{
-		// check if the floor is already selected
-		if (EmergencyButton != callBuffer.data[i] && ConvertButtonTypeToLiftPosType(callBuffer.data[i]) == pressedFloor)
+		// return success to toggle indicators but don't save in buffer again
+		if (callBuffer[i] == pressedFloor)
 		{
-			// turn on lights in car / floor depending on button pressed
-			button < 16 ? SetIndicatorElevatorState(pressedFloor)
-			: SetIndicatorFloorState(pressedFloor);
+			return BUFFER_SUCCESS;
 		}
 	}
 
-	if ( ( callBuffer.write + 1 == callBuffer.read) || ( callBuffer.read == 0 && callBuffer.write + 1 == BUFFER_SIZE ) ) {
-		// callBuffer ist voll
-		return BUFFER_FAIL;
+	// save request to buffer
+	*writePointer = pressedFloor;
+
+	// move write pointer to next position
+	writePointer++;
+
+	// check if write pointer is at the end of the buffer
+	// if so, set to the beginning again
+	if ( writePointer > &callBuffer[BUFFER_SIZE - 1] ) {
+		writePointer = callBuffer;
+		invert = TRUE;
 	}
 
-
-	// add floor
-	callBuffer.data[callBuffer.write] = button;
-
-	// turn on corresponding light
-	button < 16 ? SetIndicatorElevatorState(pressedFloor)
-		: SetIndicatorFloorState(pressedFloor);
-
-	// increment write position
-	callBuffer.write++;
-
-	// reset write position if needed
-	if (callBuffer.write >= BUFFER_SIZE)
-	{
-		// safety first
-		callBuffer.write = 0;
-	}
-     
-    return BUFFER_SUCCESS;    
+	return BUFFER_SUCCESS;
 }
 
 // Get a Button from the circular buffer 
-uint8_t GetButtonFromBuffer(ButtonType *button)
+uint8_t GetRequestFromBuffer()
 {
 	// return fail if no calls are in buffer
-    if (callBuffer.read == callBuffer.write) {
+    if (readPointer == writePointer && invert == FALSE) {
         return BUFFER_FAIL;
     }
     
 	// read floor from buffer
-    *button = callBuffer.data[callBuffer.read];
+    requestedElevatorPosition = *readPointer;
 
-    // reset the element
-    callBuffer.data[callBuffer.read] = EmergencyButton;
+	// check elevator direction
+	requestedElevatorPosition > currentElevatorState ? elevatorDirection = Up
+	: elevatorDirection = Down;
+
+    // delete the request from the buffer
+    *readPointer = None;
 	
 	// increment read position
-    callBuffer.read++;
+    readPointer++;
 
 	// reset read position to 0 if end of buffer is reached
-    if (callBuffer.read >= BUFFER_SIZE) {
-        callBuffer.read = 0;
+    if (readPointer > &callBuffer[BUFFER_SIZE - 1]) {
+        readPointer = callBuffer;
+		invert = FALSE;
     }
     
     return BUFFER_SUCCESS;
