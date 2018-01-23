@@ -1,0 +1,1180 @@
+
+Liftsumulator_Basic_V1_AufgabeB.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000754  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000c  00800060  00000754  000007e8  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000020  0080006c  0080006c  000007f4  2**0
+                  ALLOC
+  3 .comment      00000060  00000000  00000000  000007f4  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000854  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 000000e0  00000000  00000000  00000890  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000cbd  00000000  00000000  00000970  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000003a3  00000000  00000000  0000162d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000959  00000000  00000000  000019d0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  0000019c  00000000  00000000  0000232c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000007e2  00000000  00000000  000024c8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000004b1  00000000  00000000  00002caa  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 000000d8  00000000  00000000  0000315b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e4 e5       	ldi	r30, 0x54	; 84
+  68:	f7 e0       	ldi	r31, 0x07	; 7
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	ac 36       	cpi	r26, 0x6C	; 108
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+
+00000076 <__do_clear_bss>:
+  76:	20 e0       	ldi	r18, 0x00	; 0
+  78:	ac e6       	ldi	r26, 0x6C	; 108
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+  80:	ac 38       	cpi	r26, 0x8C	; 140
+  82:	b2 07       	cpc	r27, r18
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+  86:	0e 94 03 01 	call	0x206	; 0x206 <main>
+  8a:	0c 94 a8 03 	jmp	0x750	; 0x750 <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <AddRequestToBuffer>:
+
+// Add a Request to the circular buffer
+uint8_t AddRequestToBuffer(LiftPosType pressedFloor)
+{
+	// return fail if buffer is full
+	if (readPointer == writePointer && invert == TRUE) {
+  92:	e0 91 60 00 	lds	r30, 0x0060	; 0x800060 <__data_start>
+  96:	f0 91 61 00 	lds	r31, 0x0061	; 0x800061 <__data_start+0x1>
+  9a:	20 91 62 00 	lds	r18, 0x0062	; 0x800062 <readPointer>
+  9e:	30 91 63 00 	lds	r19, 0x0063	; 0x800063 <readPointer+0x1>
+  a2:	2e 17       	cp	r18, r30
+  a4:	3f 07       	cpc	r19, r31
+  a6:	b1 f5       	brne	.+108    	; 0x114 <AddRequestToBuffer+0x82>
+  a8:	90 91 6c 00 	lds	r25, 0x006C	; 0x80006c <__data_end>
+  ac:	91 30       	cpi	r25, 0x01	; 1
+  ae:	91 f5       	brne	.+100    	; 0x114 <AddRequestToBuffer+0x82>
+  b0:	36 c0       	rjmp	.+108    	; 0x11e <AddRequestToBuffer+0x8c>
+			return BUFFER_SUCCESS;
+		}
+	}
+
+	// save request to buffer
+	*writePointer = pressedFloor;
+  b2:	80 83       	st	Z, r24
+
+	// move write pointer to next position
+	writePointer++;
+  b4:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+  b8:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <__data_start+0x1>
+  bc:	01 96       	adiw	r24, 0x01	; 1
+
+	// check if write pointer is at the end of the buffer
+	// if so, set to the beginning again
+	if ( writePointer > &callBuffer[BUFFER_SIZE - 1] ) {
+  be:	20 e0       	ldi	r18, 0x00	; 0
+  c0:	86 37       	cpi	r24, 0x76	; 118
+  c2:	92 07       	cpc	r25, r18
+  c4:	09 f0       	breq	.+2      	; 0xc8 <AddRequestToBuffer+0x36>
+  c6:	30 f4       	brcc	.+12     	; 0xd4 <AddRequestToBuffer+0x42>
+
+	// save request to buffer
+	*writePointer = pressedFloor;
+
+	// move write pointer to next position
+	writePointer++;
+  c8:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <__data_start+0x1>
+  cc:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+	if ( writePointer > &callBuffer[BUFFER_SIZE - 1] ) {
+		writePointer = callBuffer;
+		invert = TRUE;
+	}
+
+	return BUFFER_SUCCESS;
+  d0:	90 e0       	ldi	r25, 0x00	; 0
+  d2:	25 c0       	rjmp	.+74     	; 0x11e <AddRequestToBuffer+0x8c>
+	writePointer++;
+
+	// check if write pointer is at the end of the buffer
+	// if so, set to the beginning again
+	if ( writePointer > &callBuffer[BUFFER_SIZE - 1] ) {
+		writePointer = callBuffer;
+  d4:	84 e7       	ldi	r24, 0x74	; 116
+  d6:	90 e0       	ldi	r25, 0x00	; 0
+  d8:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <__data_start+0x1>
+  dc:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+		invert = TRUE;
+  e0:	81 e0       	ldi	r24, 0x01	; 1
+  e2:	80 93 6c 00 	sts	0x006C, r24	; 0x80006c <__data_end>
+	}
+
+	return BUFFER_SUCCESS;
+  e6:	90 e0       	ldi	r25, 0x00	; 0
+  e8:	1a c0       	rjmp	.+52     	; 0x11e <AddRequestToBuffer+0x8c>
+	for (int i = 0; i < BUFFER_SIZE; i++)
+	{
+		// return success to toggle indicators but don't save in buffer again
+		if (callBuffer[i] == pressedFloor)
+		{
+			return BUFFER_SUCCESS;
+  ea:	90 e0       	ldi	r25, 0x00	; 0
+  ec:	18 c0       	rjmp	.+48     	; 0x11e <AddRequestToBuffer+0x8c>
+  ee:	90 e0       	ldi	r25, 0x00	; 0
+  f0:	16 c0       	rjmp	.+44     	; 0x11e <AddRequestToBuffer+0x8c>
+  f2:	90 e0       	ldi	r25, 0x00	; 0
+  f4:	14 c0       	rjmp	.+40     	; 0x11e <AddRequestToBuffer+0x8c>
+
+	// return success if requested floor is the current destination
+	// don't save request again but toggle indicator in main function
+	if (pressedFloor == requestedElevatorPosition)
+	{
+		return BUFFER_SUCCESS;
+  f6:	90 e0       	ldi	r25, 0x00	; 0
+  f8:	12 c0       	rjmp	.+36     	; 0x11e <AddRequestToBuffer+0x8c>
+
+	// check if the requested floor is already in the buffer
+	for (int i = 0; i < BUFFER_SIZE; i++)
+	{
+		// return success to toggle indicators but don't save in buffer again
+		if (callBuffer[i] == pressedFloor)
+  fa:	90 91 74 00 	lds	r25, 0x0074	; 0x800074 <callBuffer>
+  fe:	89 17       	cp	r24, r25
+ 100:	a1 f3       	breq	.-24     	; 0xea <AddRequestToBuffer+0x58>
+ 102:	90 91 75 00 	lds	r25, 0x0075	; 0x800075 <callBuffer+0x1>
+ 106:	98 17       	cp	r25, r24
+ 108:	91 f3       	breq	.-28     	; 0xee <AddRequestToBuffer+0x5c>
+ 10a:	90 91 76 00 	lds	r25, 0x0076	; 0x800076 <callBuffer+0x2>
+ 10e:	89 13       	cpse	r24, r25
+ 110:	d0 cf       	rjmp	.-96     	; 0xb2 <AddRequestToBuffer+0x20>
+ 112:	ef cf       	rjmp	.-34     	; 0xf2 <AddRequestToBuffer+0x60>
+		return BUFFER_FAIL;
+	}
+
+	// return success if requested floor is the current destination
+	// don't save request again but toggle indicator in main function
+	if (pressedFloor == requestedElevatorPosition)
+ 114:	90 91 65 00 	lds	r25, 0x0065	; 0x800065 <requestedElevatorPosition>
+ 118:	89 13       	cpse	r24, r25
+ 11a:	ef cf       	rjmp	.-34     	; 0xfa <AddRequestToBuffer+0x68>
+ 11c:	ec cf       	rjmp	.-40     	; 0xf6 <AddRequestToBuffer+0x64>
+		writePointer = callBuffer;
+		invert = TRUE;
+	}
+
+	return BUFFER_SUCCESS;
+}
+ 11e:	89 2f       	mov	r24, r25
+ 120:	08 95       	ret
+
+00000122 <GetRequestFromBuffer>:
+
+// Get a Button from the circular buffer
+uint8_t GetRequestFromBuffer()
+{
+	// return fail if no calls are in buffer
+	if (readPointer == writePointer && invert == FALSE) {
+ 122:	e0 91 62 00 	lds	r30, 0x0062	; 0x800062 <readPointer>
+ 126:	f0 91 63 00 	lds	r31, 0x0063	; 0x800063 <readPointer+0x1>
+ 12a:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+ 12e:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <__data_start+0x1>
+ 132:	e8 17       	cp	r30, r24
+ 134:	f9 07       	cpc	r31, r25
+ 136:	21 f4       	brne	.+8      	; 0x140 <GetRequestFromBuffer+0x1e>
+ 138:	80 91 6c 00 	lds	r24, 0x006C	; 0x80006c <__data_end>
+ 13c:	88 23       	and	r24, r24
+ 13e:	39 f1       	breq	.+78     	; 0x18e <GetRequestFromBuffer+0x6c>
+		return BUFFER_FAIL;
+	}
+	
+	// read floor from buffer
+	requestedElevatorPosition = *readPointer;
+ 140:	80 81       	ld	r24, Z
+ 142:	80 93 65 00 	sts	0x0065, r24	; 0x800065 <requestedElevatorPosition>
+
+	// check elevator direction
+	elevatorDirection = requestedElevatorPosition > currentElevatorState;
+ 146:	91 e0       	ldi	r25, 0x01	; 1
+ 148:	20 91 64 00 	lds	r18, 0x0064	; 0x800064 <currentElevatorState>
+ 14c:	28 17       	cp	r18, r24
+ 14e:	08 f0       	brcs	.+2      	; 0x152 <GetRequestFromBuffer+0x30>
+ 150:	90 e0       	ldi	r25, 0x00	; 0
+ 152:	90 93 6d 00 	sts	0x006D, r25	; 0x80006d <elevatorDirection>
+
+	// delete the request from the buffer
+	*readPointer = None;
+ 156:	87 e0       	ldi	r24, 0x07	; 7
+ 158:	80 83       	st	Z, r24
+	
+	// increment read position
+	readPointer++;
+ 15a:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <readPointer>
+ 15e:	90 91 63 00 	lds	r25, 0x0063	; 0x800063 <readPointer+0x1>
+ 162:	01 96       	adiw	r24, 0x01	; 1
+
+	// reset read position to 0 if end of buffer is reached
+	if (readPointer > &callBuffer[BUFFER_SIZE - 1]) {
+ 164:	20 e0       	ldi	r18, 0x00	; 0
+ 166:	86 37       	cpi	r24, 0x76	; 118
+ 168:	92 07       	cpc	r25, r18
+ 16a:	09 f0       	breq	.+2      	; 0x16e <GetRequestFromBuffer+0x4c>
+ 16c:	30 f4       	brcc	.+12     	; 0x17a <GetRequestFromBuffer+0x58>
+
+	// delete the request from the buffer
+	*readPointer = None;
+	
+	// increment read position
+	readPointer++;
+ 16e:	90 93 63 00 	sts	0x0063, r25	; 0x800063 <readPointer+0x1>
+ 172:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <readPointer>
+	if (readPointer > &callBuffer[BUFFER_SIZE - 1]) {
+		readPointer = callBuffer;
+		invert = FALSE;
+	}
+	
+	return BUFFER_SUCCESS;
+ 176:	80 e0       	ldi	r24, 0x00	; 0
+ 178:	08 95       	ret
+	// increment read position
+	readPointer++;
+
+	// reset read position to 0 if end of buffer is reached
+	if (readPointer > &callBuffer[BUFFER_SIZE - 1]) {
+		readPointer = callBuffer;
+ 17a:	84 e7       	ldi	r24, 0x74	; 116
+ 17c:	90 e0       	ldi	r25, 0x00	; 0
+ 17e:	90 93 63 00 	sts	0x0063, r25	; 0x800063 <readPointer+0x1>
+ 182:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <readPointer>
+		invert = FALSE;
+ 186:	10 92 6c 00 	sts	0x006C, r1	; 0x80006c <__data_end>
+	}
+	
+	return BUFFER_SUCCESS;
+ 18a:	80 e0       	ldi	r24, 0x00	; 0
+ 18c:	08 95       	ret
+// Get a Button from the circular buffer
+uint8_t GetRequestFromBuffer()
+{
+	// return fail if no calls are in buffer
+	if (readPointer == writePointer && invert == FALSE) {
+		return BUFFER_FAIL;
+ 18e:	81 e0       	ldi	r24, 0x01	; 1
+		readPointer = callBuffer;
+		invert = FALSE;
+	}
+	
+	return BUFFER_SUCCESS;
+}
+ 190:	08 95       	ret
+
+00000192 <ConvertButtonTypeToLiftPosType>:
+// Convert ButtonType to LiftPosType
+LiftPosType ConvertButtonTypeToLiftPosType (ButtonType button)
+{
+	LiftPosType retVal = None;
+
+	switch (button)
+ 192:	88 30       	cpi	r24, 0x08	; 8
+ 194:	c9 f0       	breq	.+50     	; 0x1c8 <ConvertButtonTypeToLiftPosType+0x36>
+ 196:	38 f4       	brcc	.+14     	; 0x1a6 <ConvertButtonTypeToLiftPosType+0x14>
+ 198:	82 30       	cpi	r24, 0x02	; 2
+ 19a:	91 f0       	breq	.+36     	; 0x1c0 <ConvertButtonTypeToLiftPosType+0x2e>
+ 19c:	84 30       	cpi	r24, 0x04	; 4
+ 19e:	91 f0       	breq	.+36     	; 0x1c4 <ConvertButtonTypeToLiftPosType+0x32>
+ 1a0:	81 30       	cpi	r24, 0x01	; 1
+ 1a2:	a1 f4       	brne	.+40     	; 0x1cc <ConvertButtonTypeToLiftPosType+0x3a>
+ 1a4:	0b c0       	rjmp	.+22     	; 0x1bc <ConvertButtonTypeToLiftPosType+0x2a>
+ 1a6:	80 32       	cpi	r24, 0x20	; 32
+ 1a8:	59 f0       	breq	.+22     	; 0x1c0 <ConvertButtonTypeToLiftPosType+0x2e>
+ 1aa:	18 f4       	brcc	.+6      	; 0x1b2 <ConvertButtonTypeToLiftPosType+0x20>
+ 1ac:	80 31       	cpi	r24, 0x10	; 16
+ 1ae:	31 f0       	breq	.+12     	; 0x1bc <ConvertButtonTypeToLiftPosType+0x2a>
+ 1b0:	0d c0       	rjmp	.+26     	; 0x1cc <ConvertButtonTypeToLiftPosType+0x3a>
+ 1b2:	80 34       	cpi	r24, 0x40	; 64
+ 1b4:	39 f0       	breq	.+14     	; 0x1c4 <ConvertButtonTypeToLiftPosType+0x32>
+ 1b6:	80 38       	cpi	r24, 0x80	; 128
+ 1b8:	39 f0       	breq	.+14     	; 0x1c8 <ConvertButtonTypeToLiftPosType+0x36>
+ 1ba:	08 c0       	rjmp	.+16     	; 0x1cc <ConvertButtonTypeToLiftPosType+0x3a>
+	{
+		case LiftButton_F0:
+		case FloorButton_F0:
+		{
+			retVal = Floor0;
+ 1bc:	80 e0       	ldi	r24, 0x00	; 0
+ 1be:	08 95       	ret
+			break;
+		}
+		case LiftButton_F1:
+		case FloorButton_F1:
+		{
+			retVal = Floor1;
+ 1c0:	81 e0       	ldi	r24, 0x01	; 1
+			break;
+ 1c2:	08 95       	ret
+		}
+		case LiftButton_F2:
+		case FloorButton_F2:
+		{
+			retVal = Floor2;
+ 1c4:	82 e0       	ldi	r24, 0x02	; 2
+			break;
+ 1c6:	08 95       	ret
+		}
+		case LiftButton_F3:
+		case FloorButton_F3:
+		{
+			retVal = Floor3;
+ 1c8:	83 e0       	ldi	r24, 0x03	; 3
+			break;
+ 1ca:	08 95       	ret
+}
+
+// Convert ButtonType to LiftPosType
+LiftPosType ConvertButtonTypeToLiftPosType (ButtonType button)
+{
+	LiftPosType retVal = None;
+ 1cc:	87 e0       	ldi	r24, 0x07	; 7
+			break;
+		}
+	}
+
+	return retVal;
+}
+ 1ce:	08 95       	ret
+
+000001d0 <CheckKeyEvent>:
+
+// Check if buttons are pressed
+ButtonType CheckKeyEvent ()
+{
+ 1d0:	cf 93       	push	r28
+	ButtonType retVal = EmergencyButton;
+
+	for (ButtonType key = FloorButton_F3; ((key >= LiftButton_F0) && (retVal == EmergencyButton)); key>>=1)
+ 1d2:	c0 e8       	ldi	r28, 0x80	; 128
+ 1d4:	01 c0       	rjmp	.+2      	; 0x1d8 <CheckKeyEvent+0x8>
+ 1d6:	c8 2f       	mov	r28, r24
+	{
+		if (ReadKeyEvent(key) == Pressed)
+ 1d8:	8c 2f       	mov	r24, r28
+ 1da:	0e 94 d7 02 	call	0x5ae	; 0x5ae <ReadKeyEvent>
+ 1de:	81 30       	cpi	r24, 0x01	; 1
+ 1e0:	31 f4       	brne	.+12     	; 0x1ee <CheckKeyEvent+0x1e>
+// Check if buttons are pressed
+ButtonType CheckKeyEvent ()
+{
+	ButtonType retVal = EmergencyButton;
+
+	for (ButtonType key = FloorButton_F3; ((key >= LiftButton_F0) && (retVal == EmergencyButton)); key>>=1)
+ 1e2:	8c 2f       	mov	r24, r28
+ 1e4:	86 95       	lsr	r24
+ 1e6:	29 f0       	breq	.+10     	; 0x1f2 <CheckKeyEvent+0x22>
+ 1e8:	cc 23       	and	r28, r28
+ 1ea:	a9 f3       	breq	.-22     	; 0x1d6 <CheckKeyEvent+0x6>
+ 1ec:	02 c0       	rjmp	.+4      	; 0x1f2 <CheckKeyEvent+0x22>
+ 1ee:	c6 95       	lsr	r28
+ 1f0:	99 f7       	brne	.-26     	; 0x1d8 <CheckKeyEvent+0x8>
+		{
+			retVal = key;
+		}
+	}
+	return retVal;
+}
+ 1f2:	8c 2f       	mov	r24, r28
+ 1f4:	cf 91       	pop	r28
+ 1f6:	08 95       	ret
+
+000001f8 <UpdateDisplay>:
+
+// Update the 7-Seg. display
+void UpdateDisplay (LiftPosType elevatorState)
+{
+	switch (elevatorState)
+ 1f8:	85 30       	cpi	r24, 0x05	; 5
+ 1fa:	10 f0       	brcs	.+4      	; 0x200 <UpdateDisplay+0x8>
+ 1fc:	86 30       	cpi	r24, 0x06	; 6
+ 1fe:	11 f4       	brne	.+4      	; 0x204 <UpdateDisplay+0xc>
+		case Floor2:
+		case Floor3:
+		case Error:
+		case Test:
+		{
+			SetDisplay(elevatorState);
+ 200:	0e 94 4f 03 	call	0x69e	; 0x69e <SetDisplay>
+ 204:	08 95       	ret
+
+00000206 <main>:
+/*******************************************************************************
+*** MAIN PROGRAM
+*******************************************************************************/
+int main(void)
+{
+	InitializePorts();  // Initialization of ports
+ 206:	0e 94 aa 01 	call	0x354	; 0x354 <InitializePorts>
+	InitializeStart();  // Set start state of the system
+ 20a:	0e 94 b0 01 	call	0x360	; 0x360 <InitializeStart>
+				{
+					SetDoorState(Closed, currentElevatorState);
+				}
+				else
+				{
+					state = MoveLift;
+ 20e:	03 e0       	ldi	r16, 0x03	; 3
+				{
+					MoveElevator(elevatorDirection, Fast);
+				}
+				else
+				{
+					state = OpenDoor;
+ 210:	14 e0       	ldi	r17, 0x04	; 4
+			{
+				// Open the door and wait still the door is open completely
+				SetDoorState(Open, currentElevatorState);
+				if (ReadDoorState(currentElevatorState) == Open)
+				{
+					state = Waiting;
+ 212:	ff 24       	eor	r15, r15
+ 214:	f3 94       	inc	r15
+	// Endless loop
+	while(1)
+	{
+
+		// Handling state machine
+		switch (state)
+ 216:	80 91 6e 00 	lds	r24, 0x006E	; 0x80006e <state>
+ 21a:	82 30       	cpi	r24, 0x02	; 2
+ 21c:	09 f1       	breq	.+66     	; 0x260 <main+0x5a>
+ 21e:	28 f4       	brcc	.+10     	; 0x22a <main+0x24>
+ 220:	88 23       	and	r24, r24
+ 222:	41 f0       	breq	.+16     	; 0x234 <main+0x2e>
+ 224:	81 30       	cpi	r24, 0x01	; 1
+ 226:	a1 f0       	breq	.+40     	; 0x250 <main+0x4a>
+ 228:	4f c0       	rjmp	.+158    	; 0x2c8 <main+0xc2>
+ 22a:	83 30       	cpi	r24, 0x03	; 3
+ 22c:	41 f1       	breq	.+80     	; 0x27e <main+0x78>
+ 22e:	84 30       	cpi	r24, 0x04	; 4
+ 230:	b1 f1       	breq	.+108    	; 0x29e <main+0x98>
+ 232:	4a c0       	rjmp	.+148    	; 0x2c8 <main+0xc2>
+		{
+			case Uninitialized:
+			{
+				// Lift position calibration to ground floor (Floor0)
+				if (ReadElevatorState() != Floor0)
+ 234:	0e 94 22 03 	call	0x644	; 0x644 <ReadElevatorState>
+ 238:	88 23       	and	r24, r24
+ 23a:	19 f0       	breq	.+6      	; 0x242 <main+0x3c>
+				{
+					CalibrateElevatorPosition();
+ 23c:	0e 94 45 03 	call	0x68a	; 0x68a <CalibrateElevatorPosition>
+ 240:	43 c0       	rjmp	.+134    	; 0x2c8 <main+0xc2>
+				}
+				else
+				{
+					state = OpenDoor;
+ 242:	10 93 6e 00 	sts	0x006E, r17	; 0x80006e <state>
+					currentElevatorState = ReadElevatorState();
+ 246:	0e 94 22 03 	call	0x644	; 0x644 <ReadElevatorState>
+ 24a:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <currentElevatorState>
+ 24e:	3c c0       	rjmp	.+120    	; 0x2c8 <main+0xc2>
+
+
+			case Waiting:
+			{
+				// check for saved calls in buffer
+				if (!GetRequestFromBuffer())
+ 250:	0e 94 91 00 	call	0x122	; 0x122 <GetRequestFromBuffer>
+ 254:	81 11       	cpse	r24, r1
+ 256:	38 c0       	rjmp	.+112    	; 0x2c8 <main+0xc2>
+				{
+					// request was found
+					state = CloseDoor;
+ 258:	82 e0       	ldi	r24, 0x02	; 2
+ 25a:	80 93 6e 00 	sts	0x006E, r24	; 0x80006e <state>
+ 25e:	34 c0       	rjmp	.+104    	; 0x2c8 <main+0xc2>
+
+
+			case CloseDoor:
+			{
+				// Close the door and wait until the door is closed
+				if (ReadDoorState(currentElevatorState) != Closed)
+ 260:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <currentElevatorState>
+ 264:	0e 94 dd 02 	call	0x5ba	; 0x5ba <ReadDoorState>
+ 268:	88 23       	and	r24, r24
+ 26a:	31 f0       	breq	.+12     	; 0x278 <main+0x72>
+				{
+					SetDoorState(Closed, currentElevatorState);
+ 26c:	60 91 64 00 	lds	r22, 0x0064	; 0x800064 <currentElevatorState>
+ 270:	80 e0       	ldi	r24, 0x00	; 0
+ 272:	0e 94 f3 02 	call	0x5e6	; 0x5e6 <SetDoorState>
+ 276:	28 c0       	rjmp	.+80     	; 0x2c8 <main+0xc2>
+				}
+				else
+				{
+					state = MoveLift;
+ 278:	00 93 6e 00 	sts	0x006E, r16	; 0x80006e <state>
+ 27c:	25 c0       	rjmp	.+74     	; 0x2c8 <main+0xc2>
+
+
+			case MoveLift:
+			{
+				// Move cabin to the requested floor
+				if (currentElevatorState != requestedElevatorPosition)
+ 27e:	90 91 64 00 	lds	r25, 0x0064	; 0x800064 <currentElevatorState>
+ 282:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <requestedElevatorPosition>
+ 286:	98 17       	cp	r25, r24
+ 288:	39 f0       	breq	.+14     	; 0x298 <main+0x92>
+				{
+					MoveElevator(elevatorDirection, Fast);
+ 28a:	68 ee       	ldi	r22, 0xE8	; 232
+ 28c:	73 e0       	ldi	r23, 0x03	; 3
+ 28e:	80 91 6d 00 	lds	r24, 0x006D	; 0x80006d <elevatorDirection>
+ 292:	0e 94 fb 02 	call	0x5f6	; 0x5f6 <MoveElevator>
+ 296:	18 c0       	rjmp	.+48     	; 0x2c8 <main+0xc2>
+				}
+				else
+				{
+					state = OpenDoor;
+ 298:	10 93 6e 00 	sts	0x006E, r17	; 0x80006e <state>
+ 29c:	15 c0       	rjmp	.+42     	; 0x2c8 <main+0xc2>
+
+
+			case OpenDoor:
+			{
+				// Open the door and wait still the door is open completely
+				SetDoorState(Open, currentElevatorState);
+ 29e:	60 91 64 00 	lds	r22, 0x0064	; 0x800064 <currentElevatorState>
+ 2a2:	82 e0       	ldi	r24, 0x02	; 2
+ 2a4:	0e 94 f3 02 	call	0x5e6	; 0x5e6 <SetDoorState>
+				if (ReadDoorState(currentElevatorState) == Open)
+ 2a8:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <currentElevatorState>
+ 2ac:	0e 94 dd 02 	call	0x5ba	; 0x5ba <ReadDoorState>
+ 2b0:	82 30       	cpi	r24, 0x02	; 2
+ 2b2:	51 f4       	brne	.+20     	; 0x2c8 <main+0xc2>
+				{
+					state = Waiting;
+ 2b4:	f0 92 6e 00 	sts	0x006E, r15	; 0x80006e <state>
+					ClrIndicatorFloorState(currentElevatorState);
+ 2b8:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <currentElevatorState>
+ 2bc:	0e 94 75 03 	call	0x6ea	; 0x6ea <ClrIndicatorFloorState>
+					ClrIndicatorElevatorState(currentElevatorState);
+ 2c0:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <currentElevatorState>
+ 2c4:	0e 94 87 03 	call	0x70e	; 0x70e <ClrIndicatorElevatorState>
+				break;
+			}
+		}
+
+		// do always
+		UpdateDisplay(currentElevatorState);  // Update the 7-Seg. display (lift)
+ 2c8:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <currentElevatorState>
+ 2cc:	0e 94 fc 00 	call	0x1f8	; 0x1f8 <UpdateDisplay>
+		currentElevatorState = ReadElevatorState();
+ 2d0:	0e 94 22 03 	call	0x644	; 0x644 <ReadElevatorState>
+ 2d4:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <currentElevatorState>
+		SetOutput();               // Send the calculated output values to the ports
+ 2d8:	0e 94 c8 01 	call	0x390	; 0x390 <SetOutput>
+		
+		// check if button is pressed
+		ButtonType newKey = CheckKeyEvent();
+ 2dc:	0e 94 e8 00 	call	0x1d0	; 0x1d0 <CheckKeyEvent>
+ 2e0:	d8 2f       	mov	r29, r24
+		LiftPosType pressedFloor = ConvertButtonTypeToLiftPosType(newKey);
+ 2e2:	0e 94 c9 00 	call	0x192	; 0x192 <ConvertButtonTypeToLiftPosType>
+ 2e6:	c8 2f       	mov	r28, r24
+		
+		// if a button is pressed, check if it is a floor-request
+		// and if it's not the current floor
+		if (pressedFloor <= 3 && pressedFloor != currentElevatorState)
+ 2e8:	84 30       	cpi	r24, 0x04	; 4
+ 2ea:	08 f0       	brcs	.+2      	; 0x2ee <main+0xe8>
+ 2ec:	94 cf       	rjmp	.-216    	; 0x216 <main+0x10>
+ 2ee:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <currentElevatorState>
+ 2f2:	c8 17       	cp	r28, r24
+ 2f4:	09 f4       	brne	.+2      	; 0x2f8 <main+0xf2>
+ 2f6:	8f cf       	rjmp	.-226    	; 0x216 <main+0x10>
+		{
+			// if call is saved to buffer, set indicators
+			if (!AddRequestToBuffer(pressedFloor))
+ 2f8:	8c 2f       	mov	r24, r28
+ 2fa:	0e 94 49 00 	call	0x92	; 0x92 <AddRequestToBuffer>
+ 2fe:	81 11       	cpse	r24, r1
+ 300:	8a cf       	rjmp	.-236    	; 0x216 <main+0x10>
+			{
+				newKey < 16 ? SetIndicatorElevatorState(pressedFloor)
+				: SetIndicatorFloorState(pressedFloor);
+ 302:	d0 31       	cpi	r29, 0x10	; 16
+ 304:	20 f4       	brcc	.+8      	; 0x30e <main+0x108>
+		if (pressedFloor <= 3 && pressedFloor != currentElevatorState)
+		{
+			// if call is saved to buffer, set indicators
+			if (!AddRequestToBuffer(pressedFloor))
+			{
+				newKey < 16 ? SetIndicatorElevatorState(pressedFloor)
+ 306:	8c 2f       	mov	r24, r28
+ 308:	0e 94 63 03 	call	0x6c6	; 0x6c6 <SetIndicatorElevatorState>
+ 30c:	84 cf       	rjmp	.-248    	; 0x216 <main+0x10>
+				: SetIndicatorFloorState(pressedFloor);
+ 30e:	8c 2f       	mov	r24, r28
+ 310:	0e 94 52 03 	call	0x6a4	; 0x6a4 <SetIndicatorFloorState>
+ 314:	80 cf       	rjmp	.-256    	; 0x216 <main+0x10>
+
+00000316 <MakeDoorStates>:
+ 316:	cf 93       	push	r28
+ 318:	df 93       	push	r29
+ 31a:	ee e7       	ldi	r30, 0x7E	; 126
+ 31c:	f0 e0       	ldi	r31, 0x00	; 0
+ 31e:	26 e8       	ldi	r18, 0x86	; 134
+ 320:	30 e0       	ldi	r19, 0x00	; 0
+ 322:	df 01       	movw	r26, r30
+ 324:	11 97       	sbiw	r26, 0x01	; 1
+ 326:	8c 91       	ld	r24, X
+ 328:	81 11       	cpse	r24, r1
+ 32a:	06 c0       	rjmp	.+12     	; 0x338 <MakeDoorStates+0x22>
+ 32c:	80 81       	ld	r24, Z
+ 32e:	18 16       	cp	r1, r24
+ 330:	54 f4       	brge	.+20     	; 0x346 <MakeDoorStates+0x30>
+ 332:	81 50       	subi	r24, 0x01	; 1
+ 334:	80 83       	st	Z, r24
+ 336:	07 c0       	rjmp	.+14     	; 0x346 <MakeDoorStates+0x30>
+ 338:	82 30       	cpi	r24, 0x02	; 2
+ 33a:	29 f4       	brne	.+10     	; 0x346 <MakeDoorStates+0x30>
+ 33c:	80 81       	ld	r24, Z
+ 33e:	84 30       	cpi	r24, 0x04	; 4
+ 340:	14 f4       	brge	.+4      	; 0x346 <MakeDoorStates+0x30>
+ 342:	8f 5f       	subi	r24, 0xFF	; 255
+ 344:	80 83       	st	Z, r24
+ 346:	32 96       	adiw	r30, 0x02	; 2
+ 348:	e2 17       	cp	r30, r18
+ 34a:	f3 07       	cpc	r31, r19
+ 34c:	51 f7       	brne	.-44     	; 0x322 <MakeDoorStates+0xc>
+ 34e:	df 91       	pop	r29
+ 350:	cf 91       	pop	r28
+ 352:	08 95       	ret
+
+00000354 <InitializePorts>:
+ 354:	8f ef       	ldi	r24, 0xFF	; 255
+ 356:	87 bb       	out	0x17, r24	; 23
+ 358:	84 bb       	out	0x14, r24	; 20
+ 35a:	8a bb       	out	0x1a, r24	; 26
+ 35c:	11 ba       	out	0x11, r1	; 17
+ 35e:	08 95       	ret
+
+00000360 <InitializeStart>:
+ 360:	10 92 7c 00 	sts	0x007C, r1	; 0x80007c <liftPosDisplay_On>
+ 364:	10 92 86 00 	sts	0x0086, r1	; 0x800086 <buttonLiftLed_on>
+ 368:	10 92 8b 00 	sts	0x008B, r1	; 0x80008b <liftDisplay7Seg_On>
+ 36c:	10 92 8a 00 	sts	0x008A, r1	; 0x80008a <buttonFloorLed_On>
+ 370:	10 92 7a 00 	sts	0x007A, r1	; 0x80007a <doorframe>
+ 374:	ed e7       	ldi	r30, 0x7D	; 125
+ 376:	f0 e0       	ldi	r31, 0x00	; 0
+ 378:	11 82       	std	Z+1, r1	; 0x01
+ 37a:	10 82       	st	Z, r1
+ 37c:	13 82       	std	Z+3, r1	; 0x03
+ 37e:	12 82       	std	Z+2, r1	; 0x02
+ 380:	15 82       	std	Z+5, r1	; 0x05
+ 382:	14 82       	std	Z+4, r1	; 0x04
+ 384:	17 82       	std	Z+7, r1	; 0x07
+ 386:	16 82       	std	Z+6, r1	; 0x06
+ 388:	8f e1       	ldi	r24, 0x1F	; 31
+ 38a:	80 93 79 00 	sts	0x0079, r24	; 0x800079 <liftPosition>
+ 38e:	08 95       	ret
+
+00000390 <SetOutput>:
+ 390:	40 91 71 00 	lds	r20, 0x0071	; 0x800071 <doorOpeningRate>
+ 394:	50 91 72 00 	lds	r21, 0x0072	; 0x800072 <doorOpeningRate+0x1>
+ 398:	9a 01       	movw	r18, r20
+ 39a:	36 95       	lsr	r19
+ 39c:	27 95       	ror	r18
+ 39e:	36 95       	lsr	r19
+ 3a0:	27 95       	ror	r18
+ 3a2:	36 95       	lsr	r19
+ 3a4:	27 95       	ror	r18
+ 3a6:	a7 e3       	ldi	r26, 0x37	; 55
+ 3a8:	ba e1       	ldi	r27, 0x1A	; 26
+ 3aa:	0e 94 99 03 	call	0x732	; 0x732 <__umulhisi3>
+ 3ae:	00 24       	eor	r0, r0
+ 3b0:	88 0f       	add	r24, r24
+ 3b2:	99 1f       	adc	r25, r25
+ 3b4:	00 1c       	adc	r0, r0
+ 3b6:	88 0f       	add	r24, r24
+ 3b8:	99 1f       	adc	r25, r25
+ 3ba:	00 1c       	adc	r0, r0
+ 3bc:	89 2f       	mov	r24, r25
+ 3be:	90 2d       	mov	r25, r0
+ 3c0:	68 e8       	ldi	r22, 0x88	; 136
+ 3c2:	73 e1       	ldi	r23, 0x13	; 19
+ 3c4:	86 9f       	mul	r24, r22
+ 3c6:	90 01       	movw	r18, r0
+ 3c8:	87 9f       	mul	r24, r23
+ 3ca:	30 0d       	add	r19, r0
+ 3cc:	96 9f       	mul	r25, r22
+ 3ce:	30 0d       	add	r19, r0
+ 3d0:	11 24       	eor	r1, r1
+ 3d2:	42 17       	cp	r20, r18
+ 3d4:	53 07       	cpc	r21, r19
+ 3d6:	31 f4       	brne	.+12     	; 0x3e4 <SetOutput+0x54>
+ 3d8:	0e 94 8b 01 	call	0x316	; 0x316 <MakeDoorStates>
+ 3dc:	10 92 72 00 	sts	0x0072, r1	; 0x800072 <doorOpeningRate+0x1>
+ 3e0:	10 92 71 00 	sts	0x0071, r1	; 0x800071 <doorOpeningRate>
+ 3e4:	80 91 73 00 	lds	r24, 0x0073	; 0x800073 <repetitionRate>
+ 3e8:	89 30       	cpi	r24, 0x09	; 9
+ 3ea:	09 f1       	breq	.+66     	; 0x42e <__FUSE_REGION_LENGTH__+0x2e>
+ 3ec:	28 f4       	brcc	.+10     	; 0x3f8 <SetOutput+0x68>
+ 3ee:	83 30       	cpi	r24, 0x03	; 3
+ 3f0:	41 f0       	breq	.+16     	; 0x402 <__FUSE_REGION_LENGTH__+0x2>
+ 3f2:	86 30       	cpi	r24, 0x06	; 6
+ 3f4:	89 f0       	breq	.+34     	; 0x418 <__FUSE_REGION_LENGTH__+0x18>
+ 3f6:	43 c0       	rjmp	.+134    	; 0x47e <__FUSE_REGION_LENGTH__+0x7e>
+ 3f8:	8c 30       	cpi	r24, 0x0C	; 12
+ 3fa:	21 f1       	breq	.+72     	; 0x444 <__FUSE_REGION_LENGTH__+0x44>
+ 3fc:	8d 30       	cpi	r24, 0x0D	; 13
+ 3fe:	69 f1       	breq	.+90     	; 0x45a <__FUSE_REGION_LENGTH__+0x5a>
+ 400:	3e c0       	rjmp	.+124    	; 0x47e <__FUSE_REGION_LENGTH__+0x7e>
+ 402:	e0 91 7e 00 	lds	r30, 0x007E	; 0x80007e <liftDoorState+0x1>
+ 406:	0e 2e       	mov	r0, r30
+ 408:	00 0c       	add	r0, r0
+ 40a:	ff 0b       	sbc	r31, r31
+ 40c:	ea 59       	subi	r30, 0x9A	; 154
+ 40e:	ff 4f       	sbci	r31, 0xFF	; 255
+ 410:	80 81       	ld	r24, Z
+ 412:	81 60       	ori	r24, 0x01	; 1
+ 414:	85 bb       	out	0x15, r24	; 21
+ 416:	33 c0       	rjmp	.+102    	; 0x47e <__FUSE_REGION_LENGTH__+0x7e>
+ 418:	e0 91 80 00 	lds	r30, 0x0080	; 0x800080 <liftDoorState+0x3>
+ 41c:	0e 2e       	mov	r0, r30
+ 41e:	00 0c       	add	r0, r0
+ 420:	ff 0b       	sbc	r31, r31
+ 422:	ea 59       	subi	r30, 0x9A	; 154
+ 424:	ff 4f       	sbci	r31, 0xFF	; 255
+ 426:	80 81       	ld	r24, Z
+ 428:	82 60       	ori	r24, 0x02	; 2
+ 42a:	85 bb       	out	0x15, r24	; 21
+ 42c:	28 c0       	rjmp	.+80     	; 0x47e <__FUSE_REGION_LENGTH__+0x7e>
+ 42e:	e0 91 82 00 	lds	r30, 0x0082	; 0x800082 <liftDoorState+0x5>
+ 432:	0e 2e       	mov	r0, r30
+ 434:	00 0c       	add	r0, r0
+ 436:	ff 0b       	sbc	r31, r31
+ 438:	ea 59       	subi	r30, 0x9A	; 154
+ 43a:	ff 4f       	sbci	r31, 0xFF	; 255
+ 43c:	80 81       	ld	r24, Z
+ 43e:	84 60       	ori	r24, 0x04	; 4
+ 440:	85 bb       	out	0x15, r24	; 21
+ 442:	1d c0       	rjmp	.+58     	; 0x47e <__FUSE_REGION_LENGTH__+0x7e>
+ 444:	e0 91 84 00 	lds	r30, 0x0084	; 0x800084 <liftDoorState+0x7>
+ 448:	0e 2e       	mov	r0, r30
+ 44a:	00 0c       	add	r0, r0
+ 44c:	ff 0b       	sbc	r31, r31
+ 44e:	ea 59       	subi	r30, 0x9A	; 154
+ 450:	ff 4f       	sbci	r31, 0xFF	; 255
+ 452:	80 81       	ld	r24, Z
+ 454:	88 60       	ori	r24, 0x08	; 8
+ 456:	85 bb       	out	0x15, r24	; 21
+ 458:	12 c0       	rjmp	.+36     	; 0x47e <__FUSE_REGION_LENGTH__+0x7e>
+ 45a:	81 e0       	ldi	r24, 0x01	; 1
+ 45c:	80 93 73 00 	sts	0x0073, r24	; 0x800073 <repetitionRate>
+ 460:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <doorOpeningRate>
+ 464:	90 91 72 00 	lds	r25, 0x0072	; 0x800072 <doorOpeningRate+0x1>
+ 468:	01 96       	adiw	r24, 0x01	; 1
+ 46a:	90 93 72 00 	sts	0x0072, r25	; 0x800072 <doorOpeningRate+0x1>
+ 46e:	80 93 71 00 	sts	0x0071, r24	; 0x800071 <doorOpeningRate>
+ 472:	90 91 77 00 	lds	r25, 0x0077	; 0x800077 <displayCache>
+ 476:	91 11       	cpse	r25, r1
+ 478:	31 c0       	rjmp	.+98     	; 0x4dc <__FUSE_REGION_LENGTH__+0xdc>
+ 47a:	21 e0       	ldi	r18, 0x01	; 1
+ 47c:	56 c0       	rjmp	.+172    	; 0x52a <__FUSE_REGION_LENGTH__+0x12a>
+ 47e:	80 91 73 00 	lds	r24, 0x0073	; 0x800073 <repetitionRate>
+ 482:	8f 5f       	subi	r24, 0xFF	; 255
+ 484:	80 93 73 00 	sts	0x0073, r24	; 0x800073 <repetitionRate>
+ 488:	20 91 71 00 	lds	r18, 0x0071	; 0x800071 <doorOpeningRate>
+ 48c:	30 91 72 00 	lds	r19, 0x0072	; 0x800072 <doorOpeningRate+0x1>
+ 490:	2f 5f       	subi	r18, 0xFF	; 255
+ 492:	3f 4f       	sbci	r19, 0xFF	; 255
+ 494:	30 93 72 00 	sts	0x0072, r19	; 0x800072 <doorOpeningRate+0x1>
+ 498:	20 93 71 00 	sts	0x0071, r18	; 0x800071 <doorOpeningRate>
+ 49c:	90 91 77 00 	lds	r25, 0x0077	; 0x800077 <displayCache>
+ 4a0:	99 23       	and	r25, r25
+ 4a2:	09 f4       	brne	.+2      	; 0x4a6 <__FUSE_REGION_LENGTH__+0xa6>
+ 4a4:	47 c0       	rjmp	.+142    	; 0x534 <__FUSE_REGION_LENGTH__+0x134>
+ 4a6:	2d ec       	ldi	r18, 0xCD	; 205
+ 4a8:	82 9f       	mul	r24, r18
+ 4aa:	21 2d       	mov	r18, r1
+ 4ac:	11 24       	eor	r1, r1
+ 4ae:	26 95       	lsr	r18
+ 4b0:	26 95       	lsr	r18
+ 4b2:	32 2f       	mov	r19, r18
+ 4b4:	33 0f       	add	r19, r19
+ 4b6:	33 0f       	add	r19, r19
+ 4b8:	23 0f       	add	r18, r19
+ 4ba:	82 1b       	sub	r24, r18
+ 4bc:	81 30       	cpi	r24, 0x01	; 1
+ 4be:	71 f0       	breq	.+28     	; 0x4dc <__FUSE_REGION_LENGTH__+0xdc>
+ 4c0:	28 f0       	brcs	.+10     	; 0x4cc <__FUSE_REGION_LENGTH__+0xcc>
+ 4c2:	82 30       	cpi	r24, 0x02	; 2
+ 4c4:	b1 f0       	breq	.+44     	; 0x4f2 <__FUSE_REGION_LENGTH__+0xf2>
+ 4c6:	83 30       	cpi	r24, 0x03	; 3
+ 4c8:	f9 f0       	breq	.+62     	; 0x508 <__FUSE_REGION_LENGTH__+0x108>
+ 4ca:	28 c0       	rjmp	.+80     	; 0x51c <__FUSE_REGION_LENGTH__+0x11c>
+ 4cc:	94 fd       	sbrc	r25, 4
+ 4ce:	10 92 78 00 	sts	0x0078, r1	; 0x800078 <buttonLiftLed>
+ 4d2:	90 ff       	sbrs	r25, 0
+ 4d4:	23 c0       	rjmp	.+70     	; 0x51c <__FUSE_REGION_LENGTH__+0x11c>
+ 4d6:	10 92 7b 00 	sts	0x007B, r1	; 0x80007b <buttonFloorLed>
+ 4da:	20 c0       	rjmp	.+64     	; 0x51c <__FUSE_REGION_LENGTH__+0x11c>
+ 4dc:	95 ff       	sbrs	r25, 5
+ 4de:	03 c0       	rjmp	.+6      	; 0x4e6 <__FUSE_REGION_LENGTH__+0xe6>
+ 4e0:	81 e0       	ldi	r24, 0x01	; 1
+ 4e2:	80 93 78 00 	sts	0x0078, r24	; 0x800078 <buttonLiftLed>
+ 4e6:	91 ff       	sbrs	r25, 1
+ 4e8:	19 c0       	rjmp	.+50     	; 0x51c <__FUSE_REGION_LENGTH__+0x11c>
+ 4ea:	81 e0       	ldi	r24, 0x01	; 1
+ 4ec:	80 93 7b 00 	sts	0x007B, r24	; 0x80007b <buttonFloorLed>
+ 4f0:	15 c0       	rjmp	.+42     	; 0x51c <__FUSE_REGION_LENGTH__+0x11c>
+ 4f2:	96 ff       	sbrs	r25, 6
+ 4f4:	03 c0       	rjmp	.+6      	; 0x4fc <__FUSE_REGION_LENGTH__+0xfc>
+ 4f6:	82 e0       	ldi	r24, 0x02	; 2
+ 4f8:	80 93 78 00 	sts	0x0078, r24	; 0x800078 <buttonLiftLed>
+ 4fc:	92 ff       	sbrs	r25, 2
+ 4fe:	0e c0       	rjmp	.+28     	; 0x51c <__FUSE_REGION_LENGTH__+0x11c>
+ 500:	82 e0       	ldi	r24, 0x02	; 2
+ 502:	80 93 7b 00 	sts	0x007B, r24	; 0x80007b <buttonFloorLed>
+ 506:	0a c0       	rjmp	.+20     	; 0x51c <__FUSE_REGION_LENGTH__+0x11c>
+ 508:	99 23       	and	r25, r25
+ 50a:	1c f4       	brge	.+6      	; 0x512 <__FUSE_REGION_LENGTH__+0x112>
+ 50c:	83 e0       	ldi	r24, 0x03	; 3
+ 50e:	80 93 78 00 	sts	0x0078, r24	; 0x800078 <buttonLiftLed>
+ 512:	93 ff       	sbrs	r25, 3
+ 514:	03 c0       	rjmp	.+6      	; 0x51c <__FUSE_REGION_LENGTH__+0x11c>
+ 516:	83 e0       	ldi	r24, 0x03	; 3
+ 518:	80 93 7b 00 	sts	0x007B, r24	; 0x80007b <buttonFloorLed>
+ 51c:	89 2f       	mov	r24, r25
+ 51e:	80 7f       	andi	r24, 0xF0	; 240
+ 520:	19 f0       	breq	.+6      	; 0x528 <__FUSE_REGION_LENGTH__+0x128>
+ 522:	20 91 86 00 	lds	r18, 0x0086	; 0x800086 <buttonLiftLed_on>
+ 526:	01 c0       	rjmp	.+2      	; 0x52a <__FUSE_REGION_LENGTH__+0x12a>
+ 528:	21 e0       	ldi	r18, 0x01	; 1
+ 52a:	9f 70       	andi	r25, 0x0F	; 15
+ 52c:	31 f0       	breq	.+12     	; 0x53a <__FUSE_REGION_LENGTH__+0x13a>
+ 52e:	90 91 8a 00 	lds	r25, 0x008A	; 0x80008a <buttonFloorLed_On>
+ 532:	04 c0       	rjmp	.+8      	; 0x53c <__FUSE_REGION_LENGTH__+0x13c>
+ 534:	21 e0       	ldi	r18, 0x01	; 1
+ 536:	91 e0       	ldi	r25, 0x01	; 1
+ 538:	01 c0       	rjmp	.+2      	; 0x53c <__FUSE_REGION_LENGTH__+0x13c>
+ 53a:	91 e0       	ldi	r25, 0x01	; 1
+ 53c:	80 91 7c 00 	lds	r24, 0x007C	; 0x80007c <liftPosDisplay_On>
+ 540:	81 11       	cpse	r24, r1
+ 542:	04 c0       	rjmp	.+8      	; 0x54c <__FUSE_REGION_LENGTH__+0x14c>
+ 544:	80 91 79 00 	lds	r24, 0x0079	; 0x800079 <liftPosition>
+ 548:	8f 73       	andi	r24, 0x3F	; 63
+ 54a:	01 c0       	rjmp	.+2      	; 0x54e <__FUSE_REGION_LENGTH__+0x14e>
+ 54c:	8f e3       	ldi	r24, 0x3F	; 63
+ 54e:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <liftPositionPort>
+ 552:	30 91 8b 00 	lds	r19, 0x008B	; 0x80008b <liftDisplay7Seg_On>
+ 556:	31 11       	cpse	r19, r1
+ 558:	03 c0       	rjmp	.+6      	; 0x560 <__FUSE_REGION_LENGTH__+0x160>
+ 55a:	30 91 89 00 	lds	r19, 0x0089	; 0x800089 <liftDisplay7Seg>
+ 55e:	01 c0       	rjmp	.+2      	; 0x562 <__FUSE_REGION_LENGTH__+0x162>
+ 560:	37 e0       	ldi	r19, 0x07	; 7
+ 562:	30 93 85 00 	sts	0x0085, r19	; 0x800085 <floorDisplayPort>
+ 566:	30 e8       	ldi	r19, 0x80	; 128
+ 568:	23 9f       	mul	r18, r19
+ 56a:	a0 01       	movw	r20, r0
+ 56c:	11 24       	eor	r1, r1
+ 56e:	30 91 7a 00 	lds	r19, 0x007A	; 0x80007a <doorframe>
+ 572:	60 e4       	ldi	r22, 0x40	; 64
+ 574:	36 9f       	mul	r19, r22
+ 576:	90 01       	movw	r18, r0
+ 578:	11 24       	eor	r1, r1
+ 57a:	24 2b       	or	r18, r20
+ 57c:	82 2b       	or	r24, r18
+ 57e:	88 bb       	out	0x18, r24	; 24
+ 580:	20 91 78 00 	lds	r18, 0x0078	; 0x800078 <buttonLiftLed>
+ 584:	82 2f       	mov	r24, r18
+ 586:	88 0f       	add	r24, r24
+ 588:	88 0f       	add	r24, r24
+ 58a:	88 0f       	add	r24, r24
+ 58c:	30 91 7b 00 	lds	r19, 0x007B	; 0x80007b <buttonFloorLed>
+ 590:	40 e2       	ldi	r20, 0x20	; 32
+ 592:	34 9f       	mul	r19, r20
+ 594:	90 01       	movw	r18, r0
+ 596:	11 24       	eor	r1, r1
+ 598:	28 2b       	or	r18, r24
+ 59a:	80 91 85 00 	lds	r24, 0x0085	; 0x800085 <floorDisplayPort>
+ 59e:	28 2b       	or	r18, r24
+ 5a0:	60 e8       	ldi	r22, 0x80	; 128
+ 5a2:	96 9f       	mul	r25, r22
+ 5a4:	c0 01       	movw	r24, r0
+ 5a6:	11 24       	eor	r1, r1
+ 5a8:	82 2b       	or	r24, r18
+ 5aa:	8b bb       	out	0x1b, r24	; 27
+ 5ac:	08 95       	ret
+
+000005ae <ReadKeyEvent>:
+ 5ae:	90 b3       	in	r25, 0x10	; 16
+ 5b0:	98 23       	and	r25, r24
+ 5b2:	81 e0       	ldi	r24, 0x01	; 1
+ 5b4:	09 f4       	brne	.+2      	; 0x5b8 <ReadKeyEvent+0xa>
+ 5b6:	80 e0       	ldi	r24, 0x00	; 0
+ 5b8:	08 95       	ret
+
+000005ba <ReadDoorState>:
+ 5ba:	e8 2f       	mov	r30, r24
+ 5bc:	f0 e0       	ldi	r31, 0x00	; 0
+ 5be:	ee 0f       	add	r30, r30
+ 5c0:	ff 1f       	adc	r31, r31
+ 5c2:	e3 58       	subi	r30, 0x83	; 131
+ 5c4:	ff 4f       	sbci	r31, 0xFF	; 255
+ 5c6:	e1 81       	ldd	r30, Z+1	; 0x01
+ 5c8:	0e 2e       	mov	r0, r30
+ 5ca:	00 0c       	add	r0, r0
+ 5cc:	ff 0b       	sbc	r31, r31
+ 5ce:	ea 59       	subi	r30, 0x9A	; 154
+ 5d0:	ff 4f       	sbci	r31, 0xFF	; 255
+ 5d2:	90 81       	ld	r25, Z
+ 5d4:	90 3f       	cpi	r25, 0xF0	; 240
+ 5d6:	29 f0       	breq	.+10     	; 0x5e2 <ReadDoorState+0x28>
+ 5d8:	81 e0       	ldi	r24, 0x01	; 1
+ 5da:	91 11       	cpse	r25, r1
+ 5dc:	03 c0       	rjmp	.+6      	; 0x5e4 <ReadDoorState+0x2a>
+ 5de:	80 e0       	ldi	r24, 0x00	; 0
+ 5e0:	08 95       	ret
+ 5e2:	82 e0       	ldi	r24, 0x02	; 2
+ 5e4:	08 95       	ret
+
+000005e6 <SetDoorState>:
+ 5e6:	e6 2f       	mov	r30, r22
+ 5e8:	f0 e0       	ldi	r31, 0x00	; 0
+ 5ea:	ee 0f       	add	r30, r30
+ 5ec:	ff 1f       	adc	r31, r31
+ 5ee:	e3 58       	subi	r30, 0x83	; 131
+ 5f0:	ff 4f       	sbci	r31, 0xFF	; 255
+ 5f2:	80 83       	st	Z, r24
+ 5f4:	08 95       	ret
+
+000005f6 <MoveElevator>:
+ 5f6:	61 15       	cp	r22, r1
+ 5f8:	71 05       	cpc	r23, r1
+ 5fa:	19 f1       	breq	.+70     	; 0x642 <MoveElevator+0x4c>
+ 5fc:	20 91 6f 00 	lds	r18, 0x006F	; 0x80006f <liftSpeed>
+ 600:	30 91 70 00 	lds	r19, 0x0070	; 0x800070 <liftSpeed+0x1>
+ 604:	62 17       	cp	r22, r18
+ 606:	73 07       	cpc	r23, r19
+ 608:	38 f0       	brcs	.+14     	; 0x618 <MoveElevator+0x22>
+ 60a:	2f 5f       	subi	r18, 0xFF	; 255
+ 60c:	3f 4f       	sbci	r19, 0xFF	; 255
+ 60e:	30 93 70 00 	sts	0x0070, r19	; 0x800070 <liftSpeed+0x1>
+ 612:	20 93 6f 00 	sts	0x006F, r18	; 0x80006f <liftSpeed>
+ 616:	08 95       	ret
+ 618:	10 92 70 00 	sts	0x0070, r1	; 0x800070 <liftSpeed+0x1>
+ 61c:	10 92 6f 00 	sts	0x006F, r1	; 0x80006f <liftSpeed>
+ 620:	81 30       	cpi	r24, 0x01	; 1
+ 622:	41 f4       	brne	.+16     	; 0x634 <MoveElevator+0x3e>
+ 624:	80 91 79 00 	lds	r24, 0x0079	; 0x800079 <liftPosition>
+ 628:	81 33       	cpi	r24, 0x31	; 49
+ 62a:	58 f4       	brcc	.+22     	; 0x642 <MoveElevator+0x4c>
+ 62c:	8f 5f       	subi	r24, 0xFF	; 255
+ 62e:	80 93 79 00 	sts	0x0079, r24	; 0x800079 <liftPosition>
+ 632:	08 95       	ret
+ 634:	80 91 79 00 	lds	r24, 0x0079	; 0x800079 <liftPosition>
+ 638:	88 23       	and	r24, r24
+ 63a:	19 f0       	breq	.+6      	; 0x642 <MoveElevator+0x4c>
+ 63c:	81 50       	subi	r24, 0x01	; 1
+ 63e:	80 93 79 00 	sts	0x0079, r24	; 0x800079 <liftPosition>
+ 642:	08 95       	ret
+
+00000644 <ReadElevatorState>:
+ 644:	90 91 79 00 	lds	r25, 0x0079	; 0x800079 <liftPosition>
+ 648:	90 31       	cpi	r25, 0x10	; 16
+ 64a:	49 f0       	breq	.+18     	; 0x65e <ReadElevatorState+0x1a>
+ 64c:	18 f4       	brcc	.+6      	; 0x654 <ReadElevatorState+0x10>
+ 64e:	99 23       	and	r25, r25
+ 650:	a1 f0       	breq	.+40     	; 0x67a <ReadElevatorState+0x36>
+ 652:	0b c0       	rjmp	.+22     	; 0x66a <ReadElevatorState+0x26>
+ 654:	90 32       	cpi	r25, 0x20	; 32
+ 656:	29 f0       	breq	.+10     	; 0x662 <ReadElevatorState+0x1e>
+ 658:	90 33       	cpi	r25, 0x30	; 48
+ 65a:	29 f0       	breq	.+10     	; 0x666 <ReadElevatorState+0x22>
+ 65c:	06 c0       	rjmp	.+12     	; 0x66a <ReadElevatorState+0x26>
+ 65e:	81 e0       	ldi	r24, 0x01	; 1
+ 660:	11 c0       	rjmp	.+34     	; 0x684 <ReadElevatorState+0x40>
+ 662:	82 e0       	ldi	r24, 0x02	; 2
+ 664:	0f c0       	rjmp	.+30     	; 0x684 <ReadElevatorState+0x40>
+ 666:	83 e0       	ldi	r24, 0x03	; 3
+ 668:	0d c0       	rjmp	.+26     	; 0x684 <ReadElevatorState+0x40>
+ 66a:	91 33       	cpi	r25, 0x31	; 49
+ 66c:	40 f4       	brcc	.+16     	; 0x67e <ReadElevatorState+0x3a>
+ 66e:	80 91 87 00 	lds	r24, 0x0087	; 0x800087 <liftPositionCache>
+ 672:	98 13       	cpse	r25, r24
+ 674:	06 c0       	rjmp	.+12     	; 0x682 <ReadElevatorState+0x3e>
+ 676:	85 e6       	ldi	r24, 0x65	; 101
+ 678:	05 c0       	rjmp	.+10     	; 0x684 <ReadElevatorState+0x40>
+ 67a:	80 e0       	ldi	r24, 0x00	; 0
+ 67c:	03 c0       	rjmp	.+6      	; 0x684 <ReadElevatorState+0x40>
+ 67e:	88 ec       	ldi	r24, 0xC8	; 200
+ 680:	01 c0       	rjmp	.+2      	; 0x684 <ReadElevatorState+0x40>
+ 682:	84 e6       	ldi	r24, 0x64	; 100
+ 684:	90 93 87 00 	sts	0x0087, r25	; 0x800087 <liftPositionCache>
+ 688:	08 95       	ret
+
+0000068a <CalibrateElevatorPosition>:
+ 68a:	0e 94 22 03 	call	0x644	; 0x644 <ReadElevatorState>
+ 68e:	88 23       	and	r24, r24
+ 690:	29 f0       	breq	.+10     	; 0x69c <CalibrateElevatorPosition+0x12>
+ 692:	68 ee       	ldi	r22, 0xE8	; 232
+ 694:	73 e0       	ldi	r23, 0x03	; 3
+ 696:	80 e0       	ldi	r24, 0x00	; 0
+ 698:	0e 94 fb 02 	call	0x5f6	; 0x5f6 <MoveElevator>
+ 69c:	08 95       	ret
+
+0000069e <SetDisplay>:
+ 69e:	80 93 89 00 	sts	0x0089, r24	; 0x800089 <liftDisplay7Seg>
+ 6a2:	08 95       	ret
+
+000006a4 <SetIndicatorFloorState>:
+ 6a4:	84 30       	cpi	r24, 0x04	; 4
+ 6a6:	70 f4       	brcc	.+28     	; 0x6c4 <SetIndicatorFloorState+0x20>
+ 6a8:	21 e0       	ldi	r18, 0x01	; 1
+ 6aa:	30 e0       	ldi	r19, 0x00	; 0
+ 6ac:	a9 01       	movw	r20, r18
+ 6ae:	02 c0       	rjmp	.+4      	; 0x6b4 <SetIndicatorFloorState+0x10>
+ 6b0:	44 0f       	add	r20, r20
+ 6b2:	55 1f       	adc	r21, r21
+ 6b4:	8a 95       	dec	r24
+ 6b6:	e2 f7       	brpl	.-8      	; 0x6b0 <SetIndicatorFloorState+0xc>
+ 6b8:	ca 01       	movw	r24, r20
+ 6ba:	90 91 77 00 	lds	r25, 0x0077	; 0x800077 <displayCache>
+ 6be:	89 2b       	or	r24, r25
+ 6c0:	80 93 77 00 	sts	0x0077, r24	; 0x800077 <displayCache>
+ 6c4:	08 95       	ret
+
+000006c6 <SetIndicatorElevatorState>:
+ 6c6:	84 30       	cpi	r24, 0x04	; 4
+ 6c8:	78 f4       	brcc	.+30     	; 0x6e8 <SetIndicatorElevatorState+0x22>
+ 6ca:	8c 5f       	subi	r24, 0xFC	; 252
+ 6cc:	21 e0       	ldi	r18, 0x01	; 1
+ 6ce:	30 e0       	ldi	r19, 0x00	; 0
+ 6d0:	a9 01       	movw	r20, r18
+ 6d2:	02 c0       	rjmp	.+4      	; 0x6d8 <SetIndicatorElevatorState+0x12>
+ 6d4:	44 0f       	add	r20, r20
+ 6d6:	55 1f       	adc	r21, r21
+ 6d8:	8a 95       	dec	r24
+ 6da:	e2 f7       	brpl	.-8      	; 0x6d4 <SetIndicatorElevatorState+0xe>
+ 6dc:	ca 01       	movw	r24, r20
+ 6de:	90 91 77 00 	lds	r25, 0x0077	; 0x800077 <displayCache>
+ 6e2:	89 2b       	or	r24, r25
+ 6e4:	80 93 77 00 	sts	0x0077, r24	; 0x800077 <displayCache>
+ 6e8:	08 95       	ret
+
+000006ea <ClrIndicatorFloorState>:
+ 6ea:	84 30       	cpi	r24, 0x04	; 4
+ 6ec:	78 f4       	brcc	.+30     	; 0x70c <ClrIndicatorFloorState+0x22>
+ 6ee:	21 e0       	ldi	r18, 0x01	; 1
+ 6f0:	30 e0       	ldi	r19, 0x00	; 0
+ 6f2:	a9 01       	movw	r20, r18
+ 6f4:	02 c0       	rjmp	.+4      	; 0x6fa <ClrIndicatorFloorState+0x10>
+ 6f6:	44 0f       	add	r20, r20
+ 6f8:	55 1f       	adc	r21, r21
+ 6fa:	8a 95       	dec	r24
+ 6fc:	e2 f7       	brpl	.-8      	; 0x6f6 <ClrIndicatorFloorState+0xc>
+ 6fe:	ca 01       	movw	r24, r20
+ 700:	80 95       	com	r24
+ 702:	90 91 77 00 	lds	r25, 0x0077	; 0x800077 <displayCache>
+ 706:	89 23       	and	r24, r25
+ 708:	80 93 77 00 	sts	0x0077, r24	; 0x800077 <displayCache>
+ 70c:	08 95       	ret
+
+0000070e <ClrIndicatorElevatorState>:
+ 70e:	84 30       	cpi	r24, 0x04	; 4
+ 710:	78 f4       	brcc	.+30     	; 0x730 <ClrIndicatorElevatorState+0x22>
+ 712:	24 e0       	ldi	r18, 0x04	; 4
+ 714:	28 0f       	add	r18, r24
+ 716:	81 e0       	ldi	r24, 0x01	; 1
+ 718:	90 e0       	ldi	r25, 0x00	; 0
+ 71a:	02 c0       	rjmp	.+4      	; 0x720 <ClrIndicatorElevatorState+0x12>
+ 71c:	88 0f       	add	r24, r24
+ 71e:	99 1f       	adc	r25, r25
+ 720:	2a 95       	dec	r18
+ 722:	e2 f7       	brpl	.-8      	; 0x71c <ClrIndicatorElevatorState+0xe>
+ 724:	80 95       	com	r24
+ 726:	90 91 77 00 	lds	r25, 0x0077	; 0x800077 <displayCache>
+ 72a:	89 23       	and	r24, r25
+ 72c:	80 93 77 00 	sts	0x0077, r24	; 0x800077 <displayCache>
+ 730:	08 95       	ret
+
+00000732 <__umulhisi3>:
+ 732:	a2 9f       	mul	r26, r18
+ 734:	b0 01       	movw	r22, r0
+ 736:	b3 9f       	mul	r27, r19
+ 738:	c0 01       	movw	r24, r0
+ 73a:	a3 9f       	mul	r26, r19
+ 73c:	70 0d       	add	r23, r0
+ 73e:	81 1d       	adc	r24, r1
+ 740:	11 24       	eor	r1, r1
+ 742:	91 1d       	adc	r25, r1
+ 744:	b2 9f       	mul	r27, r18
+ 746:	70 0d       	add	r23, r0
+ 748:	81 1d       	adc	r24, r1
+ 74a:	11 24       	eor	r1, r1
+ 74c:	91 1d       	adc	r25, r1
+ 74e:	08 95       	ret
+
+00000750 <_exit>:
+ 750:	f8 94       	cli
+
+00000752 <__stop_program>:
+ 752:	ff cf       	rjmp	.-2      	; 0x752 <__stop_program>
