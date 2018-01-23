@@ -117,6 +117,22 @@ int main(void)
 		currentElevatorState = ReadElevatorState();
 		SetOutput();               // Send the calculated output values to the ports
 
+		// check if button is pressed
+		ButtonType newKey = CheckKeyEvent();
+		LiftPosType pressedFloor = ConvertButtonTypeToLiftPosType(newKey);
+		
+		// if a button is pressed, check if it is a floor-request
+		// and if it's not the current floor
+		if (pressedFloor <= 3 && pressedFloor != currentElevatorState)
+		{
+			// if call is saved to buffer, set indicators
+			if (!AddRequestToBuffer(pressedFloor))
+			{
+				newKey < 16 ? SetIndicatorElevatorState(pressedFloor)
+				: SetIndicatorFloorState(pressedFloor);
+			}
+		}
+
 		// Handling state machine
 		switch (state)
 		{
@@ -129,8 +145,8 @@ int main(void)
 				}
 				else
 				{
+					// open doors if lift is on ground floor
 					state = OpenDoor;
-					currentElevatorState = ReadElevatorState();
 				}
 				break;
 			}
@@ -141,7 +157,7 @@ int main(void)
 				// Waiting for new floor request
 				if (!GetRequestFromBuffer())
 				{
-					// request found
+					// request found in buffer -> close doors
 					state = CloseDoor;
 				}
 
@@ -158,6 +174,7 @@ int main(void)
 				}
 				else
 				{
+					// move lift when doors are closed
 					state = MoveLift;
 				}
 
@@ -170,9 +187,15 @@ int main(void)
 				// Move cabin to the requested floor
 				if (currentElevatorState != requestedElevatorPosition)
 				{
+					// check at which speed to drive
 					GetSpeedType();
+
 					MoveElevator(elevatorDirection, currentSpeed);
 					stepCounter++;
+
+					// steps to next LED is determined by speed
+					// so if speed is reached --> next LED is reached
+					// --> one step to goal is completed
 					if (stepCounter == currentSpeed)
 					{
 						stepsToGoal--;
@@ -182,7 +205,9 @@ int main(void)
 				}
 				else
 				{
+					// goal is reached --> reset steps to goal
 					stepsToGoal = 0;
+					// open the doors
 					state = OpenDoor;
 				}
 					
@@ -208,22 +233,6 @@ int main(void)
 			{
 				// Fault condition is not treated
 				break;
-			}
-		}
-
-		// check if button is pressed
-		ButtonType newKey = CheckKeyEvent();
-		LiftPosType pressedFloor = ConvertButtonTypeToLiftPosType(newKey);
-		
-		// if a button is pressed, check if it is a floor-request
-		// and if it's not the current floor
-		if (pressedFloor <= 3 && pressedFloor != currentElevatorState)
-		{
-			// if call is saved to buffer, set indicators
-			if (!AddRequestToBuffer(pressedFloor))
-			{
-				newKey < 16 ? SetIndicatorElevatorState(pressedFloor)
-				: SetIndicatorFloorState(pressedFloor);
 			}
 		}
 
