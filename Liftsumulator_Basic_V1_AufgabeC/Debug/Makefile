@@ -69,8 +69,7 @@ ADDITIONAL_DEPENDENCIES:=
 
 OUTPUT_FILE_DEP:= ./makedep.mk
 
-LIB_DEP+=  \
-C:/VisualStudio_Programme/_M121/LiftLibrary_V4/LiftLibrary/Debug/libLiftLibrary.a
+LIB_DEP+= 
 
 LINKER_SCRIPT_DEP+= 
 
